@@ -1,0 +1,101 @@
+{{ define "main" }}
+  {{ partial "page-header" . }}
+
+  <!-- section intro content -->
+  {{ if .Content }}
+  <section class="section pt-0">
+    <div class="container">
+      <div class="content text-center">
+        {{ .Content }}
+      </div>
+    </div>
+  </section>
+  {{ end }}
+
+  <!-- collectables gallery -->
+  <section class="section">
+    <div class="container">
+      {{ if .RegularPages }}
+        <!-- gallery grid -->
+        <div class="collectables-gallery">
+          {{ range .RegularPages }}
+            <div class="gallery-item">
+              <a href="{{ .Permalink }}" class="block group relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
+                {{ if .Params.image }}
+                  {{ partial "image" (dict "Src" .Params.image "Context" .Page "Alt" .Title "Class" "w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105" "Size" "400x300") }}
+                {{ else }}
+                  <div class="w-full h-64 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                    <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                  </div>
+                {{ end }}
+
+                <!-- overlay with title and metadata -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
+                    <h3 class="font-semibold text-lg mb-1 line-clamp-2">{{ .Title }}</h3>
+                    {{ if .Params.category }}
+                      <span class="inline-block px-2 py-1 bg-primary/80 text-xs rounded-full mb-2">{{ .Params.category }}</span>
+                    {{ end }}
+                    {{ if .Description }}
+                      <p class="text-sm opacity-90 line-clamp-2">{{ .Description }}</p>
+                    {{ end }}
+                  </div>
+                </div>
+              </a>
+            </div>
+          {{ end }}
+        </div>
+      {{ else }}
+        <!-- empty state -->
+        <div class="text-center py-16">
+          <svg class="w-24 h-24 mx-auto text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+          </svg>
+          <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">Collection Coming Soon</h3>
+          <p class="text-gray-500 dark:text-gray-400">Items will appear here as they're added to the collection.</p>
+        </div>
+      {{ end }}
+    </div>
+  </section>
+
+  <!-- add custom styles for the gallery -->
+  <style>
+    .collectables-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    @media (min-width: 640px) {
+      .collectables-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .collectables-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      }
+    }
+
+    .gallery-item {
+      break-inside: avoid;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-4px);
+    }
+
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  </style>
+{{ end }}
