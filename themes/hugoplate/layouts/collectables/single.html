@@ -1,0 +1,544 @@
+{{ define "main" }}
+  {{ partial "page-header" . }}
+
+  <!-- article -->
+  <section class="section pt-0">
+    <div class="container">
+      <div class="row justify-center">
+        <div class="lg:col-10">
+
+          <!-- metadata -->
+          <div class="flex flex-wrap gap-4 mb-8 text-sm text-gray-600 dark:text-gray-400 justify-center">
+              {{ if .Params.category }}
+                <span class="inline-flex items-center px-3 py-1 bg-primary/10 text-gray-600 dark:text-gray-400 rounded-full">
+                  {{ .Params.category }}
+                </span>
+              {{ end }}
+              {{ if .Params.acquisition_date }}
+                <span class="inline-flex items-center gap-1">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                  Acquired: {{ .Params.acquisition_date }}
+                </span>
+              {{ end }}
+              {{ if .Params.manufacturer }}
+                <span class="inline-flex items-center gap-1">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                  </svg>
+                  {{ .Params.manufacturer }}
+                </span>
+              {{ end }}
+          </div>
+
+          <!-- full-width image gallery -->
+          <div class="mb-12">
+            {{ if .Params.images }}
+              <div class="collectible-gallery">
+                <!-- main image display -->
+                <div class="gallery-main-container">
+                  {{ range $index, $image := .Params.images }}
+                    <div class="gallery-image {{ if eq $index 0 }}active{{ end }}" data-index="{{ $index }}">
+                      {{ partial "image" (dict "Src" $image "Context" $.Page "Alt" (printf "%s - Image %d" $.Title (add $index 1))) }}
+                    </div>
+                  {{ end }}
+                </div>
+
+                {{ if gt (len .Params.images) 1 }}
+                  <!-- navigation controls -->
+                  <div class="gallery-controls">
+                    <button class="gallery-nav gallery-prev" data-direction="prev">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                      </svg>
+                    </button>
+
+                    <div class="gallery-thumbnails-new">
+                      <div class="thumbnail-track">
+                        <div class="thumbnail-item thumbnail-prev">
+                          <img class="thumbnail-img" src="" alt="Previous">
+                        </div>
+                        <div class="thumbnail-item thumbnail-current active">
+                          <img class="thumbnail-img" src="" alt="Current">
+                        </div>
+                        <div class="thumbnail-item thumbnail-next">
+                          <img class="thumbnail-img" src="" alt="Next">
+                        </div>
+                      </div>
+                    </div>
+
+                    <button class="gallery-nav gallery-next" data-direction="next">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                      </svg>
+                    </button>
+                  </div>
+                {{ end }}
+              </div>
+            {{ else if .Params.image }}
+              <div class="single-image-container">
+                {{ partial "image" (dict "Src" .Params.image "Context" .Page "Alt" .Title) }}
+              </div>
+            {{ end }}
+          </div>
+
+          <!-- details and content below gallery -->
+          <div class="content-section">
+            <div class="row gx-5">
+              <!-- specifications -->
+              <div class="lg:col-6 mb-8">
+                {{ if or .Params.year .Params.series .Params.model_number .Params.scale }}
+                  <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mb-6">
+                    <h3 class="font-semibold mb-4">Specifications</h3>
+                    <dl class="space-y-2">
+                      {{ if .Params.year }}
+                        <div class="flex justify-between">
+                          <dt class="text-gray-600 dark:text-gray-400">Year:</dt>
+                          <dd class="font-medium">{{ .Params.year }}</dd>
+                        </div>
+                      {{ end }}
+                      {{ if .Params.series }}
+                        <div class="flex justify-between">
+                          <dt class="text-gray-600 dark:text-gray-400">Series:</dt>
+                          <dd class="font-medium">{{ .Params.series }}</dd>
+                        </div>
+                      {{ end }}
+                      {{ if .Params.model_number }}
+                        <div class="flex justify-between">
+                          <dt class="text-gray-600 dark:text-gray-400">Model #:</dt>
+                          <dd class="font-medium">{{ .Params.model_number }}</dd>
+                        </div>
+                      {{ end }}
+                      {{ if .Params.scale }}
+                        <div class="flex justify-between">
+                          <dt class="text-gray-600 dark:text-gray-400">Scale:</dt>
+                          <dd class="font-medium">{{ .Params.scale }}</dd>
+                        </div>
+                      {{ end }}
+                      {{ if .Params.condition }}
+                        <div class="flex justify-between">
+                          <dt class="text-gray-600 dark:text-gray-400">Condition:</dt>
+                          <dd class="font-medium">{{ .Params.condition }}</dd>
+                        </div>
+                      {{ end }}
+                    </dl>
+                  </div>
+                {{ end }}
+
+                <!-- IRL Specifications -->
+                {{ if or .Params.irl_top_speed .Params.irl_quarter_mile .Params.irl_bhp .Params.irl_torque .Params.irl_weight .Params.irl_power_to_weight .Params.irl_engine .Params.irl_transmission .Params.irl_fuel_type .Params.irl_drivetrain .Params.irl_acceleration }}
+                  <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mb-6">
+                    <h3 class="font-semibold mb-4">IRL Specifications</h3>
+                    <dl class="space-y-2">
+                      {{ if .Params.irl_engine }}
+                        <div class="flex justify-between">
+                          <dt class="text-gray-600 dark:text-gray-400">Engine:</dt>
+                          <dd class="font-medium text-right">{{ .Params.irl_engine }}</dd>
+                        </div>
+                      {{ end }}
+                      {{ if .Params.irl_bhp }}
+                        <div class="flex justify-between">
+                          <dt class="text-gray-600 dark:text-gray-400">Power:</dt>
+                          <dd class="font-medium">{{ .Params.irl_bhp }} BHP</dd>
+                        </div>
+                      {{ end }}
+                      {{ if .Params.irl_torque }}
+                        <div class="flex justify-between">
+                          <dt class="text-gray-600 dark:text-gray-400">Torque:</dt>
+                          <dd class="font-medium">{{ .Params.irl_torque }}</dd>
+                        </div>
+                      {{ end }}
+                      {{ if .Params.irl_weight }}
+                        <div class="flex justify-between">
+                          <dt class="text-gray-600 dark:text-gray-400">Weight:</dt>
+                          <dd class="font-medium">{{ .Params.irl_weight }}</dd>
+                        </div>
+                      {{ end }}
+                      {{ if .Params.irl_power_to_weight }}
+                        <div class="flex justify-between">
+                          <dt class="text-gray-600 dark:text-gray-400">Power-to-Weight:</dt>
+                          <dd class="font-medium">{{ .Params.irl_power_to_weight }}</dd>
+                        </div>
+                      {{ end }}
+                      {{ if .Params.irl_acceleration }}
+                        <div class="flex justify-between">
+                          <dt class="text-gray-600 dark:text-gray-400">0-60 mph:</dt>
+                          <dd class="font-medium">{{ .Params.irl_acceleration }}</dd>
+                        </div>
+                      {{ end }}
+                      {{ if .Params.irl_quarter_mile }}
+                        <div class="flex justify-between">
+                          <dt class="text-gray-600 dark:text-gray-400">Quarter Mile:</dt>
+                          <dd class="font-medium">{{ .Params.irl_quarter_mile }}</dd>
+                        </div>
+                      {{ end }}
+                      {{ if .Params.irl_top_speed }}
+                        <div class="flex justify-between">
+                          <dt class="text-gray-600 dark:text-gray-400">Top Speed:</dt>
+                          <dd class="font-medium">{{ .Params.irl_top_speed }}</dd>
+                        </div>
+                      {{ end }}
+                      {{ if .Params.irl_transmission }}
+                        <div class="flex justify-between">
+                          <dt class="text-gray-600 dark:text-gray-400">Transmission:</dt>
+                          <dd class="font-medium text-right">{{ .Params.irl_transmission }}</dd>
+                        </div>
+                      {{ end }}
+                      {{ if .Params.irl_drivetrain }}
+                        <div class="flex justify-between">
+                          <dt class="text-gray-600 dark:text-gray-400">Drivetrain:</dt>
+                          <dd class="font-medium">{{ .Params.irl_drivetrain }}</dd>
+                        </div>
+                      {{ end }}
+                      {{ if .Params.irl_fuel_type }}
+                        <div class="flex justify-between">
+                          <dt class="text-gray-600 dark:text-gray-400">Fuel Type:</dt>
+                          <dd class="font-medium">{{ .Params.irl_fuel_type }}</dd>
+                        </div>
+                      {{ end }}
+                    </dl>
+                  </div>
+                {{ end }}
+              </div>
+
+              <!-- content/description -->
+              <div class="lg:col-6 mb-8">
+                <div class="content">
+                  {{ .Content }}
+                </div>
+
+                <!-- tags -->
+                {{ if .Params.tags }}
+                  <div class="mt-6">
+                    <h3 class="font-semibold mb-3">Tags</h3>
+                    <div class="flex flex-wrap gap-2">
+                      {{ range .Params.tags }}
+                        <span class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-sm rounded-full">{{ . }}</span>
+                      {{ end }}
+                    </div>
+                  </div>
+                {{ end }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- gallery JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const galleryImages = document.querySelectorAll('.gallery-image');
+      const prevBtn = document.querySelector('.gallery-prev');
+      const nextBtn = document.querySelector('.gallery-next');
+      const thumbnailPrev = document.querySelector('.thumbnail-prev img');
+      const thumbnailCurrent = document.querySelector('.thumbnail-current img');
+      const thumbnailNext = document.querySelector('.thumbnail-next img');
+      const thumbnailPrevBtn = document.querySelector('.thumbnail-prev');
+      const thumbnailNextBtn = document.querySelector('.thumbnail-next');
+      let currentIndex = 0;
+
+      // Get all image sources from the gallery
+      const imageSources = Array.from(galleryImages).map(img => {
+        const imgElement = img.querySelector('img');
+        return imgElement ? imgElement.src : '';
+      });
+
+      function showImage(index) {
+        // Hide all images
+        galleryImages.forEach(img => img.classList.remove('active'));
+
+        // Show selected image
+        if (galleryImages[index]) {
+          galleryImages[index].classList.add('active');
+        }
+
+        currentIndex = index;
+        updateThumbnails();
+      }
+
+      function updateThumbnails() {
+        if (imageSources.length === 0) return;
+
+        const totalImages = imageSources.length;
+
+        // Calculate indices with infinite loop
+        const prevIndex = (currentIndex - 1 + totalImages) % totalImages;
+        const nextIndex = (currentIndex + 1) % totalImages;
+
+        // Update thumbnail images
+        if (thumbnailPrev) thumbnailPrev.src = imageSources[prevIndex];
+        if (thumbnailCurrent) thumbnailCurrent.src = imageSources[currentIndex];
+        if (thumbnailNext) thumbnailNext.src = imageSources[nextIndex];
+      }
+
+      // Navigation arrows
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+          const newIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+          showImage(newIndex);
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+          const newIndex = (currentIndex + 1) % galleryImages.length;
+          showImage(newIndex);
+        });
+      }
+
+      // Thumbnail clicks
+      if (thumbnailPrevBtn) {
+        thumbnailPrevBtn.addEventListener('click', function() {
+          prevBtn.click();
+        });
+      }
+
+      if (thumbnailNextBtn) {
+        thumbnailNextBtn.addEventListener('click', function() {
+          nextBtn.click();
+        });
+      }
+
+      // Keyboard navigation
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft' && prevBtn) {
+          prevBtn.click();
+        } else if (e.key === 'ArrowRight' && nextBtn) {
+          nextBtn.click();
+        }
+      });
+
+      // Initialize
+      updateThumbnails();
+    });
+  </script>
+
+  <style>
+    /* Gallery container */
+    .collectible-gallery {
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+
+    /* Main image container */
+    .gallery-main-container {
+      position: relative;
+      width: 100%;
+      height: 60vh;
+      max-height: 60vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+
+    .dark .gallery-main-container {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    }
+
+    /* Gallery images */
+    .gallery-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+      padding: 1rem;
+    }
+
+    .gallery-image.active {
+      opacity: 1;
+    }
+
+    .gallery-image img {
+      max-width: calc(100% - 2rem) !important;
+      max-height: calc(60vh - 2rem) !important;
+      width: auto !important;
+      height: auto !important;
+      object-fit: contain !important;
+      object-position: center !important;
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      aspect-ratio: auto !important;
+    }
+
+    /* Gallery controls */
+    .gallery-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+      width: 18rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .gallery-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      min-width: 2.5rem;
+      min-height: 2.5rem;
+      flex-shrink: 0;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: #6b7280;
+    }
+
+    .gallery-nav:hover {
+      background: #f9fafb;
+      border-color: #d1d5db;
+      color: #374151;
+    }
+
+    .dark .gallery-nav {
+      background: #374151;
+      border-color: #4b5563;
+      color: #d1d5db;
+    }
+
+    .dark .gallery-nav:hover {
+      background: #4b5563;
+      border-color: #6b7280;
+      color: #f3f4f6;
+    }
+
+    /* New Thumbnail System */
+    .gallery-thumbnails-new {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .thumbnail-track {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 14rem; /* Space for 3 thumbnails */
+      height: 100%;
+    }
+
+    .thumbnail-item {
+      position: relative;
+      height: 3.5rem;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dark .thumbnail-item {
+      background: #374151;
+    }
+
+    .thumbnail-current {
+      width: 3.5rem;
+      border: 2px solid rgb(var(--color-primary));
+      box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.2);
+      z-index: 2;
+    }
+
+    .thumbnail-prev,
+    .thumbnail-next {
+      width: 2.5rem;
+      opacity: 0.6;
+      z-index: 1;
+      border: 2px solid transparent;
+    }
+
+    .thumbnail-prev:hover,
+    .thumbnail-next:hover {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+
+    .thumbnail-prev {
+      mask: linear-gradient(to right, transparent 0%, black 30%);
+      -webkit-mask: linear-gradient(to right, transparent 0%, black 30%);
+    }
+
+    .thumbnail-next {
+      mask: linear-gradient(to left, transparent 0%, black 30%);
+      -webkit-mask: linear-gradient(to left, transparent 0%, black 30%);
+    }
+
+    .thumbnail-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      border-radius: 0.375rem;
+    }
+
+    /* Single image container */
+    .single-image-container {
+      width: 100%;
+      height: 60vh;
+      max-height: 60vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 0.5rem;
+      padding: 1rem;
+    }
+
+    .dark .single-image-container {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    }
+
+    .single-image-container img {
+      max-width: calc(100% - 2rem) !important;
+      max-height: calc(60vh - 2rem) !important;
+      width: auto !important;
+      height: auto !important;
+      object-fit: contain !important;
+      object-position: center !important;
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      aspect-ratio: auto !important;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .gallery-main-container,
+      .single-image-container {
+        min-height: 50vh;
+      }
+
+      .gallery-nav {
+        width: 2rem;
+        height: 2rem;
+      }
+
+      .gallery-nav svg {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+    }
+  </style>
+{{ end }}
