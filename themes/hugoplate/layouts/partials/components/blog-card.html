@@ -3,18 +3,17 @@
   {{ if $image }}
     {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "mb-6 w-full rounded") }}
   {{ end }}
-  <h4 class="mb-3">
+  <h5 class="mb-3">
     <a href="{{ .RelPermalink }}">
       {{ .Title }}
     </a>
-  </h4>
+  </h5>
   {{ $categories:= .Params.categories }}
   {{ if $categories }}
     <ul class="mb-4">
       <li class="mr-4 inline-block">
-        <a href="{{ `authors/` | relLangURL }}{{ .Params.Author | urlize }}/">
-          <i class="fa-regular fa-circle-user mr-2"></i>{{ .Params.author }}
-        </a>
+        <i class="fa-regular fa-calendar mr-1"></i>
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
       </li>
       <li class="mr-4 inline-block">
         <i class="fa-regular fa-folder mr-1"></i>

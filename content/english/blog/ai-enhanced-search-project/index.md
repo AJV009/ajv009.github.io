@@ -7,7 +7,6 @@ image: "assets/cover.jpg"
 categories: ["AI/ML", "Projects"]
 tags: ["Artificial Intelligence", "Search", "Machine Learning", "Python", "Information Retrieval"]
 draft: false
-author: "Alphons Jaimon"
 ---
 
 ## Project Overview
