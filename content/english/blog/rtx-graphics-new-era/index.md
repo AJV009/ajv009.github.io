@@ -9,6 +9,7 @@ author: "Alphons Jaimon"
 tags: ["RTX", "Nvidia", "Gaming", "AI", "Graphics Cards", "Ray Tracing"]
 draft: false
 ---
+(Following is a little article I wrote up back in 2018 for my college blog. Yes it has mistakes, but I intended to keep it as is because it reflects my bad english writing style of that time. hehe.)
 
 The new era of RTX Graphics has arrived, and "They say it's important, so get one if you can." But what makes these graphics cards so revolutionary?
 

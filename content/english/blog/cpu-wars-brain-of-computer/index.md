@@ -9,6 +9,7 @@ author: "Alphons Jaimon"
 tags: ["CPU", "Intel", "AMD", "Processors", "Gaming", "Computing Wars"]
 draft: false
 ---
+(Following is a little article I wrote up back in 2018 for my college blog. Yes it has mistakes, but I intended to keep it as is because it reflects my bad english writing style of that time. hehe.)
 
 The CPU (Central Processing Unit) - "The brain of the computer" - has been at the center of one of technology's most intense rivalries for decades.
 
