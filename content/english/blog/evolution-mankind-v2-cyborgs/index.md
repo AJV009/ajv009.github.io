@@ -9,6 +9,7 @@ author: "Alphons Jaimon"
 tags: ["Cyborgs", "Human Evolution", "Consciousness Transfer", "Robotics", "Future Technology"]
 draft: false
 ---
+(Following is a little article I wrote up back in 2018 for my college blog. Yes it has mistakes, but I intended to keep it as is because it reflects my bad english writing style of that time. hehe.)
 
 We're witnessing "A new generation of Cyborgs" as humanity enters Evolution v2.0, where biology meets technology in unprecedented ways.
 

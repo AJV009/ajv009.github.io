@@ -9,6 +9,7 @@ author: "Alphons Jaimon"
 tags: ["Quantum Computing", "Qubits", "Superposition", "Future Technology", "IBM", "Google"]
 draft: false
 ---
+(Following is a little article I wrote up back in 2018 for my college blog. Yes it has mistakes, but I intended to keep it as is because it reflects my bad english writing style of that time. hehe.)
 
 Quantum Computing represents "A nearing Future" that promises to revolutionize how we process information and solve complex problems.
 
