@@ -9,9 +9,9 @@ author: "Alphons Jaimon"
 tags: ["RTX", "Nvidia", "Gaming", "AI", "Graphics Cards", "Ray Tracing"]
 draft: false
 ---
-(Following is a little article I wrote up back in 2018 for my college blog. Yes it has mistakes, but I intended to keep it as is because it reflects my bad english writing style of that time. hehe.)
-
 The new era of RTX Graphics has arrived, and "They say it's important, so get one if you can." But what makes these graphics cards so revolutionary?
+
+(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)
 
 ## An Epic Costly Graphics Card: Do You Really Need One?
 

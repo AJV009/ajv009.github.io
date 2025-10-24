@@ -9,9 +9,9 @@ author: "Alphons Jaimon"
 tags: ["Big Data", "Data Analytics", "E-Governance", "Data Science", "Machine Learning", "Career"]
 draft: false
 ---
-(Following is a little article I wrote up back in 2018 for my college blog. Yes it has mistakes, but I intended to keep it as is because it reflects my bad english writing style of that time. hehe.)
-
 **Big Data** represents an emerging strategy in data management that's revolutionizing how we collect, analyze, and utilize information across every industry and aspect of modern life.
+
+(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)
 
 ## Understanding Big Data
 

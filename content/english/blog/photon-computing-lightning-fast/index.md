@@ -9,9 +9,9 @@ author: "Alphons Jaimon"
 tags: ["Photon Computing", "Optical Computing", "Future Technology", "Performance", "Innovation"]
 draft: false
 ---
-(Following is a little article I wrote up back in 2018 for my college blog. Yes it has mistakes, but I intended to keep it as is because it reflects my bad english writing style of that time. hehe.)
-
 Photon Computing represents "The lightning fast" future of computing, where light replaces electrons to achieve unprecedented processing speeds.
+
+(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)
 
 ## Traditional Computing: The Electron Era
 

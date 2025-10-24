@@ -9,9 +9,9 @@ author: "Alphons Jaimon"
 tags: ["Data Security", "Privacy", "Cybersecurity", "Data Protection", "Digital Privacy"]
 draft: false
 ---
-(Following is a little article I wrote up back in 2018 for my college blog. Yes it has mistakes, but I intended to keep it as is because it reflects my bad english writing style of that time. hehe.)
-
 In our hyper-connected digital world, "Data Security" has become "a really important factor" that affects every aspect of our lives, from personal privacy to national security.
+
+(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)
 
 ## The Massive Scale of Data Collection
 

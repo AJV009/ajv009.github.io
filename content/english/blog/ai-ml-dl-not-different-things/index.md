@@ -12,6 +12,8 @@ draft: false
 
 When discussing AI, ML, and DL, remember: "Well, these are not really different things." They're interconnected technologies that build upon each other.
 
+(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)
+
 ## How to Properly Differentiate AI, ML, and DL
 
 I believe you shouldn't write these terms as **(AI, ML, DL)** or **(AI vs ML vs DL)**. It should be represented as **AI ⊃ ML ⊃ DL**.
