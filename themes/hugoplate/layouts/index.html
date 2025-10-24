@@ -95,10 +95,16 @@
             <div class="col-12">
               <div class="swiper testimonial-slider">
                 <div class="swiper-wrapper">
-                  {{ range .Params.testimonials }}
+                  {{ range $index, $testimonial := .Params.testimonials }}
                     <div class="swiper-slide">
                       <div
-                        class="bg-light dark:bg-darkmode-light rounded-lg px-7 py-10">
+                        class="bg-light dark:bg-darkmode-light rounded-lg px-7 py-10 flex flex-col h-full cursor-pointer hover:shadow-lg transition-shadow testimonial-card"
+                        data-testimonial-index="{{ $index }}"
+                        data-testimonial-name="{{ .name }}"
+                        data-testimonial-designation="{{ .designation | markdownify }}"
+                        data-testimonial-avatar="{{ .avatar }}"
+                        data-testimonial-date="{{ .date }}"
+                        data-testimonial-content="{{ .content | strings.TrimLeft " \t" }}">
                         <div class="text-text-dark dark:text-white">
                           <svg
                             width="33"
@@ -111,10 +117,18 @@
                               fill="currentColor" />
                           </svg>
                         </div>
-                        <blockquote class="mt-8">
-                          {{ .content | markdownify }}
-                        </blockquote>
-                        <div class="mt-11 flex items-center">
+                        <div class="flex-grow">
+                          <blockquote class="mt-8 testimonial-content relative overflow-hidden" style="max-height: 180px;">
+                            <div class="testimonial-text whitespace-pre-wrap">
+                              {{- .content | strings.TrimLeft " \t" -}}
+                            </div>
+                            <div class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-light dark:from-darkmode-light to-transparent pointer-events-none"></div>
+                          </blockquote>
+                        </div>
+                        <div class="text-primary dark:text-white hover:underline text-sm mt-4 text-left font-medium">
+                          Read more →
+                        </div>
+                        <div class="mt-6 flex items-center">
                           <div class="text-text-dark dark:text-white">
                             {{ partial "image" (dict "Src" .avatar "Size" "50x50" "Class" "rounded-full" "Alt" .name) }}
                           </div>
@@ -141,4 +155,43 @@
     {{ end }}
   {{ end }}
   <!-- /Testimonials -->
+
+  <!-- Testimonial Modal -->
+  <div id="testimonial-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+    <div class="bg-light dark:bg-darkmode-light rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative animate-fade-in">
+      <button
+        id="modal-close"
+        class="absolute top-4 right-4 text-text-dark dark:text-white hover:text-primary dark:hover:text-primary transition-colors z-10"
+        aria-label="Close modal">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+      <div class="p-8 md:p-12">
+        <div class="text-text-dark dark:text-white mb-8">
+          <svg
+            width="33"
+            height="20"
+            viewBox="0 0 33 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M1.28375 19.41L0.79375 18.64C1.21375 17.0067 1.75042 15.07 2.40375 12.83C3.05708 10.5433 3.75708 8.28 4.50375 6.04C5.29708 3.75333 6.06708 1.77 6.81375 0.0899959H15.3538C14.9338 2.09666 14.4904 4.26667 14.0238 6.6C13.5571 8.88666 13.1371 11.15 12.7638 13.39C12.4371 15.5833 12.1571 17.59 11.9238 19.41H1.28375ZM31.69 0.0899959L32.18 0.859998C31.76 2.54 31.2233 4.5 30.57 6.74C29.9167 8.98 29.2167 11.2433 28.47 13.53C27.7233 15.77 26.9533 17.73 26.16 19.41H17.69C18.0167 17.9167 18.3433 16.33 18.67 14.65C18.9967 12.9233 19.3 11.22 19.58 9.54C19.9067 7.81333 20.1867 6.15667 20.42 4.57C20.7 2.93666 20.91 1.44333 21.05 0.0899959H31.69Z"
+              fill="currentColor" />
+          </svg>
+        </div>
+        <blockquote id="modal-content" class="text-base md:text-lg leading-relaxed mb-8 whitespace-pre-wrap">
+        </blockquote>
+        <div class="flex items-center pt-6 border-t border-border dark:border-darkmode-border">
+          <img id="modal-avatar" src="" alt="" class="w-16 h-16 rounded-full object-cover">
+          <div class="ml-4">
+            <h3 id="modal-name" class="text-xl font-primary font-semibold text-text-dark dark:text-white"></h3>
+            <p id="modal-designation" class="text-text-dark dark:text-white"></p>
+            <p id="modal-date" class="text-sm text-text-light dark:text-darkmode-text-light mt-1"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /Testimonial Modal -->
 {{ end }}
