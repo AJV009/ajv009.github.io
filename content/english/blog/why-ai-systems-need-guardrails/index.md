@@ -639,6 +639,6 @@ By implementing these patterns, you're not just creating technical boundaries—
 
 ---
 
-*Authors: Alphons Jaimon (AI Engineer) and Ananya Rakhecha (Tech Advocate)*
+*Authors: Alphons Jaimon (AI Engineer) and [Ananya Rakhecha](https://www.linkedin.com/in/ananya-rakhecha-7727451a6/) (Tech Advocate)*
 
 *Originally published on [QED42](https://www.qed42.com/insights/why-ai-systems-need-guardrails) on March 19, 2025*
