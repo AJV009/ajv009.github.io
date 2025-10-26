@@ -34,18 +34,28 @@
 
           <!-- full-width image gallery -->
           <div class="mb-12">
-            {{ if .Params.images }}
+            {{ $imageList := .Params.images }}
+            {{ if not $imageList }}
+              {{ $imageList = slice }}
+              {{ range .Resources.Match "assets/*" }}
+                {{ if eq .ResourceType "image" }}
+                  {{ $imageList = $imageList | append .Name }}
+                {{ end }}
+              {{ end }}
+            {{ end }}
+
+            {{ if $imageList }}
               <div class="collectible-gallery">
                 <!-- main image display -->
                 <div class="gallery-main-container">
-                  {{ range $index, $image := .Params.images }}
+                  {{ range $index, $image := $imageList }}
                     <div class="gallery-image {{ if eq $index 0 }}active{{ end }}" data-index="{{ $index }}">
                       {{ partial "image" (dict "Src" $image "Context" $.Page "Alt" (printf "%s - Image %d" $.Title (add $index 1))) }}
                     </div>
                   {{ end }}
                 </div>
 
-                {{ if gt (len .Params.images) 1 }}
+                {{ if gt (len $imageList) 1 }}
                   <!-- navigation controls -->
                   <div class="gallery-controls">
                     <button class="gallery-nav gallery-prev" data-direction="prev">

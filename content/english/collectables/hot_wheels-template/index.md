@@ -4,24 +4,6 @@ meta_title: "Ferrari F40 Premium Hot Wheels"
 description: "The iconic Ferrari F40 in premium Hot Wheels form - a perfect tribute to one of the greatest supercars ever made."
 date: 2024-03-15T11:00:00Z
 image: "assets/cover.jpg"
-images:
-  - "assets/cover.jpg"
-  - "assets/side-view.jpg"
-  - "assets/rear-view.jpg"
-  - "assets/detail-shot.jpg"
-  - "assets/action-angle.jpg"
-  - "assets/square-crop.jpg"
-  - "assets/portrait-crop.jpg"
-  - "assets/test-img-8.jpg"
-  - "assets/test-img-9.jpg"
-  - "assets/test-img-10.jpg"
-  - "assets/test-img-11.jpg"
-  - "assets/test-img-12.jpg"
-  - "assets/test-img-13.jpg"
-  - "assets/test-img-14.jpg"
-  - "assets/test-img-15.jpg"
-  - "assets/test-img-16.jpg"
-  - "assets/test-img-17.jpg"
 categories: ["Hot Wheels", "Collectables"]
 tags: ["Ferrari", "F40", "Premium", "Supercar", "Italian"]
 draft: false
