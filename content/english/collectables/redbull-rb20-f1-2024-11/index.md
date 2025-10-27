@@ -112,3 +112,42 @@ This Hot Wheels Premium model captures the RB20 in exquisite detail:
 - Custom display stand included (varies by retailer)
 
 A significant piece for Formula 1 enthusiasts and collectors, commemorating both the innovative RB20 design and Sergio Perez's final season with Red Bull Racing. The Premium series execution makes this a standout display piece, capturing one of the most technologically advanced hybrid race cars ever built.
+
+---
+
+## References & Further Reading
+
+### Official Team & Manufacturer Sources
+- [Red Bull Racing - RB20 Official Page](https://www.redbullracing.com/int-en/cars/rb20)
+- [Honda Racing - 2024 Oracle Red Bull Racing RB20](https://global.honda/en/F1/machine/2024_RedBullRB20/)
+- [Honda Racing - RBPTH002 Power Unit](https://honda.racing/f1/machines/honda-rbpth-002)
+- [Hot Wheels - F1 Series Oracle Red Bull Racing RB20 #1](https://creations.mattel.com/products/hot-wheels-f1-series-oracle-red-bull-racing-rb20-car-1-jbm12)
+
+### Technical Specifications & Analysis
+- [Red Bull Racing RB20 - Wikipedia](https://en.wikipedia.org/wiki/Red_Bull_Racing_RB20)
+- [2024 Red Bull Racing RB20 RBPT Honda Specifications - UltimateCarPage](https://www.ultimatecarpage.com/spec/8596/Red-Bull-Racing-RB20-RBPT-Honda.html)
+- [F1Technical.net - RB20 Aerodynamics Analysis](https://www.f1technical.net/news/25086)
+- [RaceTeq - Red Bull Racing RB20 Technical Deep Dive](https://www.raceteq.com/articles/2024/03/red-bull-racing-rb20-f1-car-a-look-inside-the-revolutionary-vehicle)
+- [FastestLaps.com - Red Bull RB20 Specs & Lap Times](https://fastestlaps.com/models/red-bull-rb20)
+
+### Season Performance & Statistics
+- [Formula 1 - End of Year Report: Red Bull 2024](https://www.formula1.com/en/latest/article/end-of-year-report-red-bull-a-fourth-consecutive-title-for-verstappen-but.6XXQAH2jPAroKVyzUAeKFh)
+- [Sergio Pérez - Wikipedia](https://en.wikipedia.org/wiki/Sergio_P%C3%A9rez)
+- [Pitwall - Sergio Pérez 2024 Statistics](https://pitwall.app/drivers/sergio-perez/2024)
+- [Lights Out Blog - Sergio Perez's 2024 F1 Season in Statistics](https://www.lightsoutblog.com/sergio-perez-2024-f1-season-statistics/)
+
+### Hybrid Power Unit Technology
+- [Honda V6 Hybrid Formula One Power Unit - Wikipedia](https://en.wikipedia.org/wiki/Honda_V6_hybrid_Formula_One_power_unit)
+- [Honda Technology - Evolution of MGU-H and MGU-K (2015-2022)](https://global.honda/en/tech/motorsports/Formula-1/Powertrain_MGU-H_MGU-K/)
+- [Motorsport.com - The MGU-K and MGU-H Explained](https://us.motorsport.com/f1/news/technique-the-mgu-k-and-mgu-h-explained-791187/2986353/)
+
+### Development & Aerodynamics
+- [Red Bull Reveals RB20 Car for 2024 F1 Season - Autosport](https://www.autosport.com/f1/news/red-bull-reveals-rb20-car-for-2024-f1-season/10576266/)
+- [RacingNews365 - Aerodynamics of Red Bull's Radical RB20](https://racingnews365.com/aerodynamics-are-not-the-only-secret-of-red-bulls-radical-rb20)
+- [Planet F1 - Red Bull RB20 Design Details](https://www.planetf1.com/news/red-bull-rb20-design-details-f1-2024-season)
+
+### Hot Wheels Collectible Model
+- [Smyths Toys UK - Hot Wheels Premium F1 2024 RB20](https://www.smythstoys.com/uk/en-gb/toys/construction-and-cars/car-toys/hot-wheels/hot-wheels-cars-and-trucks/hot-wheels-premium-2024-formula-1-diecast-cars-oracle-red-bull-racing-rb20-no-1-1-64-scale/p/250685003)
+- [Amazon - Hot Wheels Premium Formula 1 Collection RB20](https://www.amazon.com/Hot-Wheels-Premium-Formula-Collection/dp/B0DNFX5JD9)
+
+*All information verified and sourced from official Formula 1, Red Bull Racing, Honda Racing, and Mattel publications as of March 2024.*
