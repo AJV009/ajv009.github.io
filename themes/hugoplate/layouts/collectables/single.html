@@ -96,10 +96,10 @@
           <!-- details and content below gallery -->
           <div class="content-section">
             <div class="row gx-5">
-              <!-- specifications -->
-              <div class="lg:col-12 mb-8">
+              <!-- specifications - left column -->
+              <div class="lg:col-6 mb-8">
                 {{ if or .Params.year .Params.series .Params.model_number .Params.scale }}
-                  <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mb-6">
+                  <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
                     <h3 class="font-semibold mb-4">Specifications</h3>
                     <dl class="space-y-2">
                       {{ if .Params.year }}
@@ -135,10 +135,12 @@
                     </dl>
                   </div>
                 {{ end }}
+              </div>
 
-                <!-- IRL Specifications -->
-                {{ if or .Params.irl_top_speed .Params.irl_quarter_mile .Params.irl_bhp .Params.irl_torque .Params.irl_weight .Params.irl_power_to_weight .Params.irl_engine .Params.irl_transmission .Params.irl_fuel_type .Params.irl_drivetrain .Params.irl_acceleration }}
-                  <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mb-6">
+              <!-- IRL Specifications - right column -->
+              <div class="lg:col-6 mb-8">
+                {{ if or .Params.irl_top_speed .Params.irl_quarter_mile .Params.irl_bhp .Params.irl_torque .Params.irl_weight .Params.irl_power_to_weight .Params.irl_engine .Params.irl_transmission .Params.irl_fuel_type .Params.irl_drivetrain .Params.irl_acceleration .Params.irl_max_rpm .Params.irl_engine_weight }}
+                  <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
                     <h3 class="font-semibold mb-4">IRL Specifications</h3>
                     <dl class="space-y-2">
                       {{ if .Params.irl_engine }}
@@ -147,10 +149,22 @@
                           <dd class="font-medium text-right">{{ .Params.irl_engine }}</dd>
                         </div>
                       {{ end }}
+                      {{ if .Params.irl_engine_weight }}
+                        <div class="flex justify-between">
+                          <dt class="text-gray-600 dark:text-gray-400">Engine Weight:</dt>
+                          <dd class="font-medium">{{ .Params.irl_engine_weight }}</dd>
+                        </div>
+                      {{ end }}
                       {{ if .Params.irl_bhp }}
                         <div class="flex justify-between">
                           <dt class="text-gray-600 dark:text-gray-400">Power:</dt>
                           <dd class="font-medium">{{ .Params.irl_bhp }} BHP</dd>
+                        </div>
+                      {{ end }}
+                      {{ if .Params.irl_max_rpm }}
+                        <div class="flex justify-between">
+                          <dt class="text-gray-600 dark:text-gray-400">Max RPM:</dt>
+                          <dd class="font-medium">{{ .Params.irl_max_rpm }}</dd>
                         </div>
                       {{ end }}
                       {{ if .Params.irl_torque }}
@@ -231,6 +245,57 @@
                 {{ end }}
               </div>
             </div>
+
+            <!-- Image Gallery Grid -->
+            {{ $imageList := .Params.images }}
+            {{ if not $imageList }}
+              {{ $imageList = slice }}
+              {{ range .Resources.Match "assets/*" }}
+                {{ if eq .ResourceType "image" }}
+                  {{ $imageList = $imageList | append .Name }}
+                {{ end }}
+              {{ end }}
+            {{ end }}
+
+            {{ if gt (len $imageList) 1 }}
+              <div class="mt-12 mb-12">
+                <h2 class="text-2xl font-bold mb-6">Gallery</h2>
+                <div class="image-grid">
+                  {{ range $index, $image := $imageList }}
+                    <div class="image-grid-item">
+                      <a href="#" class="image-grid-link" data-gallery-index="{{ $index }}">
+                        {{ partial "image" (dict "Src" $image "Context" $.Page "Alt" (printf "%s - Image %d" $.Title (add $index 1))) }}
+                      </a>
+                    </div>
+                  {{ end }}
+                </div>
+              </div>
+            {{ end }}
+
+            <!-- References Section -->
+            {{ if .Params.references }}
+              <div class="mt-12">
+                <hr class="mb-8 border-gray-200 dark:border-gray-700">
+                <h2 class="text-2xl font-bold mb-6">References & Further Reading</h2>
+                {{ range .Params.references }}
+                  <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-3">{{ .category }}</h3>
+                    <ul class="space-y-2">
+                      {{ range .links }}
+                        <li>
+                          <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="text-blue-600 dark:text-blue-400 underline hover:text-blue-700 dark:hover:text-blue-300">
+                            {{ .title }}
+                          </a>
+                        </li>
+                      {{ end }}
+                    </ul>
+                  </div>
+                {{ end }}
+                {{ if .Params.references_note }}
+                  <p class="text-sm text-gray-600 dark:text-gray-400 italic mt-6">{{ .Params.references_note }}</p>
+                {{ end }}
+              </div>
+            {{ end }}
           </div>
         </div>
       </div>
@@ -323,6 +388,123 @@
 
       // Initialize
       updateThumbnails();
+
+      // Lightbox functionality
+      const lightbox = document.createElement('div');
+      lightbox.className = 'lightbox';
+      lightbox.innerHTML = `
+        <div class="lightbox-content">
+          <button class="lightbox-close">&times;</button>
+          <button class="lightbox-prev">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+          </button>
+          <div class="lightbox-image-container">
+            <img class="lightbox-image" src="" alt="">
+          </div>
+          <button class="lightbox-next">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </button>
+        </div>
+      `;
+      document.body.appendChild(lightbox);
+
+      const lightboxImage = lightbox.querySelector('.lightbox-image');
+      const lightboxClose = lightbox.querySelector('.lightbox-close');
+      const lightboxPrev = lightbox.querySelector('.lightbox-prev');
+      const lightboxNext = lightbox.querySelector('.lightbox-next');
+      let lightboxIndex = 0;
+
+      function openLightbox(index) {
+        lightboxIndex = index;
+        updateLightboxImage();
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      function updateLightboxImage() {
+        if (imageSources[lightboxIndex]) {
+          lightboxImage.src = imageSources[lightboxIndex];
+        }
+      }
+
+      function showPrevLightbox() {
+        lightboxIndex = (lightboxIndex - 1 + imageSources.length) % imageSources.length;
+        updateLightboxImage();
+      }
+
+      function showNextLightbox() {
+        lightboxIndex = (lightboxIndex + 1) % imageSources.length;
+        updateLightboxImage();
+      }
+
+      // Grid image click handling
+      const gridLinks = document.querySelectorAll('.image-grid-link');
+      gridLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetIndex = parseInt(this.getAttribute('data-gallery-index'));
+          openLightbox(targetIndex);
+        });
+      });
+
+      // Lightbox controls
+      lightboxClose.addEventListener('click', closeLightbox);
+      lightboxPrev.addEventListener('click', showPrevLightbox);
+      lightboxNext.addEventListener('click', showNextLightbox);
+
+      // Click outside to close
+      lightbox.addEventListener('click', function(e) {
+        if (e.target === lightbox || e.target.classList.contains('lightbox-content') || e.target.classList.contains('lightbox-image-container')) {
+          closeLightbox();
+        }
+      });
+
+      // Keyboard navigation
+      document.addEventListener('keydown', function(e) {
+        if (lightbox.classList.contains('active')) {
+          if (e.key === 'Escape') {
+            closeLightbox();
+          } else if (e.key === 'ArrowLeft') {
+            showPrevLightbox();
+          } else if (e.key === 'ArrowRight') {
+            showNextLightbox();
+          }
+        }
+      });
+
+      // Touch/swipe support
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      lightbox.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+      }, false);
+
+      lightbox.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      }, false);
+
+      function handleSwipe() {
+        const swipeThreshold = 50;
+        if (touchEndX < touchStartX - swipeThreshold) {
+          // Swipe left - next image
+          showNextLightbox();
+        }
+        if (touchEndX > touchStartX + swipeThreshold) {
+          // Swipe right - previous image
+          showPrevLightbox();
+        }
+      }
     });
   </script>
 
@@ -548,6 +730,211 @@
       .gallery-nav svg {
         width: 1.25rem;
         height: 1.25rem;
+      }
+    }
+
+    /* Image Gallery Grid */
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .image-grid-item {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1;
+      overflow: hidden;
+      border-radius: 0.5rem;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .dark .image-grid-item {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    }
+
+    .image-grid-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .image-grid-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      padding: 0.5rem;
+    }
+
+    .image-grid-item img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto !important;
+      height: auto !important;
+      object-fit: contain !important;
+      object-position: center !important;
+      aspect-ratio: auto !important;
+    }
+
+    /* Responsive grid columns */
+    @media (max-width: 1024px) {
+      .image-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .image-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .image-grid {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+
+    /* Lightbox Styles */
+    .lightbox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .lightbox.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .lightbox-content {
+      position: relative;
+      width: 90vw;
+      height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox-image-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    .lightbox-image {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto !important;
+      height: auto !important;
+      object-fit: contain;
+      object-position: center;
+      border-radius: 0.5rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -3rem;
+      right: 0;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 3rem;
+      cursor: pointer;
+      width: 3rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease;
+      z-index: 10001;
+    }
+
+    .lightbox-close:hover {
+      transform: scale(1.2);
+    }
+
+    .lightbox-prev,
+    .lightbox-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      border-radius: 50%;
+      width: 4rem;
+      height: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      z-index: 10001;
+    }
+
+    .lightbox-prev:hover,
+    .lightbox-next:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .lightbox-prev {
+      left: 2rem;
+    }
+
+    .lightbox-next {
+      right: 2rem;
+    }
+
+    /* Mobile lightbox adjustments */
+    @media (max-width: 768px) {
+      .lightbox-content {
+        width: 95vw;
+        height: 95vh;
+      }
+
+      .lightbox-close {
+        top: -2.5rem;
+        font-size: 2.5rem;
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+
+      .lightbox-prev,
+      .lightbox-next {
+        width: 3rem;
+        height: 3rem;
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      .lightbox-prev {
+        left: 0.5rem;
+      }
+
+      .lightbox-next {
+        right: 0.5rem;
       }
     }
   </style>
