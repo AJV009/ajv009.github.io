@@ -100,15 +100,26 @@
           </li>
         {{ end }}
       {{ end }}
-      {{ if site.Params.navigation_button.enable }}
-        <li class="mt-4 inline-block lg:hidden">
-          <a
-            class="btn btn-outline-primary btn-sm"
-            href="{{ site.Params.navigation_button.link | relLangURL }}">
-            {{ site.Params.navigation_button.label }}
-          </a>
-        </li>
-      {{ end }}
+      <!-- Google Calendar for mobile -->
+      <li class="mt-4 inline-block lg:hidden">
+        <div class="inline-block">
+          <link href="https://calendar.google.com/calendar/scheduling-button-script.css" rel="stylesheet">
+          <script src="https://calendar.google.com/calendar/scheduling-button-script.js" async></script>
+          <script>
+          (function() {
+            var target = document.currentScript;
+            window.addEventListener('load', function() {
+              calendar.schedulingButton.load({
+                url: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ1xa_K1PnQZLzmPtXCBaCkKz2u0UtXsPbXzK7YESDOhZMvC-w3I_0HwRhOL-LSU2H5z1Fyl84fa?gv=true',
+                color: '#D81B60',
+                label: 'Book my Calendar',
+                target,
+              });
+            });
+          })();
+          </script>
+        </div>
+      </li>
     </ul>
 
     <div class="order-1 ml-auto flex items-center md:order-2 lg:ml-0">
@@ -132,14 +143,25 @@
       {{ partial "components/theme-switcher" (dict "Class" "mr-5") }}
 
 
-      <!-- navigation btn -->
-      {{ if site.Params.navigation_button.enable }}
-        <a
-          href="{{ site.Params.navigation_button.link | relLangURL }}"
-          class="btn btn-outline-primary btn-sm hidden lg:inline-block">
-          {{ site.Params.navigation_button.label }}
-        </a>
-      {{ end }}
+      <!-- Google Calendar Appointment Scheduling -->
+      <div class="hidden lg:inline-block">
+        <link href="https://calendar.google.com/calendar/scheduling-button-script.css" rel="stylesheet">
+        <script src="https://calendar.google.com/calendar/scheduling-button-script.js" async></script>
+        <script>
+        (function() {
+          var target = document.currentScript;
+          window.addEventListener('load', function() {
+            calendar.schedulingButton.load({
+              url: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ1xa_K1PnQZLzmPtXCBaCkKz2u0UtXsPbXzK7YESDOhZMvC-w3I_0HwRhOL-LSU2H5z1Fyl84fa?gv=true',
+              color: '#D81B60',
+              label: 'Book my Calendar',
+              target,
+            });
+          });
+        })();
+        </script>
+      </div>
+      <!-- end Google Calendar Appointment Scheduling -->
     </div>
   </nav>
 </header>

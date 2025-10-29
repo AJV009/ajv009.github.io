@@ -8,6 +8,10 @@ banner:
     enable: true
     label: "View My Work"
     link: "/blog"
+  button2:
+    enable: true
+    label: "Visit my LinkedIn"
+    link: "https://in.linkedin.com/in/alphons-jaimon"
 
 # Features
 features:

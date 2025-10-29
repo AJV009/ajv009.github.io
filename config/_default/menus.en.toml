@@ -31,11 +31,6 @@ name = "Collectables"
 url = "/collectables"
 weight = 6
 
-[[main]]
-name = "Contact"
-url = "/contact"
-weight = 7
-
 
 # footer menu
 [[footer]]
