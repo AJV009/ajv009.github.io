@@ -89,10 +89,26 @@
               {{ .content | markdownify }}
             </p>
             <ul>
-              {{ range .bulletpoints }}
+              {{ range $index, $item := .bulletpoints }}
                 <li class="relative mb-4 pl-6">
                   <i class="fa fa-angle-right absolute left-0 top-1.5"></i>
-                  {{ . | markdownify }}
+                  {{ if $item.description }}
+                    <!-- Collapsible item with description -->
+                    <div class="expandable-item">
+                      <div class="font-medium">{{ $item.title | markdownify }}</div>
+                      <div class="expandable-content mt-2" data-expanded="false">
+                        <div class="expandable-text text-text-light dark:text-darkmode-text-light">
+                          {{ $item.description | markdownify }}
+                        </div>
+                        <button class="expand-toggle text-primary dark:text-darkmode-primary text-sm mt-2 font-medium hover:underline">
+                          Read more →
+                        </button>
+                      </div>
+                    </div>
+                  {{ else }}
+                    <!-- Simple item with just title -->
+                    {{ $item.title | markdownify }}
+                  {{ end }}
                 </li>
               {{ end }}
             </ul>
@@ -227,4 +243,71 @@
     </div>
   </div>
   <!-- /Testimonial Modal -->
+
+  <!-- Expandable Content Styles and Script -->
+  <style>
+    .expandable-content {
+      position: relative;
+    }
+
+    .expandable-content[data-expanded="false"] .expandable-text {
+      max-height: 3em;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .expandable-content[data-expanded="false"] .expandable-text::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1.5em;
+      background: linear-gradient(to bottom, transparent, var(--color-light));
+    }
+
+    .dark .expandable-content[data-expanded="false"] .expandable-text::after {
+      background: linear-gradient(to bottom, transparent, var(--color-darkmode-light));
+    }
+
+    .expandable-content[data-expanded="true"] .expandable-text {
+      max-height: none;
+    }
+
+    .expandable-content[data-expanded="true"] .expandable-text::after {
+      display: none;
+    }
+
+    .expand-toggle {
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      transition: all 0.3s ease;
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Handle expand/collapse for all expandable items
+      const toggleButtons = document.querySelectorAll('.expand-toggle');
+
+      toggleButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+          e.preventDefault();
+          const content = this.closest('.expandable-content');
+          const isExpanded = content.getAttribute('data-expanded') === 'true';
+
+          if (isExpanded) {
+            content.setAttribute('data-expanded', 'false');
+            this.textContent = 'Read more →';
+          } else {
+            content.setAttribute('data-expanded', 'true');
+            this.textContent = 'Show less ←';
+          }
+        });
+      });
+    });
+  </script>
+  <!-- /Expandable Content -->
 {{ end }}
