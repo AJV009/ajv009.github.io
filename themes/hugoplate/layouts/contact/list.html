@@ -15,8 +15,29 @@
   <section class="section-sm">
     <div class="container">
       <div class="row">
-        <div class="md:col-10 lg:col-6 mx-auto">
-          <form action="{{ site.Params.contact_form_action }}" method="POST">
+        <div class="md:col-10 lg:col-6 mx-auto text-center">
+          <!-- Google Calendar Appointment Scheduling -->
+          <div class="inline-block">
+            <link href="https://calendar.google.com/calendar/scheduling-button-script.css" rel="stylesheet">
+            <script src="https://calendar.google.com/calendar/scheduling-button-script.js" async></script>
+            <script>
+            (function() {
+              var target = document.currentScript;
+              window.addEventListener('load', function() {
+                calendar.schedulingButton.load({
+                  url: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ1xa_K1PnQZLzmPtXCBaCkKz2u0UtXsPbXzK7YESDOhZMvC-w3I_0HwRhOL-LSU2H5z1Fyl84fa?gv=true',
+                  color: '#D81B60',
+                  label: 'Book my Calendar',
+                  target,
+                });
+              });
+            })();
+            </script>
+          </div>
+          <!-- end Google Calendar Appointment Scheduling -->
+
+          <!-- Hidden contact form (keeping it for future reference) -->
+          <form action="{{ site.Params.contact_form_action }}" method="POST" style="display: none;">
             <div class="mb-6">
               <label for="name" class="form-label">
                 Full Name <span class="text-red-500">*</span>
