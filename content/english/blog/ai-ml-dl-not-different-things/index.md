@@ -10,168 +10,40 @@ tags: ["AI", "Machine Learning", "Deep Learning", "Neural Networks", "TensorFlow
 draft: false
 ---
 
-When discussing AI, ML, and DL, remember: "Well, these are not really different things." They're interconnected technologies that build upon each other.
+### How would you differentiate them AI, ML, DL?
 
-(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)
+I think you shouldn't write those terms like this (AI, ML, DL) or (AI vs ML vs DL). It should be like AI<ML<DL. To make things simple ML is just a sub topic of AI and DL is just a sub topic of ML.
 
-## How to Properly Differentiate AI, ML, and DL
+_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
 
-I believe you shouldn't write these terms as **(AI, ML, DL)** or **(AI vs ML vs DL)**. It should be represented as **AI ⊃ ML ⊃ DL**.
+### AI (Artificial Intelligence)
 
-To make things simple:
-- **ML is a subset of AI**
-- **DL is a subset of ML**
+In simple words the intelligence acquired artificially is called Artificial Intelligence. Like for example the bots in the game PUBG or the older version Google Assistant and all the voice assistants made by us simple Computer Engineers. A Machine-made Intelligence. Yeah! In some cases, they are truly intelligent than us. But don't forget human intelligence is more important. Well AI is emerging into many fields. Like in the Agricultural and Medical sectors.
 
-Think of them as nested concepts, where each layer adds more sophistication and capability.
+Now believe it or not somewhere in Solapur, Maharashtra a Farmer hired four Computer Engineers to work in a field. In fact, the whole field was automated. That's the magic of AI. Self-parking cars are already there for public. Self-driving cars are there but cannot fully replace the current driving style of crazy Indian masses. Now there are mobile processors coming with AI as one of their superb features. Gigabyte just released a new Aero 15 laptop what they call the world first AI enabled laptop. But after some tests the AI laptop proved to useless. Still needs a lot of work. Lots of industries are already investing a lot on this technology.
 
-## AI (Artificial Intelligence)
+Let's understand it in a different way, 1 + 2 = 3 == a + b = x teaches this equation to an AI program and then if you give a, b it will return you x.
 
-In simple words, **intelligence acquired artificially** is called Artificial Intelligence. Examples include:
-- Bots in games like PUBG
-- Early versions of Google Assistant
-- Voice assistants created by computer engineers
-- Any machine-made intelligence
+### ML (Machine Learning)
 
-**Yes!** In some cases, they are truly more intelligent than us in specific tasks. But don't forget - **human intelligence remains more important** for creativity, empathy, and complex reasoning.
+Machine Learning is a sub topic of AI. Here a machine learns or thinks from itself using different learning methods. Some of the learning methods are supervised learning, Semi-supervised learning, unsupervised learning, Reinforced learning. You'll find semi-supervised learning in current Voice Assistant Services like Google Assistant, Amazon Alexa and Apple Siri. They learn a lot from the users. Some voice assistants have got a security feature that is it would only respond to your voice and no one else's. Now that's really intelligent. Many phones now got cameras having AI, while Google started the AI camera trend. Here the AI camera intelligently uses some patterns to see what is there in the frame, if it's a human then make his face intelligently smooth and lighter.
 
-### AI in Real-World Applications
+Machine learning type of algorithms helped the scientist in many ways solving different problems. It works like this [ 1 2 = 3, 2 4 = 6] here the machine is feed with the numbers and the answer but without a pattern on how the answer came. What things can come between those numbers +, -, *, /. The machine will then try to put these different signs to get the required answer and try to do the same with all numbers and then create a pattern for itself. Well this is how it gets trained.
 
-AI is emerging into many fields, particularly **Agricultural and Medical sectors**:
+### DL (Deep Learning)
 
-**Agricultural Revolution**: Believe it or not, somewhere in **Solapur, Maharashtra**, a farmer hired four Computer Engineers to work in a field. The entire field was automated - that's the magic of AI in agriculture.
+Deep learning is something related to the way our brain works the relation method. Well if you don't know our brains work in a relational pattern. They are way faster than a computer because we can find relations in very odd thinks. It's sort of really difficult for computers to do the same.
 
-**Automotive Industry**:
-- **Self-parking cars** are already available to the public
-- **Self-driving cars** exist but cannot fully replace the current driving style of Indian traffic conditions
+Deep Learning involves in creating Neural Networks the same way our brain has. Many geeks out there have already started building game playing Neural Network. Some playing DOOM, PUBG, Mario Super Bros and just many others. If you love a game so much why don't you teach your best friend Computer to play it, some or the other day it will just become the world's best player. Because of computers computational power the computer will also be able to understand every possible move that would be taken by the opponent players during the game.
 
-**Consumer Technology**:
-- Mobile processors now come with **AI as a superb feature**
-- **Gigabyte released the Aero 15 laptop** - marketed as the world's first AI-enabled laptop (though after testing, it proved somewhat limited and needs more development)
+For example in a PUBG like game where the opponent player sometimes jumps and try's to shoots others so that the other player won't be able to follow up and shoot him, but when the computer knows that this guy is just going to start jumping like a monkey during a close encounter the computer will also jump and while jumping understand the time intervals between each jumps and also the movements the opponent player and give him an absolute headshot. That's awesome right because saying is such easy than actually doing it. There is a lot of things to look after while playing a PUBG like sophisticated game where there is a need of total immersion for a success.
 
-### Simple AI Understanding
+It's not over yet people have done a lot of crazy stuff with the whole AI segment. Now Google worked on an epic project AlphaGo which started some years back. The team behind it was the Google's Deep mind ANN professionals. This AlphaGo was an AI created to learn and play the famous Chinese board game GO. Over a period of time AlphaGo learned to play by competing between different professional GO players. The AlphaGo also learned different techniques used by different types of players during matches. Finally, AlphaGo became the world's best player after defeating every GO professional in straight matches. This is quite an impressive thing.
 
-Let's understand it differently: **1 + 2 = 3** becomes **a + b = x**. Teach this equation to an AI program, and when you provide values for 'a' and 'b', it will return 'x'.
+The hardware requirements for running these neural networks at full potential are just tremendous and really expensive. You'll will have to get thousands of powerful GPU's all running together in a server like environment to make those AlphaGo like sophisticated ANN (Artificial Neural Network). Well again Google came to rescue by bringing a new thing called TPU (Tensor Processing Unit) a hardware unit totally dedicated to make neural networking easier. These TPU's are programmed using different languages but also adding an extension/package called Tensor Flow for making neural networks easier. TPU's are said to be smaller, lighter and faster that GPGPU's (General Propose Graphic Processing Unit).
 
-## ML (Machine Learning)
+Technologies like Tensor Flow, Tensor Flow Lite (a lite edition for edge devices), TPU's were invented by Google. Love you Google! Our simple Google search engine also learns and extracts patterns from our searches.
 
-**Machine Learning is a subset of AI** where a machine learns or thinks by itself using different learning methods:
+Do you know it would take millions of such TPU 3.0 to just create out brain! That's how complicated our neural networks in the brain are just too brainy right!!!
 
-### Learning Methods
-- **Supervised learning** - Learning with labeled examples
-- **Semi-supervised learning** - Combination of labeled and unlabeled data
-- **Unsupervised learning** - Finding patterns in unlabeled data
-- **Reinforcement learning** - Learning through rewards and penalties
-
-### Real-World ML Applications
-
-**Voice Assistants**: You'll find semi-supervised learning in current voice assistant services like **Google Assistant, Amazon Alexa, and Apple Siri**. They learn extensively from users.
-
-**Security Features**: Some voice assistants have security features that **respond only to your voice** and no one else's. Now that's really intelligent!
-
-**AI Cameras**: Many phones now have cameras with AI capabilities. **Google started the AI camera trend** where cameras intelligently:
-- Use patterns to identify objects in the frame
-- Detect if it's a human and make their face smoother and lighter
-- Optimize settings automatically
-
-### How ML Training Works
-
-Machine learning algorithms work like this:
-```
-Input: [1, 2 = 3], [2, 4 = 6]
-```
-
-The machine receives numbers and answers but **without knowing the pattern**. It doesn't know what operations (+, -, *, /) were used. The machine:
-1. Tries different mathematical operations
-2. Tests them against all number pairs
-3. Creates its own pattern
-4. Gets trained through this process
-
-## DL (Deep Learning)
-
-**Deep Learning relates to how our brain works** - the relational pattern method. Our brains work in relational patterns and are **way faster than computers** because we can find relations in very unusual things. This is extremely difficult for computers to replicate.
-
-### Neural Networks: Mimicking the Brain
-
-Deep Learning involves creating **Neural Networks** similar to our brain structure. Many enthusiasts have built game-playing Neural Networks for:
-- **DOOM**
-- **PUBG**
-- **Super Mario Bros**
-- Many other games
-
-**Why teach computers to play games?** If you love a game, teach your computer to play it - someday it might become the world's best player!
-
-### Gaming AI Advantages
-
-Due to computational power, computers can:
-- Understand every possible move opponents might make
-- Predict opponent behavior patterns
-- React with superhuman precision
-
-**PUBG Example**: When an opponent jumps while shooting (to avoid being targeted), a well-trained AI can:
-1. Predict the jumping pattern
-2. Calculate time intervals between jumps
-3. Track movement patterns
-4. Deliver precise headshots while jumping
-
-Sounds easy to say, but implementing this requires **total immersion and sophisticated programming**.
-
-## Legendary AI Achievements: AlphaGo
-
-**Google's AlphaGo** represents one of the most impressive AI achievements. Created by **Google's DeepMind ANN professionals**, AlphaGo was designed to learn and play the famous Chinese board game **GO**.
-
-### AlphaGo's Journey
-1. **Learning Phase**: Competed against professional GO players
-2. **Pattern Recognition**: Learned different techniques from various player types
-3. **Mastery**: Became the world's best player by defeating every GO professional in straight matches
-
-This achievement was **quite impressive** and demonstrated the true potential of deep learning.
-
-## Hardware Requirements: The Challenge
-
-The hardware requirements for running these neural networks at full potential are **tremendous and expensive**:
-
-- **Thousands of powerful GPUs** running together in server environments
-- **Massive computational resources** for sophisticated ANNs (Artificial Neural Networks)
-
-### Google's Solution: TPU
-
-Google came to the rescue with **TPU (Tensor Processing Unit)** - hardware totally dedicated to neural networking:
-
-**TPU Advantages**:
-- **Smaller** than traditional GPUs
-- **Lighter** and more efficient
-- **Faster** than GPGPUs (General Purpose Graphic Processing Units)
-- **Specialized** for machine learning workloads
-
-### TensorFlow Ecosystem
-
-Google developed comprehensive tools:
-- **TensorFlow** - Main framework for neural networks
-- **TensorFlow Lite** - Lite edition for edge devices
-- **TPU programming** - Specialized hardware programming
-
-**Love you, Google!** Even our simple Google search engine learns and extracts patterns from our searches.
-
-## Mind-Blowing Brain Comparison
-
-**Did you know?** It would take **millions of TPU 3.0 units** just to replicate our brain's computational power. That's how complicated our neural networks are - **just too brainy, right!**
-
-## The Future Implications
-
-Understanding the **AI ⊃ ML ⊃ DL** relationship helps us appreciate:
-- How these technologies build upon each other
-- Why specialized hardware like TPUs is necessary
-- The incredible complexity of human intelligence
-- The potential for AI to transform every industry
-
-## Conclusion
-
-AI, ML, and DL aren't competing technologies - they're **evolutionary steps** in creating more intelligent machines. From simple rule-based systems to complex neural networks that can master games and automate farms, we're witnessing the dawn of truly intelligent machines.
-
-The journey from basic AI to sophisticated deep learning mirrors humanity's quest to understand and replicate the most complex system we know: **the human brain**.
-
----
-
-*Alphons Jaimon - Technology Enthusiast*
-
-As we continue to push the boundaries of artificial intelligence, remember that these technologies are tools to augment human capability, not replace human creativity and wisdom.
+[Alphons Jaimon - 2018]

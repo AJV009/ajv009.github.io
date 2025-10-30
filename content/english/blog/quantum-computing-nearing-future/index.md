@@ -9,91 +9,33 @@ author: "Alphons Jaimon"
 tags: ["Quantum Computing", "Qubits", "Superposition", "Future Technology", "IBM", "Google"]
 draft: false
 ---
-Quantum Computing represents "A nearing Future" that promises to revolutionize how we process information and solve complex problems.
 
-(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)
+### Quantum Computing vs Traditional Computing
 
-## Quantum Computing vs Traditional Computing
+A Quantum computer is a computer which is like 50 times faster than today's fastest super computer. But we are still bit far from a fully functional Quantum Computer which could do some heavy complicated mathematical stuff. Like a traditional computer got bits and bytes of binary data a Quantum computer got Qubits. The Quantum Computing term also has a relation with other fields of science such as Quantum Physics and Mechanics, Photon Computing. Today maintaining a Quantum Computer is bit of a difficult task. These computers run at nearly less than -3500C. There complex systems are stored in large tank like structures.
 
-A Quantum computer is a computer which is like **50 times faster** than today's fastest supercomputer. But we are still a bit far from a fully functional Quantum Computer which could handle heavy, complicated mathematical operations. Like a traditional computer has bits and bytes of binary data, a Quantum computer has **Qubits**.
+_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
 
-The Quantum Computing term also has a relation with other fields of science such as Quantum Physics and Mechanics, and Photon Computing. Today, maintaining a Quantum Computer is a bit of a difficult task. These computers run at nearly **less than -350°C**. Their complex systems are stored in large tank-like structures.
+Now well you would have thought why these -0C. In a Traditional Computer the bits stores 1s or 0s in a single place. But Qubits which make up these Quantum Computers doesn't store a single digit but both in a single place. This is done by bringing the Qubit which is made up of pure Superconductors to a superposition. Bringing such an element to superposition requires a lot of freezing to sub Zero temperatures.
 
-## The Science Behind Extreme Cooling
+Superposition: to explain this concept let's take a Coin. A coin has a head and a Tail now replace the head and tail with 1 and 0. When you spin the coin and wait till its speed drops and comes to a stable position it will show 1 or 0. But never shows both together. What if the coin never stopped spinning what would you say 1 or 0? Well now this could represent many digits in a single position like 1,0,10,01,11,00 and so on.
 
-Now, you might wonder why these extreme sub-zero temperatures are necessary. In a Traditional Computer, bits store 1s or 0s in a single place. But **Qubits**, which make up Quantum Computers, don't store a single digit but both in a single place simultaneously. This is achieved by bringing the Qubit, which is made up of pure superconductors, to a **superposition**. Bringing such an element to superposition requires extensive freezing to sub-zero temperatures.
+Trillions of logic gates (NAND & NOR) make up a small awesome Traditional Computer. The Quantum Computer has got a whole different set of logic gates working in a different complicated way.
 
-## Understanding Superposition
+One of the major challenges here is to bring every Qubit to superposition and creating Quantum Entanglement and then doing some small amount of quantum operations in it.
 
-To explain this concept, let's take a coin. A coin has a head and a tail - now replace the head and tail with 1 and 0. When you spin the coin and wait till its speed drops and it comes to a stable position, it will show either 1 or 0, but never both together.
+A Quantum Computer is just damn super speed theoretically. It could even decode an AES-256 security which is now a standard used by latest lockers. But today's Traditional Computer can't do this decoding it would take like months. This was just how a hacker could make use of Quantum Computer. But for the good people this could be used to do a lot of stuff like creating a random AES-256 hash table even before the security gets hacked by those hackers. We could also use this computer for doing complicated scientific things. What if we could just prove the big bang theory? Or just alter the Strings (In Astro Sense) to invent a new element for time traveling? It would be a serious fun if such a Computer could come very soon. We are waiting…...
 
-But what if the coin never stopped spinning? What would you say - 1 or 0? Well, this spinning state could represent many digits in a single position like **1, 0, 10, 01, 11, 00** and so on. This is the essence of quantum superposition.
+### A Quick thought towards the future.
 
-## Quantum Logic Gates: A Different Architecture
+What if one day you could just go and buy a Quantum Computer from a nearby Store. And play a MR (Mixed Reality) Heavy UXHD (Ultra Extreme High Definition) 30K – 50K resolution just a Super Real Graphics game with super high frames reaching digits like 500 - 700 fps. It's awesome right? Heck there's a lot of time for such a thing to happen in the reality.
 
-Trillions of logic gates (NAND & NOR) make up traditional computers. Quantum Computers have a completely different set of logic gates working in a more sophisticated and complex manner.
+### Recent Developments in Quantum Computing
 
-One of the major challenges is bringing every Qubit to superposition, creating **Quantum Entanglement**, and then performing quantum operations on them.
+* Google, IBM and many such tech giants have already started investing a lot on this technology.
+* Google's largest Quantum Computer Processor is a 72 qubit Superconducting system dubbed as Bristlestone.
+* IBM has got its own Quantum Computer called IBM Q System One and its open for the public to use.
+* Also, D-Wave created their own Quantum Computer the D-Wave 2000Q System.
+* Microsoft also has a Quantum Computer which has got its own programming language the Q#.
 
-## The Power and Potential of Quantum Computing
-
-A Quantum Computer is theoretically **incredibly fast**. It could even decode an **AES-256 security** standard which is currently used by modern encryption systems. Today's traditional computers can't perform this decoding - it would take months or even years.
-
-### Security Implications
-
-While this presents potential security challenges (hackers could exploit quantum computers), it also offers tremendous opportunities for the good:
-
-- Creating random AES-256 hash tables before security gets compromised
-- Developing quantum-resistant encryption methods
-- Advancing cryptographic research
-
-### Scientific Applications
-
-We could use quantum computers for complex scientific research:
-
-- **Proving fundamental theories** like the Big Bang theory
-- **Material science** - potentially altering atomic structures to invent new elements
-- **Time travel research** - exploring theoretical physics possibilities
-- **Drug discovery** and molecular modeling
-- **Climate modeling** and weather prediction
-
-It would be seriously exciting if such computers became available soon. We are waiting...
-
-## A Quick Thought Towards the Future
-
-Imagine one day you could just go and buy a Quantum Computer from a nearby store. Picture playing **MR (Mixed Reality)** games with **Ultra Extreme High Definition (UXHD)** graphics at **30K-50K resolution** with super-realistic graphics running at **500-700 fps**.
-
-Sounds awesome, right? Though there's still considerable time before such consumer-level quantum computing becomes reality.
-
-## Recent Developments in Quantum Computing
-
-**Google, IBM**, and many tech giants have already started investing heavily in this technology:
-
-### Google's Quantum Achievements
-- **Bristlecone**: Google's largest Quantum Computer Processor featuring a 72-qubit superconducting system
-- Achieved "quantum supremacy" in specific computational tasks
-
-### IBM's Quantum Initiative
-- **IBM Q System One**: IBM's quantum computer that's accessible to the public
-- Quantum Network providing cloud-based access to quantum systems
-- Advancing quantum education and research
-
-### D-Wave Systems
-- **D-Wave 2000Q System**: One of the first commercially available quantum computers
-- Focused on quantum annealing for optimization problems
-
-### Microsoft's Quantum Platform
-- Developed their own **Q# programming language** specifically for quantum computing
-- Azure Quantum cloud platform for quantum development
-
-## The Road Ahead
-
-Quantum computing represents one of the most significant technological leaps in human history. While we're still in the early stages, the potential applications are limitless - from revolutionizing artificial intelligence and machine learning to solving climate change and advancing space exploration.
-
-The future is quantum, and it's approaching faster than we might think.
-
----
-
-*Alphons Jaimon - Technology Enthusiast*
-
-The quantum revolution is not just about faster computers - it's about fundamentally changing how we approach complex problems and pushing the boundaries of what's computationally possible.
+[Alphons Jaimon - 2018]

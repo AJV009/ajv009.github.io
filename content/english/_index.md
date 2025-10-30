@@ -17,7 +17,7 @@ banner:
 features:
   - title: "Personal Details"
     image: "/images/2020_alphons.png"
-    content: "GenAI Engineer with a passion for emerging technologies."
+    content: "An Engineer with a passion for science, logic and tech."
     bulletpoints:
       - title: "**Email:** jaimonalphons@gmail.com"
       - title: "**Phone:** +91-8237842347"
@@ -89,6 +89,25 @@ features:
       label: ""
       link: ""
 
+  - title: "Notable Projects"
+    image: "/images/service-3.png"
+    content: "There are a lot of interesting big and small quirky projects and stuff I have done, but following are a few that I can talk about."
+    bulletpoints:
+      - title: "**AI Assisted Trading SaaS:** Full stack AI-powered trading platform"
+      - title: "**RAG Powered Support Chatbot:** AI chatbot with retrieval-augmented generation capabilities"
+      - title: "**AI Agents for Task Automation:** Custom AI agents for automating complex workflows"
+      - title: "**AI Enhanced Doc Assist:** Document analysis and assistance tool. With features similar to Google AI Search"
+      - title: "**AI Enhanced Search Engine:** Advanced semantic search capabilities with machine learning"
+      - title: "**Threat Detection System:** Security research and implementation"
+      - title: "**Scene Explorer for Kids:** Educational AI application for children"
+      - title: "**Elderly Indoor Care Chatbot:** Healthcare AI solution for senior care"
+      - title: "**Multiple Slack Bots:** Automation and utility tools for team productivity"
+      - title: "**GitHub Utility Tools:** Open source contributions and developer tools"
+    button:
+      enable: false
+      label:
+      link:
+
   - title: "Certifications & Achievements"
     image: "/images/service-2.png"
     content: "Industry-recognized certifications and continuous learning in AI, machine learning, and software development."
@@ -106,24 +125,20 @@ features:
       label: ""
       link: ""
 
-  - title: "Notable Projects"
-    image: "/images/service-3.png"
-    content: "Diverse portfolio of AI-driven solutions, from healthcare applications to security systems and educational tools."
+  - title: "Research Interests"
+    image: "/images/service-2.png"
+    content: "Exploring cutting-edge technologies at the intersection of biology, artificial intelligence, and quantum computing."
     bulletpoints:
-      - title: "**AI Assisted Trading SaaS:** Full stack AI-powered trading platform"
-      - title: "**RAG Powered Support Chatbot:** AI chatbot with retrieval-augmented generation capabilities"
-      - title: "**AI Agents for Task Automation:** Custom AI agents for automating complex workflows"
-      - title: "**AI Enhanced Doc Assist:** Document analysis and assistance tool. With features similar to Google AI Search"
-      - title: "**AI Enhanced Search Engine:** Advanced semantic search capabilities with machine learning"
-      - title: "**Threat Detection System:** Security research and implementation"
-      - title: "**Scene Explorer for Kids:** Educational AI application for children"
-      - title: "**Elderly Indoor Care Chatbot:** Healthcare AI solution for senior care"
-      - title: "**Multiple Slack Bots:** Automation and utility tools for team productivity"
-      - title: "**GitHub Utility Tools:** Open source contributions and developer tools"
+      - title: "**BioTech Applications:** Leveraging AI for healthcare innovations"
+      - title: "**Quantum Computing:** Exploring quantum algorithms and applications"
+      - title: "**Security Research:** Developing advanced threat detection systems"
+      - title: "**Consciousness Studies:** Research in consciousness cloning/transfer"
+      - title: "**AI Ethics:** Responsible AI development and deployment"
+      - title: "**Open Source Contributions:** Active community participation and knowledge sharing"
     button:
-      enable: true
-      label: "View Projects"
-      link: "/blog"
+      enable: false
+      label: ""
+      link: ""
 
   - title: "Personal Interests & Hobbies"
     image: "/images/service-1.png"
@@ -142,19 +157,4 @@ features:
       enable: false
       label: ""
       link: ""
-
-  - title: "Research Interests"
-    image: "/images/service-2.png"
-    content: "Exploring cutting-edge technologies at the intersection of biology, artificial intelligence, and quantum computing."
-    bulletpoints:
-      - title: "**BioTech Applications:** Leveraging AI for healthcare innovations"
-      - title: "**Quantum Computing:** Exploring quantum algorithms and applications"
-      - title: "**Security Research:** Developing advanced threat detection systems"
-      - title: "**Consciousness Studies:** Research in consciousness cloning/transfer"
-      - title: "**AI Ethics:** Responsible AI development and deployment"
-      - title: "**Open Source Contributions:** Active community participation and knowledge sharing"
-    button:
-      enable: true
-      label: "Contact for Collaboration"
-      link: "/contact"
 ---

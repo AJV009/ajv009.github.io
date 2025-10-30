@@ -9,134 +9,31 @@ author: "Alphons Jaimon"
 tags: ["CPU", "Intel", "AMD", "Processors", "Gaming", "Computing Wars"]
 draft: false
 ---
-The CPU (Central Processing Unit) - "The brain of the computer" - has been at the center of one of technology's most intense rivalries for decades.
 
-(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)
+### CPU (Well every knows it)
 
-## CPU: The Heart of Every Computing Device
+CPU (Central Processing Unit) the brain of the computer. There are tons of CPU manufacturers on this earth.
 
-**CPU (Central Processing Unit)** - well, everyone knows it's the brain of the computer. There are tons of CPU manufacturers on this earth, each specializing in different computing segments:
+For small microcomputer we have got ARM CPUs famous manufacturers are Intel and Broadcom. Then for Traditional Computers use x32, x64, x86 architecture processors manufactured by both Intel and AMD (Both are in tough Competition) and for smart phones there some of the best are Apple A12X Bionic, HiSilicon Kirin, Samsung Exynos, Qualcomm Snapdragon and MediaTek Helio
 
-### Microcomputer Processors
-For small microcomputers, we have **ARM CPUs** with famous manufacturers like:
-- **Intel** - x86-based mobile processors
-- **Broadcom** - System-on-chip solutions
+_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
 
-### Traditional Computer Processors
-Traditional computers use **x32, x64, x86 architecture** processors manufactured by both **Intel and AMD** (both locked in tough competition).
+### The Traditional Computer CPU wars
 
-### Mobile Processors
-For smartphones, some of the best include:
-- **Apple A12X Bionic** - Apple's flagship mobile chip
-- **HiSilicon Kirin** - Huawei's in-house processors
-- **Samsung Exynos** - Samsung's mobile processors
-- **Qualcomm Snapdragon** - Industry-leading mobile chips
-- **MediaTek Helio** - Budget-friendly mobile processors
+Every time Intel and AMD got a really tough competition. When Intel first started out with their CPUs they were all time fast after a generation or two AMD started their own league of really great processors. A war between Intel's Core and Xeon vs AMD's Ryzen and Threadripper. This war still continues with Intel releasing some cheap and expensive CPU's every six months.
 
-## The Traditional Computer CPU Wars
+Now AMD had a huge part as for the gamers started to fall in love with the cheap speedy AMD Ryzen Processors. But on the developer part AMD never gave those epic Intel Technologies on their CPU's. So the developer community stayed with Intel CPU's forever.
 
-Every generation brings a really tough competition between **Intel and AMD**. When Intel first started with their CPUs, they were always the fastest. After a generation or two, AMD started their own league of really great processors.
+The number of gamers is more than that of the developers. Intel thought that they could get many gamers by having a partnership with AMD to create there 8th gen core processors. The 8th gen processors where having an integrated AMD powered Graphics. Well in one point of view it did work because we could play GTA 5 at minimum settings using one these higher core CPU's. And there were many who were diehard fans (am one of them, in fact I hate the whole AMD segment of GPU's and CPU's) of Intel only processors they just hated the whole idea of adding a little of AMD graphics to Intel processors. This idea was going to be a failure but Intel then Dropped the prices also the base core speeds and also did a lot of laptops started to get it market with these 8th gen CPU's. Because people could play their favorite games on a laptop without a graphics card which had lesser price.
 
-### The Epic Battle Lines
-It's been a war between:
-- **Intel's Core and Xeon** vs **AMD's Ryzen and Threadripper**
+Then came the special 9th gen Intel CPU's ripping of Hyper-Threading feature because maybe they felt that they didn't need it as their CPU's were fast enough. i9-9900KF is the one currently available in the market this one being the best one. A rumored Intel Core i9-9990XE is said to come with good speeds, extra cores and awesomeness. These i9 9th gen CPU's changed the way people decided to buy a CPU they started being the one both developers and gamers preferred.
 
-This war continues with Intel releasing both cheap and expensive CPUs every six months, while AMD responds with their own innovations.
+There are different post-fix letters used while showcasing Intel CPU's some of them are U/M – Low power, Mobile Performance, K – Unlocked Multiplexer for Over clockers, X – Extreme, Unlocked, XE – Extreme Edition, Unlocked, F – Graphics Less, G – Better high-performance graphics.
 
-## The Gaming Revolution: AMD's Rise
+But bigger community Gamers friend AMD having a competition between Nvidia over GPU's and Intel over CPU's gave them a direct answer brought the new AMD 3rd gen Ryzen processor said to be faster and thinner than Intel's latest offering and also brought an AMD Radeon VII GPU competing with RTX graphics. And these things go on like AMD and Intel producing a dozen of new CPU's every year.
 
-AMD had a huge impact when **gamers started falling in love** with the cheap, speedy **AMD Ryzen processors**. However, on the developer side, AMD never provided those epic Intel technologies in their CPUs, so the developer community stayed with Intel CPUs for a long time.
+Well for me every time Intel and Nvidia wins, Intel just released their i3 9th gen F CPU and Nvidia releasing some cheap RTX 2060 3GB GDDR6 GPU. It's just an awesome combination right. We could also make stuff super high with an Intel i9-9990XE + Nvidia Quadro RTX 8000
 
-### Intel's Strategic Response
+The computer geeks and enthusiasts are never happy with speeds they get from the latest powerful CPU's. And did you know that India is on the way to create its own CPU codenamed Shakti. First India got a prototyped Shakti from Intel its size was 22nm now when India started to manufacture it its size became 120nm. It's just too large. And India also started to work on a Para-Shakti (not paranormal shakti) it's Parallel Shakti, simply stacking one shakti over the other (should have named it Double-Shakti!).
 
-Since the number of gamers far exceeds developers, Intel thought they could capture more gamers by partnering with AMD to create their **8th generation Core processors**. These processors featured **integrated AMD-powered graphics**.
-
-From one perspective, it worked - we could actually play **GTA 5 at minimum settings** using these higher-core CPUs. However, there were many diehard Intel fans (myself included - I actually disliked the whole AMD segment of GPUs and CPUs at the time) who hated the idea of adding AMD graphics to Intel processors.
-
-### Market Success Despite Controversy
-
-This idea seemed destined for failure, but Intel then:
-- **Dropped prices significantly**
-- **Reduced base core speeds**
-- **Flooded the laptop market** with these 8th gen CPUs
-
-The strategy worked because people could play their favorite games on laptops without discrete graphics cards at lower prices.
-
-## The 9th Generation Revolution
-
-Then came the special **9th generation Intel CPUs**, which controversially **removed the Hyper-Threading feature** - perhaps Intel felt their CPUs were fast enough without it.
-
-### Flagship Processors
-- **i9-9900KF** - Currently the best available in the market
-- **Intel Core i9-9990XE** (rumored) - Said to come with good speeds, extra cores, and overall awesomeness
-
-These **i9 9th gen CPUs** changed how people decided to buy processors - they became the choice for both developers and gamers.
-
-## Understanding Intel's Naming Convention
-
-Intel uses different post-fix letters to categorize their CPUs:
-
-- **U/M** - Low power, Mobile Performance
-- **K** - Unlocked Multiplier for Overclockers
-- **X** - Extreme, Unlocked
-- **XE** - Extreme Edition, Unlocked
-- **F** - Graphics-less (no integrated graphics)
-- **G** - Better high-performance integrated graphics
-
-## AMD's Counter-Attack
-
-The bigger gaming community's friendship with AMD, having competition with both **Nvidia over GPUs** and **Intel over CPUs**, gave them a direct challenge. AMD responded by bringing:
-
-- **New AMD 3rd gen Ryzen processors** - Said to be faster and more efficient than Intel's latest offerings
-- **AMD Radeon VII GPU** - Competing directly with RTX graphics
-
-This cycle continues with both AMD and Intel producing dozens of new CPUs every year.
-
-## Personal Preferences and Combinations
-
-For me, **Intel and Nvidia always win**. Intel recently released their **i3 9th gen F CPU** and Nvidia released affordable **RTX 2060 3GB GDDR6 GPUs**. It's an awesome budget combination!
-
-For extreme performance, we could build something incredible with:
-**Intel i9-9990XE + Nvidia Quadro RTX 8000**
-
-## The Enthusiast Dilemma
-
-Computer geeks and enthusiasts are **never happy** with the speeds they get from even the latest, most powerful CPUs. There's always a desire for more performance, more cores, and higher clock speeds.
-
-## India's Indigenous CPU Development: Project Shakti
-
-Did you know that **India is developing its own CPU** codenamed **Shakti**? Here's the fascinating story:
-
-### Development Journey
-1. **Prototype Phase**: India received a prototyped Shakti from Intel with **22nm** manufacturing process
-2. **Manufacturing Reality**: When India started manufacturing it domestically, the size increased to **120nm** - significantly larger than the prototype
-3. **Parallel Processing**: India also started working on **Para-Shakti** (not paranormal shakti!) - it's **Parallel Shakti**, essentially stacking one Shakti processor over another
-
-*Personal note: They should have called it "Double-Shakti!" 😄*
-
-## The Future of CPU Wars
-
-The CPU wars show no signs of slowing down. With each generation, we see:
-- **Increased core counts**
-- **Better power efficiency**
-- **Enhanced integrated graphics**
-- **Specialized instructions for AI and machine learning**
-- **Advanced manufacturing processes** (7nm, 5nm, and beyond)
-
-### Emerging Trends
-- **AI acceleration** built into CPUs
-- **ARM processors** entering the laptop and server markets
-- **Custom silicon** by major tech companies
-- **Quantum processing** research and development
-
-## Conclusion
-
-The CPU wars between Intel and AMD have driven incredible innovation in computing performance. Whether you're a gamer seeking high frame rates, a developer requiring powerful processing, or an enthusiast wanting cutting-edge performance, this competition ensures we all benefit from better, faster, and more efficient processors.
-
-The battle continues, and frankly, we're all winners in this war of innovation.
-
----
-
-*Alphons Jaimon - Tech Evangelist*
-
-The CPU wars represent more than just corporate competition - they're driving the future of computing, pushing the boundaries of what's possible in silicon and transforming how we interact with technology.
+[Alphons Jaimon - 2018]

@@ -9,205 +9,27 @@ author: "Alphons Jaimon"
 tags: ["Photon Computing", "Optical Computing", "Future Technology", "Performance", "Innovation"]
 draft: false
 ---
-Photon Computing represents "The lightning fast" future of computing, where light replaces electrons to achieve unprecedented processing speeds.
 
-(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)
+### Traditional Computing
 
-## Traditional Computing: The Electron Era
+Today traditional computers use electron as its transfer medium. The top speed that could be achieved from an over clocked CPU was 8.5 GHz. That was achieved by an AMD Bulldozer CPU.
 
-Today's traditional computers use **electrons as the transfer medium**. The highest speed ever achieved from an overclocked CPU was **8.5 GHz**, accomplished by an **AMD Bulldozer CPU**.
+To achieve such speeds, we have to bring down those burning hot CPU temperatures to sub-zero conditions. Here to reach such 8.5GHz speeds they had to continually pour LN2 or Liquid Nitrogen or simply Nitro on top of our CPU. So much energy and resources are needed to do something that epic.
 
-### The Heat Challenge
+But just to bring down temperatures there many other different methods like Water cooling, dual phase cooling, turbocharged cooling and one interesting method is to dip the whole motherboard into the liquid, in fact a special liquid called novec by m3 or mineral oil these liquids have nearly ZERO electro conductivity and high boiling point.
 
-To achieve such extreme speeds, we must bring those **burning hot CPU temperatures to sub-zero conditions**. Reaching 8.5GHz required:
+_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
 
-- **Continuous LN2 (Liquid Nitrogen)** pouring on top of the CPU
-- **Massive energy consumption**
-- **Expensive cooling resources**
-- **Extreme environmental conditions**
+### Optical/Photonic Computing
 
-### Alternative Cooling Methods
+Photon / Photonic / Optical computing are all same terms. In a photon computing instead of electron used by the traditional computing a photon is used. The advantages of using a photon as a medium of data is that when electron travel at high speeds through a medium, heat is generated and there also occurs electron loss over a long distance. Now when photon travels at higher speeds than electron and they won't create any heat while traveling at high speeds. Photons are nearly 10 x faster than electrons. Like traditional computing got their own type of logic gates that can only process electron bits, photon computing got its own type of optical logic gates and circuits.
 
-Beyond liquid nitrogen, there are various cooling approaches:
+### Major Challenges
 
-**Water Cooling**: Liquid cooling systems with radiators and pumps
-**Dual Phase Cooling**: Using phase change materials for heat transfer
-**Turbocharged Cooling**: High-performance air cooling systems
-**Immersion Cooling**: Dipping the entire motherboard into special liquids like:
-- **Novec by 3M** - Near-zero electrical conductivity, high boiling point
-- **Mineral Oil** - Non-conductive liquid cooling medium
+Using photon instead of electron is really challenging. Till today scientists could not create a CPU capable enough to process information coming in this light speed. There is no CPU today which can directly process light. That's why we have to convert the information in photon form to electron form so that the electron-based CPU can process it. So, we could be using light for long distance data transfer. The scientist also had to bring down the speed of light, so that we could process it. To do so they had to send some photons in reverse direction so that the photons coming in light speed could just crash with the photons coming from the opposite direction, these photons coming from opposite side acts as a resistance for the medium. And then using a Photon to Electron converter near to the CPU won't be really efficient anyway.
 
-## Optical/Photonic Computing: The Light Revolution
+### Just give a thought to the future computing
 
-**Photon/Photonic/Optical computing** - these are all the same revolutionary concept. Instead of electrons used in traditional computing, **photonic computing uses photons** (light particles).
+What if we could have a laptop that was as thin as today's MacBook Air, with a performance like a gaming server, this could be a reality with photon computers. Imagine a phone with a clock speed of more than 10 GHz with no heating issues even while all day gaming, and this phone could last for some days even with continues 4K 144hz gaming. That's super awesome right!
 
-### Why Photons Are Superior
-
-**Heat Generation**: When electrons travel at high speeds through a medium:
-- **Heat is generated** due to resistance
-- **Electron loss occurs** over long distances
-- **Energy efficiency decreases** significantly
-
-**Photon Advantages**: When photons travel:
-- **No heat generation** at high speeds
-- **No particle loss** over distance
-- **Photons are nearly 10x faster** than electrons
-- **Superior energy efficiency**
-
-### Photonic Logic Systems
-
-Just like traditional computing has **electron-based logic gates**, photon computing features:
-- **Optical logic gates**
-- **Photonic circuits**
-- **Light-based processing units**
-
-## Major Challenges in Photonic Computing
-
-### The Processing Bottleneck
-
-Using photons instead of electrons presents **significant challenges**:
-
-**No Direct Processing**: Scientists haven't yet created a **CPU capable of processing information at light speed**. There's no CPU today that can **directly process light**.
-
-**Conversion Requirement**: Currently, we must:
-1. **Convert photon information to electron form**
-2. **Process using traditional electron-based CPUs**
-3. **Convert back to photon form** for output
-
-### Speed Reduction Challenges
-
-**Light Speed Problem**: Scientists have had to **bring down the speed of light** for processing by:
-
-1. **Sending photons in reverse direction**
-2. **Creating photon collisions** with opposing light streams
-3. **Using reverse photons as resistance** to slow down incoming photons
-4. **Converting photons to electrons** near the CPU
-
-**Efficiency Issues**: Using **Photon-to-Electron converters** near CPUs **isn't really efficient** and defeats many advantages of photonic computing.
-
-### Current Applications
-
-**Long-Distance Data Transfer**: We can effectively use light for:
-- **Fiber optic communications**
-- **High-speed internet backbone**
-- **Data center interconnects**
-- **Submarine cables**
-
-## Future Computing: The Photonic Vision
-
-### Ultra-Thin, Ultra-Powerful Devices
-
-Imagine the possibilities with mature photonic computing:
-
-**Laptop Revolution**: A laptop that's:
-- **As thin as today's MacBook Air**
-- **Performance like a gaming server**
-- **No heat generation issues**
-- **Extended battery life**
-
-**Mobile Gaming Paradise**: A smartphone with:
-- **Clock speeds exceeding 10 GHz**
-- **No heating issues** during all-day gaming
-- **Multi-day battery life** with continuous 4K 144Hz gaming
-- **Desktop-class performance** in a pocket device
-
-**That's super awesome, right!**
-
-## Technical Breakthroughs Needed
-
-### Processing Innovations
-- **Direct photonic processors** that work with light
-- **Optical memory systems** using photonic storage
-- **Light-based arithmetic logic units**
-- **Photonic cache systems**
-
-### Integration Challenges
-- **Hybrid electron-photon systems** for transition period
-- **Efficient conversion interfaces**
-- **Miniaturization** of optical components
-- **Cost-effective manufacturing** processes
-
-### Material Science
-- **Advanced photonic crystals**
-- **Quantum dot technologies**
-- **Metamaterials** for light manipulation
-- **Silicon photonics** integration
-
-## Real-World Applications
-
-### Data Centers
-- **Massive speed improvements** in server farms
-- **Dramatic energy savings** through reduced cooling
-- **Higher density computing** without heat constraints
-- **Improved reliability** due to fewer thermal failures
-
-### Telecommunications
-- **Ultra-high-speed internet**
-- **Reduced latency** in global communications
-- **More efficient satellite communications**
-- **Advanced 6G/7G networks**
-
-### Scientific Computing
-- **Faster climate modeling**
-- **Advanced AI training** with photonic neural networks
-- **Quantum simulation** acceleration
-- **Real-time molecular modeling**
-
-### Consumer Electronics
-- **Instant-on devices** with no boot time
-- **Unlimited multitasking** capability
-- **4K/8K gaming** on mobile devices
-- **Extended battery life** across all devices
-
-## The Timeline Challenge
-
-### Near-Term (2025-2030)
-- **Improved fiber optic systems**
-- **Photonic accelerators** for specific tasks
-- **Hybrid computing systems**
-- **Research breakthroughs** in optical processing
-
-### Medium-Term (2030-2040)
-- **First generation photonic processors**
-- **Optical memory systems**
-- **Commercial photonic computers** for specialized applications
-- **Infrastructure transformation**
-
-### Long-Term (2040+)
-- **Fully photonic computing systems**
-- **Consumer photonic devices**
-- **Complete infrastructure overhaul**
-- **Post-electronic computing era**
-
-## Environmental Impact
-
-### Energy Efficiency
-- **Massive reduction** in computing energy consumption
-- **Elimination** of cooling system requirements
-- **Reduced carbon footprint** of data centers
-- **Sustainable computing** solutions
-
-### E-Waste Reduction
-- **Longer device lifespans** due to no thermal degradation
-- **Higher performance** extending upgrade cycles
-- **More durable components**
-- **Reduced obsolescence**
-
-## Conclusion
-
-Photon computing represents the **next quantum leap** in processing technology. While significant challenges remain in creating direct photonic processors, the potential benefits are extraordinary:
-
-- **10x speed improvements** over electron-based systems
-- **Complete elimination** of heat-related performance limits
-- **Revolutionary mobile computing** capabilities
-- **Sustainable, energy-efficient** processing
-
-The transition from electrons to photons mirrors the shift from mechanical to electronic computing - it's not just an improvement, it's a **fundamental transformation** in how we process information.
-
-**Just give a thought to the future computing** - where light itself becomes our computational medium, enabling possibilities we can barely imagine today.
-
----
-
-*Alphons Jaimon - Technology Enthusiast*
-
-As we stand on the threshold of the photonic computing revolution, we're about to witness the transformation of silicon valleys into valleys of light, where the speed of thought meets the speed of light.
+[Alphons Jaimon - 2018]

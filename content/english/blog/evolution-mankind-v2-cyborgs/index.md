@@ -9,174 +9,35 @@ author: "Alphons Jaimon"
 tags: ["Cyborgs", "Human Evolution", "Consciousness Transfer", "Robotics", "Future Technology"]
 draft: false
 ---
-We're witnessing "A new generation of Cyborgs" as humanity enters Evolution v2.0, where biology meets technology in unprecedented ways.
 
-(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)
+### The History
 
-## The Evolutionary Timeline
+A small part of human evolution goes like this Australopithecus > Homo Habilis > Homo Erectus > Homo Heidelbergensis > Homo Sapiens > Cyborgs > Robots. Man started out having really no knowledge of living, and then learned from its surroundings. Slowly started out being the smartest animal on the earth.
 
-The human evolutionary journey follows this fascinating path:
+_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
 
-**Australopithecus → Homo Habilis → Homo Erectus → Homo Heidelbergensis → Homo Sapiens → Cyborgs → Robots**
+### A small thought
 
-Humanity started with really no knowledge of living, then learned from surroundings, and slowly became the **smartest animal on Earth**. Now we're entering the next phase.
+People connected to the internet, talking in different languages, really quick thinking, extra knowledge, can send emails and call friends using their electronic brains. Just wonderful!
 
-## A Small Thought: The Connected Human
+### The Cyborgs and Robots
 
-Imagine people **connected to the internet**, talking in different languages, with **really quick thinking**, **extra knowledge**, able to send emails and call friends using their **electronic brains**.
+This word Cyborg comes from two words called Organisms and Cybernetics. Human race with embedded technologies in their bodies are called cyborgs. They are really an awesome thing to come, one or the other day even we would be in the same place having extra senses. There are some existing cyborgs on the earth paving the way for the future. One of them is Cyborg Neil Harbison who has got a antenna plugged in his brain and is connected to the internet. There many like him. This is a reality now.
 
-**Just wonderful!**
+Soon we will be able to do some extraordinary actions. Many people who got inspired from the sci-fi movies had their body parts changed with electronic parts.
 
-## Understanding Cyborgs and Robots
+While some countries banned these morphing people. Cause these people with their extra abilities could do a lot of harm to others. Like they could be hacking into public devices like cameras, look through walls and even damage every device that is connected to the internet.
 
-### What is a Cyborg?
+What if I had my brain connected to the internet service, I could have already scored full marks in every surprise test. It's awesome right! Maybe in coming future schools and colleges will have to place network blockers everywhere. That's funny.
 
-The word **Cyborg** comes from two terms: **Organisms** and **Cybernetics**. Human beings with **embedded technologies in their bodies** are called cyborgs.
+A man with an artificial robotic leg. Even he is a Cyborg. The term cyborg started around some years back. Even during 20th century some scientists and people used this futuristic term. There are many movies showing human and animal cyborgs, even Tony Starks a.k.a. Iron Man from the movie Iron, he had a whole Arc Reactor a super powerful power source implanted in his body.
 
-They represent an awesome evolutionary step. One day, even we might have **extra senses** and enhanced capabilities.
+Then comes the Robots. If you know the movie Chappi then you would be also familiar with the term consciousness backup. The guys in the movie created a whole backup of their brain in a clustered Play Station (seriously!). That's really cool but practically impossible to store ever growing complexity of the human brain in a multiple clustered play station. In fact, it will need a lot of computing power and memory to store a whole consciousness backup.
 
-### Real Cyborgs Today
+Now just think if at the age of 90s we could just create a backup of the brain with consciousness and just let our physical body die out. And just resurrect our thoughts with having our brain backup placed into a robot. Just fantastic! We will never be dying very soon if such a thing could be done. Then the population would be overgrowing.
 
-**This is reality now!** There are existing cyborgs on Earth paving the way for the future:
+There has been a lot of research going on to simulate a human brain and also to transfer consciousness from organisms to computers. Some scientists were successful in creating an earthworm brain with consciousness. They also taught it to park a simulated car. Mind Blowing! Epic! And they are still programming many other small brains.
 
-**Neil Harbisson**: The most famous cyborg who has an **antenna plugged into his brain** and is **connected to the internet**. He can "hear" colors and access information directly through his neural implant.
+Sometime in the future we could be seeing a place with no flesh and bones organisms. Literally no living beings. Only bots, robotic pets, robotic humans and robotic animals. That's really bad! Let's see what's going to really happen?
 
-**Kevin Warwick**: Known as "Captain Cyborg," he implanted RFID chips and neural interfaces to control devices and experience sensations remotely.
-
-**Many others** are following this path, inspired by science fiction and the desire to enhance human capabilities.
-
-### Enhanced Abilities and Concerns
-
-Soon we'll be able to perform **extraordinary actions**. Many people inspired by sci-fi movies have replaced body parts with electronic components.
-
-**However, some countries have banned these modifications** because people with extra abilities could:
-- **Hack into public devices** like cameras
-- **Look through walls** using enhanced vision
-- **Damage every device** connected to the internet
-- **Gain unfair advantages** in various situations
-
-### The Academic Implications
-
-What if I had my **brain connected to internet service**? I could have scored full marks in every surprise test!
-
-**It's awesome, right?** Maybe in the coming future, schools and colleges will have to place **network blockers everywhere**. That's both funny and concerning!
-
-## The Spectrum of Cyborg Technology
-
-### Medical Cyborgs
-A person with an **artificial robotic leg** is technically a cyborg. The term started gaining popularity years ago, even being used by scientists in the **20th century**.
-
-### Pop Culture Inspiration
-Many movies showcase human and animal cyborgs:
-- **Tony Stark (Iron Man)**: Had an **Arc Reactor** - a super powerful energy source implanted in his body
-- **Terminator series**: Human-machine hybrids
-- **Ghost in the Shell**: Consciousness in artificial bodies
-
-## The Robot Revolution: Consciousness Transfer
-
-### The Chappie Concept
-
-If you've seen the movie **Chappie**, you're familiar with **consciousness backup**. The characters created a complete brain backup using a **clustered PlayStation** (seriously!).
-
-**That's cool but practically impossible** - storing the ever-growing complexity of the human brain would require:
-- **Massive computing power**
-- **Enormous memory storage**
-- **Advanced neural mapping technology**
-
-### The Immortality Question
-
-Imagine at age 90, we could:
-1. **Create a backup of our brain** with consciousness
-2. **Let our physical body die**
-3. **Resurrect our thoughts** by placing the brain backup into a robot
-
-**Just fantastic!** We would never die if such technology existed. However, this would lead to **population overgrowth** and unprecedented societal challenges.
-
-## Current Research Breakthroughs
-
-### Brain Simulation Success
-
-There's been extensive research on:
-- **Simulating human brains**
-- **Transferring consciousness** from organisms to computers
-
-**Mind-blowing achievement**: Scientists successfully created an **earthworm brain with consciousness** and even **taught it to park a simulated car**!
-
-**Epic!** They're continuing to program many other small brains, gradually working toward more complex organisms.
-
-## The Post-Biological Future
-
-### A World Without Flesh
-
-Sometime in the future, we might see places with **no flesh and bones organisms**. Literally **no living beings** - only:
-- **Bots**
-- **Robotic pets**
-- **Robotic humans**
-- **Robotic animals**
-
-**That's really concerning!** While technologically fascinating, this raises profound questions about the nature of life, consciousness, and what makes us human.
-
-## Ethical and Philosophical Implications
-
-### Benefits of Human Enhancement
-- **Medical treatment** for disabilities
-- **Enhanced cognitive abilities**
-- **Extended lifespan**
-- **Improved physical capabilities**
-- **Direct knowledge access**
-
-### Concerns and Risks
-- **Social inequality** between enhanced and natural humans
-- **Security vulnerabilities** in connected implants
-- **Loss of human identity**
-- **Potential for control and manipulation**
-- **Economic disruption**
-
-### Questions We Must Answer
-- What defines humanity?
-- Should there be limits to human enhancement?
-- How do we ensure equal access to enhancement technologies?
-- What happens to natural human evolution?
-
-## The Timeline Ahead
-
-### Near Future (2025-2035)
-- **Advanced prosthetics** with neural control
-- **Basic brain-computer interfaces** for medical use
-- **Enhanced sensory implants**
-- **Improved life support systems**
-
-### Medium Future (2035-2050)
-- **Cognitive enhancement** implants
-- **Memory augmentation** technology
-- **Direct internet connectivity**
-- **Advanced robotic bodies**
-
-### Far Future (2050+)
-- **Consciousness transfer** technology
-- **Full brain simulation**
-- **Post-biological existence**
-- **Hybrid biological-digital beings**
-
-## Let's See What Really Happens
-
-The future remains uncertain. We're standing at the threshold of **Evolution v2.0**, where the line between human and machine continues to blur.
-
-**Key questions remain**:
-- Will we enhance ourselves gradually or transform completely?
-- Can we maintain our humanity while gaining superhuman abilities?
-- What will society look like when some humans are significantly enhanced?
-
-The choices we make today about **regulation, ethics, and development** will determine whether this evolution leads to human flourishing or poses existential risks.
-
-## Conclusion
-
-**The Evolution of Mankind v2.0** isn't science fiction anymore - it's an approaching reality. Whether we become **enhanced humans, consciousness-transferred beings, or something entirely new**, the transformation has already begun.
-
-The question isn't whether this evolution will happen, but **how we'll navigate it responsibly** while preserving what makes us fundamentally human.
-
----
-
-*Alphons Jaimon - Technology Enthusiast*
-
-As we stand on the brink of becoming cyborgs, we must remember that our greatest enhancement isn't technological - it's our capacity for wisdom, empathy, and making choices that benefit all of humanity.
+[Alphons Jaimon - 2018]

@@ -9,120 +9,44 @@ author: "Alphons Jaimon"
 tags: ["Cloud Gaming", "Streaming", "GeForce Now", "PlayStation Now", "Remote Gaming"]
 draft: false
 ---
-Cloud Gaming represents a paradigm shift in how we experience games. "It's already there, but are we ready?" Let's explore this revolutionary technology.
 
-(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)
+### The Precious Tech: The Cloud
 
-## The Precious Tech: The Cloud
+What is the cloud? It's just a huge storage connected to the internet which can be accessed from anywhere in this universe. Well a much proper geeky way of explanation is "A fully fledged Computer connected to the Internet for using it as a remote PC". Some epic Cloud services are Google Drive, One Drive, Google Cloud ML and Google Docs. It was revealed by Microsoft in their latest Windows 10 19H1 Insider Preview Build that they are going to have an online version of Office coming preinstalled with their upcoming Windows 10 builds.
 
-What is the cloud? It's just a huge storage system connected to the internet which can be accessed from anywhere in this universe. Well, a much more proper geeky explanation is **"A fully fledged computer connected to the Internet for using it as a remote PC"**.
+_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
 
-Some epic cloud services include:
-- **Google Drive** - Cloud storage
-- **OneDrive** - Microsoft's cloud storage
-- **Google Cloud ML** - Machine learning platform
-- **Google Docs** - Collaborative document editing
+Previously we had to have around 2 GB of RAM for running Microsoft Office 2016/19 without any problems. Even my 4 GB ram would reach near full load when I switch on my Microsoft Office 2019 64-bit. But if the office were to run from the cloud then we can do the heaviest Office task even on our 2 GB Desktop just real smoothly. Like Office 365 and Office 2016 had some different features in them. Office 365 is a cloud based full productivity service.
 
-Microsoft revealed in their latest Windows 10 19H1 Insider Preview Build that they are planning to have an online version of Office coming preinstalled with their upcoming Windows 10 builds.
+So, the cloud is simple it's just a place where there are tons of computers connected with each other using the web. And when we access a web service we are actually remotely controlling a computer situated somewhere really far or under the ocean (Yeah! you read it right Microsoft are actually working on a project to submerge their servers into the water for better cooling. Funny!!).
 
-### The Power of Cloud Computing
+### Cloud Gaming: Let's give a simple thought about it….
 
-Previously, we needed around **2GB of RAM** for running Microsoft Office 2016/19 without any problems. Even my 4GB RAM system would reach near full load when I switched on Microsoft Office 2019 64-bit. But if Office were to run from the cloud, then we could handle the heaviest Office tasks even on a 2GB desktop - real smoothly.
+In a house in every bedroom there is a super thin light weight laptop connected to a GBPS Internet Connection. Now just imagine playing GTA 6 and also streaming at the same time in this super thin laptop with specs like a 4 GB RAM, Intel Core i3 10th gen, Integrated graphics 2 GB, (a super light notebook) well you might be thinking even today playing GTA 5 on an 8 GB DDR3 RAM, GTX 1050 Ti laptop is just silly.
 
-Like Office 365 and Office 2016 have different features, **Office 365** is a cloud-based full productivity service that demonstrates the power of cloud computing.
+### Cloud Gaming "That's really out there right now"
 
-## Understanding Cloud Infrastructure
+Now the above said example is possible because the 4 GB RAM laptop acts as an interface for the server where the GTA 6 Game and the Streaming Service actually lies. Here the laptop will only do certain tasks that are for gaming and streaming the display from the server and also sending keyboard strokes and mouse clicks to the server. The server directly sends the display outputs and laptop's webcam inputs to the third-party streaming service.
 
-The cloud is simple - it's just a place where there are tons of computers connected with each other using the web. When we access a web service, we are actually remotely controlling a computer situated somewhere really far away... or even **under the ocean**!
+That's awesome right!! Super Gaming at cheap. But even the cloud gaming's going to cost you as you are going to use the heavy servers build using the latest and fastest hardware ever created.
 
-> **Fun Fact:** Microsoft is actually working on Project Natick to submerge their servers underwater for better cooling. Amazing, right?
+Even today you could just play GTA 5 and Assassins Creed online from your small underpowered laptop.
 
-## Cloud Gaming: Let's Give It a Simple Thought
+### Some of the best Cloud Gaming Service Providers
 
-Picture this scenario: In a house, every bedroom has a **super thin, lightweight laptop** connected to a **Gigabit Internet connection**. Now imagine playing **GTA 6** and streaming simultaneously on this ultra-thin laptop with specs like:
+PlayStation Now
+GeForce Now
+Parsec Cloud Gaming
+Playkey.net
+Shadow
+Paperspace
+Vortex
+Liquid Sky
+Microsoft Azure
+Simplay
 
-- 4GB RAM
-- Intel Core i3 10th gen
-- Integrated graphics 2GB
-- (A super light notebook)
+### A simple personal home Cloud Gaming
 
-You might be thinking that even today, playing GTA 5 on an 8GB DDR3 RAM, GTX 1050 Ti laptop is challenging. But cloud gaming makes this possible!
+Well setting a personal cloud is not that difficult, but when it comes to a personal gaming cloud it's just damn costly while it's only a one-time settlement. Up to 7 of your friends could play multiple heavy XDR (An updated version of HDR, implemented by Apple) game on a single server smoothly. On the hardware part we could use a dual socket motherboard with two of latest Intel's top Xeon CPU's and attaching about 8x Nvidia Quadro RTX 8000, now that's a terrible idea.
 
-## Cloud Gaming: "That's Really Out There Right Now"
-
-The above example is possible because the **4GB RAM laptop acts as an interface** for the server where the GTA 6 game and streaming service actually operate. Here's how it works:
-
-### The Process
-1. **Laptop's Role**: Acts as a display interface and input device
-2. **Server's Role**: Runs the actual game and processes all computations
-3. **Data Flow**:
-   - Laptop sends keyboard strokes and mouse clicks to server
-   - Server processes game logic and renders graphics
-   - Server streams video output back to laptop
-   - Laptop's webcam input goes directly to streaming services
-
-That's awesome, right? **Super gaming at a fraction of the cost!** However, cloud gaming will still cost you since you're using powerful servers built with the latest and fastest hardware ever created.
-
-Even today, you can play **GTA 5** and **Assassin's Creed** online from your small, underpowered laptop using cloud gaming services.
-
-## Leading Cloud Gaming Service Providers
-
-Here are some of the best cloud gaming platforms available:
-
-### Major Players
-- **PlayStation Now** - Sony's cloud gaming service
-- **GeForce Now** - NVIDIA's cloud gaming platform
-- **Microsoft Azure** - Enterprise-level cloud gaming solutions
-
-### Specialized Services
-- **Parsec Cloud Gaming** - Low-latency gaming
-- **Playkey.net** - European cloud gaming service
-- **Shadow** - High-end cloud PC rental
-- **Paperspace** - GPU-powered cloud computing
-- **Vortex** - Mobile-focused cloud gaming
-- **Liquid Sky** - Cross-platform cloud gaming
-- **Simplay** - Accessible cloud gaming
-
-## Building a Personal Home Cloud Gaming Setup
-
-Setting up a personal cloud isn't that difficult, but when it comes to a personal gaming cloud, it's quite costly - though it's a **one-time investment**.
-
-### Theoretical High-End Setup
-With the right hardware, up to **7 friends** could play multiple heavy **XDR (Extended Dynamic Range)** games on a single server smoothly. Here's a theoretical (albeit expensive) setup:
-
-**Hardware Configuration:**
-- **Motherboard**: Dual socket motherboard
-- **CPUs**: Two latest Intel Xeon processors
-- **Graphics**: 8x NVIDIA Quadro RTX 8000 cards
-- **RAM**: High-capacity ECC memory
-- **Storage**: NVMe SSD arrays for fast game loading
-
-*Note: This is an extremely expensive setup and more of a theoretical exercise than a practical recommendation!*
-
-## The Future of Gaming
-
-Cloud gaming represents a fundamental shift in how we think about gaming hardware. Instead of constantly upgrading our personal systems, we can access the latest gaming technology through the cloud.
-
-### Benefits of Cloud Gaming:
-- **Accessibility**: Play high-end games on low-spec devices
-- **Cost-effective**: No need for expensive gaming hardware
-- **Instant access**: No downloads or installations required
-- **Cross-platform**: Play anywhere with internet access
-
-### Challenges:
-- **Internet dependency**: Requires stable, high-speed internet
-- **Latency concerns**: Input lag can affect competitive gaming
-- **Data usage**: High bandwidth consumption
-- **Service costs**: Ongoing subscription fees
-
-## Are We Ready?
-
-The technology exists, the infrastructure is expanding, and the services are improving. The real question isn't whether cloud gaming works - it's whether our internet infrastructure and gaming culture are ready to embrace this shift.
-
-As internet speeds continue to improve globally and latency decreases, cloud gaming will become increasingly viable for mainstream adoption. The future of gaming might not be about what's in your computer case, but what's in the cloud.
-
----
-
-*Alphons Jaimon - Technology Enthusiast*
-
-Cloud gaming is reshaping the gaming landscape, making high-end gaming accessible to everyone regardless of their hardware. The future is streaming, and it's arriving faster than we anticipated.
+[Alphons Jaimon - 2018]
