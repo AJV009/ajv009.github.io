@@ -10,11 +10,11 @@ tags: ["CLI", "GUI", "VUI", "User Interface", "Voice Assistant", "Brain Interfac
 draft: false
 ---
 
+_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
+
 ### Different ways to feed a bot?
 
 Man is just becoming more and more busy in their lives but also just too lazy. There was a time when people had to learn a lot of commands to operate a computer. But then after sometime the company called Xerox just invented the first GUI but then Apple saw it and then created there much better version of GUI. Now when the GUI was created people could just do anything without the commands used in the CLI edition. Then came the Voice inputs now people can just get their things done by just talking to their computers in a natural way. After some years people will also be able to feed data into computer through a direct brain interaction where a single thought can wake up the computer and just another thought will do your work while you are away for a quick nap. And that's the evolution of the bond between the computers and mankind.
-
-_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
 
 ### CLI (Command Line Interface)
 

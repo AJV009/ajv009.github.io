@@ -10,11 +10,11 @@ tags: ["Data Security", "Privacy", "Cybersecurity", "Data Protection", "Digital 
 draft: false
 ---
 
+_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
+
 ### The collection of Data
 
 Every industry working on a technology called Artificial Intelligence, Improving User Experience is on the path of collecting large amounts data about the user using their products. How much Data? E.g. The Google Assistant in our phone collects our daily usage patterns to give us a friendlier experience. The Google's Android 9.0 Pie collects our daily usage patterns to sort out tasks on CPU according to the preference level of the user. The most famous Microsoft Windows 10 OS also had written in their User Agreement about collection of data of the users using their official Windows 10 OS which many didn't care about reading it and then tried to file cases on Microsoft saying illegally data collection.
-
-_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
 
 Nearly ½ of the apps on the Windows, Android, iOS App Stores collects user information. There is an ongoing race between the tech giants about who collects more Data. The one having more Data is always the winner in the Race. It's like by 2025 every second a user creates 2.2 GB of Data. This data could be Images, Videos and Documents. This large amount of data comes from different sources – messages on Face Book and other social media services, Data from the wearable's and from our dear connected IoT devices...
 

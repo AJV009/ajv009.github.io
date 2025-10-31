@@ -10,11 +10,11 @@ tags: ["RTX", "Nvidia", "Gaming", "AI", "Graphics Cards", "Ray Tracing"]
 draft: false
 ---
 
+_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
+
 ### An Epic costly Graphics card:
 
 "Do you really need to buy one" well it depends if you got gaming in your blood OR going towards Machine Learning or Deep Learning. A graphics card is really important if you are a sort of gamer. Cause games got a lot of post screen and real-time rendering frames per second. Creating such a sophisticated environment using the integrated Graphics is really demanding task, it's just too much of stress for the CPU to even create an average graphics on the screen without dropping those IMP frame rates. As for the developers a GPU is every important. As its number of cores are used to do complicated mathematical stuff. Implementing large Neural Networks and working on large data sets running through them needs a lot of memory that are really fast.
-
-_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
 
 ### The GPU War: Nvidia vs AMD
 

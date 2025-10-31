@@ -93,16 +93,17 @@ features:
     image: "/images/service-3.png"
     content: "There are a lot of interesting big and small quirky projects and stuff I have done, but following are a few that I can talk about."
     bulletpoints:
-      - title: "**AI Assisted Trading SaaS:** Full stack AI-powered trading platform"
-      - title: "**RAG Powered Support Chatbot:** AI chatbot with retrieval-augmented generation capabilities"
-      - title: "**AI Agents for Task Automation:** Custom AI agents for automating complex workflows"
-      - title: "**AI Enhanced Doc Assist:** Document analysis and assistance tool. With features similar to Google AI Search"
-      - title: "**AI Enhanced Search Engine:** Advanced semantic search capabilities with machine learning"
-      - title: "**Threat Detection System:** Security research and implementation"
-      - title: "**Scene Explorer for Kids:** Educational AI application for children"
-      - title: "**Elderly Indoor Care Chatbot:** Healthcare AI solution for senior care"
-      - title: "**Multiple Slack Bots:** Automation and utility tools for team productivity"
-      - title: "**GitHub Utility Tools:** Open source contributions and developer tools"
+    # ashoka form filling bot, multi modality semantic search, ILAO project, horizon support, lead collect chat, agentic framework benachmarks, notionrender, ai trading site, calendy/google appointments ui in next, unattended package detection in cv, open world with yolo + gpt, indoor elderly assistent using gpt, slack bots for automations and even early version of gpt integrated as a chatbot that interacts with threats and chats 
+      - title: "**AI Assisted Form Filling Bot:** A chat assistant that would dynamically help with complex form filters and options"
+      - title: "**Lead Capture Bot:** Similar to the assisted form filling, a lead capture bot that could collection user information or whatever was configured in field configs."
+      - title: "**Multi Modality Semantic Search:** Do a semantic search between multiple file types, like audio, video, text & images"
+      - title: "**Semantic Search and integrated Chatbot (RAG):** Full RAG pipelines from real time data updates, handling batched requests, doing inference & token optimizations, dynamic caches to never ending but always in-context long convos"
+        description: "I built RAGs before RAG was the name given to that simple architecture globally, I did context engineering before that become a known word too and built guardrails when most public chatbot could be casually misguided and used to generate anything else. Fun times of just figuring it out"
+      - title: "**Guardrails for Chatbots:** Comprehensive simple prompt based multi layered guardrails that could easily stop the most comprehensive prompt injection attack."
+      - title: "**Agentic Framework Benchmarks:** Played with around 25 different AI Agentic Frameworks to run against some public benchmark scripts and datasets"
+      - title: "**Notion Render:** Convert private notion pages to gull fledged notion based sites but protected behind custom urls and such"
+      - title: "**AI Trading Site:** AI assisted stock trading SaaS platform"
+      
     button:
       enable: false
       label:
@@ -127,14 +128,16 @@ features:
 
   - title: "Research Interests"
     image: "/images/service-2.png"
-    content: "Exploring cutting-edge technologies at the intersection of biology, artificial intelligence, and quantum computing."
+    content: "Exploring cutting-edge technologies at the intersection of: Consciousness Transfer, Artificial Intelligence and Quantum computing"
     bulletpoints:
-      - title: "**BioTech Applications:** Leveraging AI for healthcare innovations"
-      - title: "**Quantum Computing:** Exploring quantum algorithms and applications"
-      - title: "**Security Research:** Developing advanced threat detection systems"
-      - title: "**Consciousness Studies:** Research in consciousness cloning/transfer"
-      - title: "**AI Ethics:** Responsible AI development and deployment"
-      - title: "**Open Source Contributions:** Active community participation and knowledge sharing"
+      - title: "**BioTech Applications**"
+        description: "I always had a tiny inclination to being interested and invested in cyborbs and bio-tech stuff like alternate eye, organ replacements, artificial tissues and skin, DNA editing and so on."
+      - title: "**Consciousness Transfer**"
+        description: "A fascination and a dream that I hope to see one day come true to experience, movies like Chappie (Movie, 2015) and Pantheon (Series, 2022) are some of the best adaptions of this concept. So its my biggest dream ever, something that drives me and keeps me alive to see another day. <br> The simple thought of being able to replicate our thoughts and experience the consequences of different choices all taken at the same moment that horrifying and weird right? I love it, I like the possibilities of ones mind to do more than what the physical body ever allowed one to grow."
+      - title: "**Quantum Computing**"
+        description: "Long ago as i kid I read some crazy unbelievable theories of Quantum physics. Like the schrodinger's cat. Dual states of nature. And Quantum universes that exist beyond the possibility of the current state of science. And now we have quantum computers that have the ability to run algorithms and stuff designed for quantum states. Even simulators. Also maybe the heavy computational requirements of AI/ML could be solved using Quantum algos in place, tho one would have to rethink the complete process"
+      - title: "**Security Research**"
+        description: "One of my early conference that I attended in my college days was something related to security, and we learned to use Burp Suite and a few other tools. And like most kids I was fascinated my MitM WiFi hacks and such, had a lot of interesting finds back in college times. So I think and care about security right from the start when am developing something cool."
     button:
       enable: false
       label: ""
@@ -142,17 +145,17 @@ features:
 
   - title: "Personal Interests & Hobbies"
     image: "/images/service-1.png"
-    content: "A Well-rounded individual with diverse interests spanning technology, sports, and strategic thinking."
+    content: "I love doing quite a lot of things actually:"
     bulletpoints:
-      - title: "**Deep Creative Thinking:** Engaging in complex problem-solving"
-      - title: "**Technology Exploration:** Staying updated with latest tech trends"
-      - title: "**Reading:** Science fiction and tech literature"
-      - title: "**Speed Cubing:** Problem-solving and pattern recognition"
-      - title: "**Chess:** Strategic thinking and tactical planning"
-      - title: "**Cycling:** Endurance and outdoor activities"
-      - title: "**Badminton:** Team sports and coordination"
-      - title: "**Swimming:** Physical fitness and discipline"
-      - title: "**Traveling:** Exploring new cultures and places"
+      - title: "**Deep Creative Thinking:** Just engaging in fun problem-solving"
+      - title: "**Technology Exploration:** Exploring more about Science & Tech each day"
+      - title: "**Reading:** self-help and fictional books, one of my favorite being 'Hitchhikers Guide to The Galaxy'"
+      - title: "**Cubing:** My college bestie once taught me 3x3 since then it has been a good fidget toy. I can solve other patterned ones as well. And some weird shapes too."
+      - title: "**Chess:** Its Chaos, am super noob but I like the pressure that comes with it."
+      - title: "**Cycling:** Occasionally like cycling around, I like the light weight feeling, the wind and just cruising on the road with some minimal physical energy"
+      - title: "**Badminton:** Its my favorite adrenaline rush. I jump too much, I run too much, not because I need to, but I just got to move and hit whatever I can. Its fun."
+      - title: "**Swimming:** I am a fish, I love being in water, when am too idle and feel guilty I swim until I can't breath anymore. Back in kerala we have a Dam / a river flowing really close to my house so its nice, nostalgic and loads of memories."
+      - title: "**Traveling:** Who doesn't like to breath a different air or feel different weathers and get immersed into beautiful sceneries."
     button:
       enable: false
       label: ""

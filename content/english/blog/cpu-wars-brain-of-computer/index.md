@@ -10,13 +10,13 @@ tags: ["CPU", "Intel", "AMD", "Processors", "Gaming", "Computing Wars"]
 draft: false
 ---
 
+_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
+
 ### CPU (Well every knows it)
 
 CPU (Central Processing Unit) the brain of the computer. There are tons of CPU manufacturers on this earth.
 
 For small microcomputer we have got ARM CPUs famous manufacturers are Intel and Broadcom. Then for Traditional Computers use x32, x64, x86 architecture processors manufactured by both Intel and AMD (Both are in tough Competition) and for smart phones there some of the best are Apple A12X Bionic, HiSilicon Kirin, Samsung Exynos, Qualcomm Snapdragon and MediaTek Helio
-
-_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
 
 ### The Traditional Computer CPU wars
 

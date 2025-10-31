@@ -10,11 +10,11 @@ tags: ["AI", "Machine Learning", "Deep Learning", "Neural Networks", "TensorFlow
 draft: false
 ---
 
+_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
+
 ### How would you differentiate them AI, ML, DL?
 
 I think you shouldn't write those terms like this (AI, ML, DL) or (AI vs ML vs DL). It should be like AI<ML<DL. To make things simple ML is just a sub topic of AI and DL is just a sub topic of ML.
-
-_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
 
 ### AI (Artificial Intelligence)
 

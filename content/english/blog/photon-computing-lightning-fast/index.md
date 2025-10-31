@@ -10,6 +10,8 @@ tags: ["Photon Computing", "Optical Computing", "Future Technology", "Performanc
 draft: false
 ---
 
+_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
+
 ### Traditional Computing
 
 Today traditional computers use electron as its transfer medium. The top speed that could be achieved from an over clocked CPU was 8.5 GHz. That was achieved by an AMD Bulldozer CPU.
@@ -17,8 +19,6 @@ Today traditional computers use electron as its transfer medium. The top speed t
 To achieve such speeds, we have to bring down those burning hot CPU temperatures to sub-zero conditions. Here to reach such 8.5GHz speeds they had to continually pour LN2 or Liquid Nitrogen or simply Nitro on top of our CPU. So much energy and resources are needed to do something that epic.
 
 But just to bring down temperatures there many other different methods like Water cooling, dual phase cooling, turbocharged cooling and one interesting method is to dip the whole motherboard into the liquid, in fact a special liquid called novec by m3 or mineral oil these liquids have nearly ZERO electro conductivity and high boiling point.
-
-_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
 
 ### Optical/Photonic Computing
 

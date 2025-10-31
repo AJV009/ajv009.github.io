@@ -10,11 +10,11 @@ tags: ["Cloud Gaming", "Streaming", "GeForce Now", "PlayStation Now", "Remote Ga
 draft: false
 ---
 
+_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
+
 ### The Precious Tech: The Cloud
 
 What is the cloud? It's just a huge storage connected to the internet which can be accessed from anywhere in this universe. Well a much proper geeky way of explanation is "A fully fledged Computer connected to the Internet for using it as a remote PC". Some epic Cloud services are Google Drive, One Drive, Google Cloud ML and Google Docs. It was revealed by Microsoft in their latest Windows 10 19H1 Insider Preview Build that they are going to have an online version of Office coming preinstalled with their upcoming Windows 10 builds.
-
-_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
 
 Previously we had to have around 2 GB of RAM for running Microsoft Office 2016/19 without any problems. Even my 4 GB ram would reach near full load when I switch on my Microsoft Office 2019 64-bit. But if the office were to run from the cloud then we can do the heaviest Office task even on our 2 GB Desktop just real smoothly. Like Office 365 and Office 2016 had some different features in them. Office 365 is a cloud based full productivity service.
 

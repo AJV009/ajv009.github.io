@@ -10,11 +10,11 @@ tags: ["Cyborgs", "Human Evolution", "Consciousness Transfer", "Robotics", "Futu
 draft: false
 ---
 
+_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
+
 ### The History
 
 A small part of human evolution goes like this Australopithecus > Homo Habilis > Homo Erectus > Homo Heidelbergensis > Homo Sapiens > Cyborgs > Robots. Man started out having really no knowledge of living, and then learned from its surroundings. Slowly started out being the smartest animal on the earth.
-
-_(Following is a little article I wrote up back in 2018 for my college magazine. Yes it had lots of mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.)_
 
 ### A small thought
 
