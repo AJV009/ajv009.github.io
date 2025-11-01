@@ -22,7 +22,14 @@
             <div class="gallery-item">
               <a href="{{ .Permalink }}" class="block group relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
                 {{ if .Params.image }}
-                  {{ partial "image" (dict "Src" .Params.image "Context" .Page "Alt" .Title "Class" "w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105" "Size" "400x300") }}
+                  <!-- Image container with layered effect -->
+                  <div class="image-container w-full h-64 relative">
+                    <!-- Background: blurred stretched image for ambient effect -->
+                    {{ partial "image" (dict "Src" .Params.image "Context" .Page "Alt" (printf "%s background" .Title) "Class" "ambient-bg" "Size" "400x300") }}
+
+                    <!-- Foreground: fitted image respecting aspect ratio -->
+                    {{ partial "image" (dict "Src" .Params.image "Context" .Page "Alt" .Title "Class" "fitted-image" "Size" "400x300") }}
+                  </div>
                 {{ else }}
                   <div class="w-full h-64 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
                     <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,6 +103,38 @@
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
+    }
+
+    /* Ambient background image - blurred and stretched */
+    .ambient-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: blur(8px);
+      transform: scale(1.1);
+      z-index: 1;
+    }
+
+    /* Fitted foreground image - respects aspect ratio */
+    .fitted-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain !important;
+      z-index: 2;
+      transition: transform 0.3s ease;
+    }
+
+    .group:hover .fitted-image {
+      transform: scale(1.05);
+    }
+
+    /* Overlay needs to be on top of both image layers */
+    .overlay-info {
+      z-index: 3;
     }
 
     /* Show overlay by default on tablets and mobile */

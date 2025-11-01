@@ -45,6 +45,9 @@ npm run update-modules  # Update Hugo modules
 npm run remove-darkmode # Remove dark mode functionality
 ```
 
+### Important Note:
+DO NOT build until asked to, in most cases the user is already running a npm run dev with port 3000 in another console and watching your changes live. The user will report of any errors and issues if any...
+
 ## Project Architecture
 
 ### Directory Structure After Setup
