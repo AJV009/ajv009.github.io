@@ -79,11 +79,11 @@ references:
 references_note: "All information verified and sourced from official Lamborghini and Mini GT publications."
 ---
 
-## The Return of an Icon - 50 Years of Revolution
+## The 50th Anniversary Hybrid Countach
 
-March 1971. The Geneva Motor Show. Lamborghini unveiled a concept car so radical, so impossibly low and wedge-shaped, that it stopped the automotive world in its tracks. The Countach LP500 looked like nothing that had come before - pure science fiction rendered in steel and glass. For the next 50 years, that silhouette defined what a supercar should be.
+In 2021, Lamborghini celebrated 50 years of the iconic Countach with the LPI 800-4 - a limited production hypercar combining the legendary V12 with innovative supercapacitor hybrid technology. Limited to just 112 units at $2.64 million each, the LPI 800-4 represents Lamborghini's bridge between naturally aspirated heritage and electrified future.
 
-In 2021, Lamborghini brought the Countach back. Not as a reboot or reimagining, but as a celebration - the Countach LPI 800-4, limited to just 112 units worldwide at $2.64 million each. This Mini GT replica in stunning Viola 30th purple captures that legacy in perfect 1:64 scale.
+This Mini GT replica in Viola 30th purple captures the 50th anniversary model in detailed 1:64 scale.
 
 ### Model Specifications
 
@@ -94,51 +94,66 @@ In 2021, Lamborghini brought the Countach back. Not as a reboot or reimagining, 
 - **Color**: Viola 30th (Purple Metallic)
 - **Configuration**: Left-hand drive (LHD)
 - **Features**: Die-cast metal body and chassis, real rubber tires, authentic detail, detailed interior and exterior
-- **Dimensions**: Approximately 3 inches (7.6 cm) length
-- **Status**: Limited edition collectible
 
-### LP112 - A Project Number With Meaning
+### Hybrid Powertrain Technology
 
-The 112-unit production run wasn't random. It references the original LP112 project designation - "Longitudinale Posteriore" (longitudinal rear) for the engine placement, plus "12" for the twelve cylinders. Every detail of this car pays homage to its heritage while introducing technology that points toward Lamborghini's electrified future.
+The "LPI" designation stands for "Longitudinale Posteriore Ibrido" (Longitudinal Posterior Hybrid), marking the first time a Countach carried hybrid technology. The 112-unit production run references the original LP112 project designation.
 
-The "LPI" in the name stands for "Longitudinale Posteriore Ibrido" - Longitudinal Posterior Hybrid. For the first time, a Countach nameplate carries hybrid technology. Not with a heavy lithium-ion battery pack, but with something far more elegant: a supercapacitor.
+**Supercapacitor Hybrid System**:
+- 48-volt electric motor integrated into gearbox
+- Supercapacitor energy storage (34 kg - one-third the weight of equivalent lithium-ion battery)
+- Three times more power output than equivalent-weight battery
+- Instant power delivery with zero lag
+- Energy recovery from braking and cornering
 
-### Supercapacitor Innovation
+**Power Output**:
+- V12 Engine: 6.5L naturally aspirated producing 780 hp at 8,500 RPM
+- Electric Motor: 34 hp from 48V system
+- Total Output: 814 hp and 557 lb-ft torque
+- Power-to-weight: 462 hp/tonne (dry weight 3,516 lbs / 1,595 kg)
 
-Traditional hybrid supercars rely on lithium-ion batteries, which work but add significant weight. Lamborghini engineered a different solution for the LPI 800-4. The 48-volt electric motor integrated into the gearbox draws power from a supercapacitor that weighs just 34 kilograms - one-third the weight of an equivalent lithium-ion battery. More impressively, it provides three times more power than a battery of the same weight.
+**Performance**:
+- 0-60 mph: 2.7 seconds
+- 0-62 mph: 2.8 seconds
+- Top speed: 221 mph (355 km/h)
+- Transmission: 7-speed ISR automated manual
+- Drivetrain: All-wheel drive (AWD)
+- Braking: Carbon-ceramic brakes (400mm front, 380mm rear)
+- Steering: Rear-wheel steering for improved agility
 
-The supercapacitor charges during braking and cornering, then delivers instant power with zero lag. There's no waiting for electric motors to spool up - the power arrives immediately when demanded. Combined with the 6.5-liter naturally aspirated V12 producing 780 horsepower, the hybrid system delivers a total of 814 horsepower and 557 lb-ft of torque. The V12 screams to 8,500 RPM before the 15,000 RPM redline kicks in, providing a power-to-weight ratio of 462 horsepower per tonne from a dry weight of just 3,516 pounds.
+### Countach Heritage & Viola 30th Color
 
-### Performance Worthy of the Name
+**Original Countach Legacy (1971-1990)**:
+- 1971 LP500 concept designed by Marcello Gandini at Bertone
+- Introduced wedge shape and scissor doors that became Lamborghini signatures
+- "Countach" is a Piedmontese expression of astonishment
+- Production generations: LP400, LP400 S, LP500 S, LP5000 QV, 25th Anniversary (1974-1990)
+- Total production: approximately 2,042 units over 16 years
 
-The numbers speak for themselves. Zero to 60 mph arrives in 2.7 seconds. Top speed exceeds 221 mph. But beyond the figures, the LPI 800-4 delivers something more important - it feels like a Countach should. The 7-speed ISR automated manual transmission with all-wheel drive puts power down with authority, while the rear-wheel steering helps rotate the car through corners despite its size. Carbon-ceramic brakes (400mm front, 380mm rear) provide stopping power worthy of the acceleration.
+**Viola 30th Color**:
+This model wears Viola 30th metallic purple, referencing the Countach 25th Anniversary model (1988-1990) designed by Horacio Pagani before founding Pagani Automobili. The color celebrates Lamborghini's 25th anniversary (company founded 1963) and represents the brand's tradition of exclusive purple hues like Viola Se and Viola Pasifae.
 
-### The Viola Legacy
+### Production Details
 
-This Mini GT model wears Viola 30th, a metallic purple that honors Lamborghini's heritage. The color references the Countach 25th Anniversary model from 1988-1990, which was actually celebrating Lamborghini's 25th anniversary (the company was founded in 1963). That final Countach generation featured unique purple shades among its special colors and was designed by Horacio Pagani before he founded Pagani Automobili.
-
-Lamborghini's purple hues represent exclusivity and Italian flair. Modern offerings include Viola Se (purple silk) and Viola Pasifae, often chosen by collectors for limited editions. The metallic finish enhances the LPI 800-4's sculptural surfaces, making every angle dramatic.
-
-### The Original Legend
-
-The 1971 LP500 concept, designed by Marcello Gandini at Bertone, introduced the world to the wedge shape and scissor doors that became Lamborghini signatures. "Countach" itself is a Piedmontese expression of astonishment - reportedly Gandini's reaction when he first saw the finished design. The production Countach ran from 1974 to 1990 across multiple generations: LP400, LP400 S, LP500 S, LP5000 QV, and the 25th Anniversary. Approximately 2,042 units were built over 16 years.
-
-Every generation appeared on bedroom walls worldwide. The Countach defined 1980s excess and automotive aspiration. It influenced every Lamborghini design since and established scissor doors as the brand's calling card. For generations, "supercar" meant "looks like a Countach."
-
-### Mini GT Premium Quality
-
-Mini GT by TSM-Model has earned a reputation for exceptional 1:64 scale detail. This Countach showcases their commitment to accuracy with full die-cast metal body and chassis construction, real rubber tires on authentic wheel designs, and true-to-scale proportions. The Viola 30th finish features multiple metallic layers for depth and luster, while authentic Lamborghini badging and period-correct wheel designs complete the package.
-
-As an officially licensed Automobili Lamborghini product, this limited edition release comes in premium packaging suitable for display or storage. The approximately 3-inch length makes it perfect for serious collectors who appreciate quality at an accessible price point.
-
-### Future Is Our Legacy
-
-Lamborghini's tagline for the LPI 800-4 captures its essence perfectly: "The future is our legacy." This car bridges the naturally aspirated V12 tradition with hybrid technology. It honors 50 years of the Countach nameplate while introducing supercapacitor innovation. It represents the end of one era and the beginning of another - the final Countach before Lamborghini's full electrification push.
-
-All 112 units sold immediately upon announcement, with most customized through the Ad Personam program. Priority went to existing Lamborghini collectors, with allocation favoring North America and the Middle East. Some units finished in heritage liveries like white and red (LP400 tribute) or silver (LP500 tribute), but the Viola purple remains among the most desirable colorways.
+All 112 LPI 800-4 units sold immediately upon announcement at $2.64 million each. Most were customized through the Ad Personam program, with allocation favoring existing Lamborghini collectors in North America and the Middle East. The LPI 800-4 represents the final Countach before Lamborghini's full electrification push.
 
 ### Collection Value
 
-For collectors who dream of owning a $2.64 million Countach, this Mini GT replica offers an accessible alternative. The limited edition status, 50th Anniversary significance, and Purple Viola 30th finish ensure collectability. As the real LPI 800-4 appreciates and Lamborghini's electrification continues, this model commemorates an important moment - the last Countach, celebrating five decades of automotive revolution while introducing hybrid technology to the legendary nameplate.
+This Mini GT model delivers exceptional 1:64 scale detail and quality:
+- Full die-cast metal body and chassis construction
+- Real rubber tires on authentic wheel designs
+- True-to-scale proportions
+- Viola 30th finish with multiple metallic layers for depth and luster
+- Authentic Lamborghini badging
+- Period-correct wheel designs
 
-This isn't just a diecast model. It's a piece of automotive history in miniature, capturing the moment when Lamborghini looked back at 50 years of iconic design and forward to an electrified future, all while staying true to the spirit that made the Countach immortal.
+**Manufacturing Details**:
+- **Manufacturer**: TSM-Model (Mini GT)
+- **Model Number**: MGT00865-L
+- **Series**: Mini GT Premium 1:64 Collection
+- **Production Type**: Limited Edition
+- **Official Licensing**: Automobili Lamborghini licensed product
+- **Packaging**: Premium packaging suitable for display or storage
+- **Dimensions**: Approximately 3 inches (7.6 cm) length
+
+A significant piece commemorating the 50th anniversary Countach LPI 800-4 - the final Countach before Lamborghini's full electrification push, combining naturally aspirated V12 heritage with innovative supercapacitor hybrid technology.

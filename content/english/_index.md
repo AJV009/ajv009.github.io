@@ -19,10 +19,13 @@ features:
     image: "/images/2020_alphons.png"
     content: "An Engineer with a passion for science, logic and tech."
     bulletpoints:
-      - title: "**Email:** jaimonalphons@gmail.com"
+      - title: "**Email:** chat@ajv009.com"
       - title: "**Phone:** +91-8237842347"
-      - title: "**DOB:** 12 – Aug - 2001"
+        description: "Unless TrueCaller says its some cool company where I have applied or wish to work, I usually don't pick any unknown numbers, so better whatsapp OR use email (preferred)."
+      - title: "**MoB:** Aug - 2001"
+        description: "MoB - Month of Birth, hehe"
       - title: "**Address:** Maharashtra, India"
+        description: "I am open to in-office culture and move anywhere in India in a short notice, but given that the pay is supposedly good and I get the freedom to move a whole two desk, two monitor setup to office, ah also chairs with headrest are really important for me :)"
       - title: "**Languages Known:** English, Hindi, Marathi, Malayalam"
       - title: "**Online:** [GitHub](https://github.com/AJV009) | [LinkedIn](https://in.linkedin.com/in/alphons-jaimon) | [Hackster](https://www.hackster.io/alphons-jaimon)"
     button:

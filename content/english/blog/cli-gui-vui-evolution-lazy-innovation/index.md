@@ -4,6 +4,7 @@ meta_title: "The Evolution of User Interfaces - From CLI to GUI to VUI and Beyon
 description: "Exploring the evolution of computer interfaces from command lines to graphical interfaces to voice commands, and the future of brain-computer interaction. How technology makes us increasingly efficient... and lazy!"
 date: 2018-10-06T05:00:00Z
 image: "assets/cover.png"
+image_credits: "Google Gemini AI"
 categories: ["Technology", "User Interface", "Innovation"]
 author: "Alphons Jaimon"
 tags: ["CLI", "GUI", "VUI", "User Interface", "Voice Assistant", "Brain Interface", "Technology Evolution"]

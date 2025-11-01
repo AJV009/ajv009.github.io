@@ -4,6 +4,7 @@ meta_title: "Photon Computing - The Future of Lightning-Fast Processing"
 description: "Exploring photonic computing technology that uses light instead of electrons. Discover how photon computing could revolutionize performance while eliminating heat issues in future devices."
 date: 2018-10-10T05:00:00Z
 image: "assets/cover.png"
+image_credits: "Google Gemini AI"
 categories: ["Technology", "Computing", "Future Tech"]
 author: "Alphons Jaimon"
 tags: ["Photon Computing", "Optical Computing", "Future Technology", "Performance", "Innovation"]

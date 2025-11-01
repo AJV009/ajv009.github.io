@@ -41,7 +41,7 @@
                 <!-- overlay with title and metadata -->
                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 overlay-info">
                   <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
-                    <h3 class="font-semibold text-lg mb-1 line-clamp-2">{{ .Title }}</h3>
+                    <h3 class="font-semibold text-lg mb-1 line-clamp-2 text-white">{{ .Title }}</h3>
                     {{ if .Params.category }}
                       <span class="inline-block px-2 py-1 bg-primary/80 text-xs rounded-full mb-2">{{ .Params.category }}</span>
                     {{ end }}
@@ -73,7 +73,6 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 1.5rem;
-      margin-top: 2rem;
     }
 
     @media (min-width: 640px) {

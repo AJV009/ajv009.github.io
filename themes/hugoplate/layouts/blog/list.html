@@ -36,4 +36,40 @@
       </div>
     </div>
   </section>
+
+  <!-- add custom styles for blog card images -->
+  <style>
+    /* Blog card image container */
+    .blog-image-container {
+      position: relative;
+    }
+
+    /* Ambient background image - blurred and stretched */
+    .blog-ambient-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: blur(8px);
+      transform: scale(1.1);
+      z-index: 1;
+    }
+
+    /* Fitted foreground image - respects aspect ratio */
+    .blog-fitted-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain !important;
+      z-index: 2;
+      transition: transform 0.3s ease;
+    }
+
+    /* Hover effect for blog images */
+    .blog-card:hover .blog-fitted-image {
+      transform: scale(1.05);
+    }
+  </style>
 {{ end }}

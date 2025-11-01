@@ -1,7 +1,14 @@
-<div class="bg-body dark:bg-darkmode-body">
+<div class="blog-card bg-body dark:bg-darkmode-body">
   {{ $image:= .Params.image }}
   {{ if $image }}
-    {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "mb-6 w-full rounded") }}
+    <!-- Image container with layered effect for consistent sizing -->
+    <div class="blog-image-container w-full h-64 relative mb-6 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+      <!-- Background: blurred stretched image for ambient effect -->
+      {{ partial "image" (dict "Src" $image "Context" .Page "Alt" (printf "%s background" .Title) "Class" "blog-ambient-bg" "Size" "400x300") }}
+
+      <!-- Foreground: fitted image respecting aspect ratio -->
+      {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "blog-fitted-image") }}
+    </div>
   {{ end }}
   <h5 class="mb-3">
     <a href="{{ .RelPermalink }}">

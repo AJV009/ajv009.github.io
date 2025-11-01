@@ -4,6 +4,7 @@ meta_title: "Cloud Gaming Revolution - The Future of Gaming Technology"
 description: "Exploring the world of cloud gaming, from basic cloud concepts to advanced gaming servers. Discover how cloud gaming is transforming the gaming industry and what it means for gamers."
 date: 2018-09-28T05:00:00Z
 image: "assets/cover.png"
+image_credits: "Google Gemini AI"
 categories: ["Technology", "Gaming", "Cloud Computing"]
 author: "Alphons Jaimon"
 tags: ["Cloud Gaming", "Streaming", "GeForce Now", "PlayStation Now", "Remote Gaming"]

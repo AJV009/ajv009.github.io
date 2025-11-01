@@ -4,6 +4,7 @@ meta_title: "AI, Machine Learning, and Deep Learning Explained - The Complete Gu
 description: "Understanding the relationship between Artificial Intelligence, Machine Learning, and Deep Learning. Explore how AI ⊃ ML ⊃ DL and their real-world applications from gaming to agriculture."
 date: 2018-10-04T05:00:00Z
 image: "assets/cover.png"
+image_credits: "Google Gemini AI"
 categories: ["Technology", "Artificial Intelligence", "Machine Learning"]
 author: "Alphons Jaimon"
 tags: ["AI", "Machine Learning", "Deep Learning", "Neural Networks", "TensorFlow", "AlphaGo"]

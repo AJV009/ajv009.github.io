@@ -4,6 +4,7 @@ meta_title: "Revolutionizing Search with AI: Semantic Search and RAG"
 description: "Artificial Intelligence (AI) has transformed the way we search for information. Learn how we leveraged AI by merging our understanding of Large Language Models (LLM), vector databases, and Retrieval Augmented Generation (RAG), to create an advanced semantic search system."
 date: 2023-09-01T00:00:00Z
 image: "assets/cover.png"
+image_credits: "QED42"
 categories: ["BizTech", "AI"]
 author: "Alphons Jaimon"
 tags: ["AI", "Semantic Search", "RAG", "LLM", "Vector Database", "OpenAI", "GPT", "Pinecone", "Meilisearch"]

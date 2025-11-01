@@ -4,6 +4,7 @@ meta_title: "CPU Wars - Intel vs AMD Battle for Computing Supremacy"
 description: "Dive deep into the ongoing CPU wars between Intel and AMD, exploring everything from gaming processors to mobile chips, and even India's indigenous Shakti processor development."
 date: 2018-09-30T05:00:00Z
 image: "assets/cover.png"
+image_credits: "Google Gemini AI"
 categories: ["Technology", "Hardware", "Computing"]
 author: "Alphons Jaimon"
 tags: ["CPU", "Intel", "AMD", "Processors", "Gaming", "Computing Wars"]

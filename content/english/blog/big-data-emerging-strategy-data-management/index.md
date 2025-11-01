@@ -4,6 +4,7 @@ meta_title: "Big Data Analytics - Transforming Industries Through Data Intellige
 description: "Comprehensive analysis of Big Data as an emerging strategy in data management. Exploring applications in e-governance, media, education, banking, science, and career opportunities in the big data ecosystem."
 date: 2018-10-12T05:00:00Z
 image: "assets/cover.png"
+image_credits: "Google Gemini AI"
 categories: ["Technology", "Data Science", "Analytics"]
 author: "Alphons Jaimon"
 tags: ["Big Data", "Data Analytics", "E-Governance", "Data Science", "Machine Learning", "Career"]

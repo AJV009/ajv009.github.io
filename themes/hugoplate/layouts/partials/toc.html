@@ -1,0 +1,84 @@
+{{ $class := .Class }}
+{{ $collapsed := .Collapsed }}
+{{ $toc := .TableOfContents }}
+
+{{ if $toc }}
+<div class="toc-wrapper mb-8 p-4 rounded-lg bg-theme-light dark:bg-darkmode-theme-light border border-border dark:border-darkmode-border">
+  <button
+    class="toc-toggle w-full flex items-center justify-between text-left font-semibold text-lg mb-0 cursor-pointer hover:text-primary dark:hover:text-darkmode-primary transition-colors"
+    onclick="toggleTOC()"
+    aria-expanded="{{ if $collapsed }}false{{ else }}true{{ end }}"
+    aria-controls="toc-content"
+  >
+    <span class="flex items-center">
+      <i class="fa-solid fa-list-ul mr-2"></i>
+      Table of Contents
+    </span>
+    <i class="toc-icon fa-solid fa-chevron-down transition-transform {{ if $collapsed }}rotate-0{{ else }}rotate-180{{ end }}"></i>
+  </button>
+
+  <div
+    id="toc-content"
+    class="toc-content mt-4 {{ if $collapsed }}hidden{{ end }}"
+  >
+    {{ $toc | safeHTML }}
+  </div>
+</div>
+
+<script>
+  function toggleTOC() {
+    const content = document.getElementById('toc-content');
+    const icon = document.querySelector('.toc-icon');
+    const button = document.querySelector('.toc-toggle');
+
+    if (content.classList.contains('hidden')) {
+      content.classList.remove('hidden');
+      icon.classList.add('rotate-180');
+      icon.classList.remove('rotate-0');
+      button.setAttribute('aria-expanded', 'true');
+    } else {
+      content.classList.add('hidden');
+      icon.classList.remove('rotate-180');
+      icon.classList.add('rotate-0');
+      button.setAttribute('aria-expanded', 'false');
+    }
+  }
+</script>
+
+<style>
+  .toc-content ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  .toc-content ul ul {
+    padding-left: 1.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .toc-content li {
+    margin-bottom: 0.5rem;
+  }
+
+  .toc-content a {
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: block;
+    padding: 0.25rem 0;
+  }
+
+  .toc-content a:hover {
+    color: var(--color-primary);
+  }
+
+  .rotate-0 {
+    transform: rotate(0deg);
+  }
+
+  .rotate-180 {
+    transform: rotate(180deg);
+  }
+</style>
+{{ end }}

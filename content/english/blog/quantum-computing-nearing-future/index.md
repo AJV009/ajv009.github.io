@@ -4,6 +4,7 @@ meta_title: "Quantum Computing Revolution - The Future of Computing Technology"
 description: "Exploring the revolutionary world of quantum computing, from qubits and superposition to real-world applications. A deep dive into how quantum computers will transform our technological landscape."
 date: 2018-09-26T05:00:00Z
 image: "assets/cover.png"
+image_credits: "Google Gemini AI"
 categories: ["Technology", "Computing", "Future Tech"]
 author: "Alphons Jaimon"
 tags: ["Quantum Computing", "Qubits", "Superposition", "Future Technology", "IBM", "Google"]

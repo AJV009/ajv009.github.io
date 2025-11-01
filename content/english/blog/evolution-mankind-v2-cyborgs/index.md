@@ -4,6 +4,7 @@ meta_title: "Human Evolution 2.0 - The Rise of Cyborgs and Digital Consciousness
 description: "Exploring the next phase of human evolution from Homo Sapiens to Cyborgs and Robots. Discover real cyborgs today, consciousness transfer research, and the future of human-machine integration."
 date: 2018-10-08T05:00:00Z
 image: "assets/cover.png"
+image_credits: "Google Gemini AI"
 categories: ["Technology", "Future", "Human Evolution"]
 author: "Alphons Jaimon"
 tags: ["Cyborgs", "Human Evolution", "Consciousness Transfer", "Robotics", "Future Technology"]

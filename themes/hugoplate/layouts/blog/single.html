@@ -5,8 +5,15 @@
         <article class="lg:col-10">
           {{ $image:= .Params.image }}
           {{ if $image }}
-            <div class="mb-10">
+            <div>
               {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "w-full rounded") }}
+              {{ with .Params.image_credits }}
+                <div class="text-right">
+                  <span class="image-credits">
+                    Image credits: {{ . | markdownify }}
+                  </span>
+                </div>
+              {{ end }}
             </div>
           {{ end }}
           <h1 class="h2 mb-4">
@@ -34,7 +41,7 @@
             </li>
           </ul>
           <div class="content mb-10">
-            {{ partial "toc.html" (dict "Class" "blog" "Collapsed" false "TableOfContents" .TableOfContents ) }}
+            {{ partial "toc.html" (dict "Class" "blog" "Collapsed" true "TableOfContents" .TableOfContents ) }}
             {{ .Content }}
           </div>
           <div class="space-y-6">
@@ -86,4 +93,38 @@
       {{ end }}
     </div>
   </section>
+
+  <!-- add custom styles for image credits -->
+  <style>
+    .image-credits {
+      font-size: 0.625rem; /* 10px - between 6-9px range but readable */
+      color: #6b7280; /* grey-500 */
+      font-style: italic;
+      display: inline-block;
+    }
+
+    .dark .image-credits {
+      color: #9ca3af; /* grey-400 for dark mode */
+    }
+
+    .image-credits p {
+      margin: 0;
+      display: inline;
+      font-size: inherit;
+    }
+
+    .image-credits a {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .image-credits a:hover {
+      color: #4b5563; /* slightly darker grey on hover */
+    }
+
+    .dark .image-credits a:hover {
+      color: #d1d5db; /* lighter grey on hover in dark mode */
+    }
+  </style>
 {{ end }}

@@ -4,6 +4,7 @@ meta_title: "RTX Graphics Revolution - Gaming and AI Development"
 description: "Exploring the revolutionary RTX graphics technology, from gaming performance to AI development capabilities. A comprehensive look at Nvidia's transition from GTX to RTX."
 date: 2018-09-24T05:00:00Z
 image: "assets/cover.png"
+image_credits: "Google Gemini AI"
 categories: ["Technology", "Graphics", "Gaming"]
 author: "Alphons Jaimon"
 tags: ["RTX", "Nvidia", "Gaming", "AI", "Graphics Cards", "Ray Tracing"]

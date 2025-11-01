@@ -4,6 +4,7 @@ meta_title: "Revolutionizing Search with AI: RAG for Contextual Response"
 description: "In this third installment of the 'Revolutionizing Search with AI' series, we further delve into the power of semantic search with RAG to elevate search engine capabilities. Explore how we've applied RAG principles to create a more user-friendly search engine experience."
 date: 2023-09-15T00:00:00Z
 image: "assets/cover.png"
+image_credits: "QED42"
 categories: ["BizTech", "AI"]
 author: "Alphons Jaimon"
 tags: ["AI", "RAG", "Retrieval Augmented Generation", "Semantic Search", "GPT", "OpenAI", "Pinecone", "Rust"]

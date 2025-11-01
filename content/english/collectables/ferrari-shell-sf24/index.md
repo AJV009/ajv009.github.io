@@ -1,6 +1,6 @@
 ---
-title: "Scuderia Ferrari SF-24 - Shell V-Power Promotional Edition"
-meta_title: "Ferrari SF-24 Shell V-Power 1:41 Bburago Promotional Model"
+title: "Scuderia Ferrari SF-24 - Shell V-Power Promo Edition"
+meta_title: "Ferrari SF-24 Shell V-Power 1:41 Bburago Promo Model"
 description: "Bburago 1:41 scale diecast replica of the 2024 Scuderia Ferrari SF-24 Formula 1 car - earned through Shell V-Power petrol pump promotion, commemorating Ferrari's resurgent season with 5 victories."
 date: 2024-03-20T14:00:00Z
 image: "assets/cover.jpg"
@@ -60,50 +60,71 @@ references_note: "All information verified and sourced from official Formula 1, 
 
 The Scuderia Ferrari SF-24 marked a dramatic turnaround from the struggles of previous seasons. With five victories - including emotional wins at Monaco and Monza, plus stunning 1-2 finishes in Australia and the United States - Ferrari delivered their highest win count since 2018. The SF-24 propelled the team to second place in the Constructors' Championship, even mounting a serious challenge to McLaren for the title that lasted until the final race in Abu Dhabi.
 
-This Bburago model came from Shell's petrol pump promotion - not purchased from a hobby shop, but earned through everyday fill-ups and loyalty stickers. There's something satisfying about that origin story. A promotional model celebrating a racing car, earned through the same fuel stops that keep the daily driver running.
-
 ### Model Specifications
 
 - **Real Vehicle**: Scuderia Ferrari SF-24 (2024 F1 Season)
 - **Drivers**: Charles Leclerc (#16) and Carlos Sainz (#55)
 - **Scale**: 1:41
-- **Manufacturer**: Bburago (Maisto International)
+- **Series**: Shell V-Power Ferrari Collection
 - **Features**: Diecast metal construction, detailed livery, display base
 - **Livery**: Classic Scuderia Ferrari Rosso Corsa red with sponsor branding
-- **Acquisition**: Shell V-Power petrol pump promotion
 
-### The Petrol Pump Prize
+### Technical Innovation
 
-There's a certain charm to promotional collectibles. This wasn't hunted down online or special-ordered from a diecast retailer. Instead, it came from filling up at Shell, collecting stickers with each visit, and eventually redeeming enough for this SF-24 replica. Shell's long partnership with Ferrari extends from trackside sponsorship to petrol pumps worldwide, and these promotional models bring that connection to customers.
+The SF-24 featured significant technical advancements that contributed to Ferrari's resurgence in 2024:
 
-Bburago manufactured these at 1:41 scale - an unusual size that sits between the popular 1:43 and 1:64 scales. The diecast construction provides solid weight and presence, while the detailed tampo-printed livery captures the 2024 Ferrari look. It's a simple display model, but one with an authentic acquisition story that connects everyday driving to Formula 1 racing.
+**Hybrid Power Unit**: The Ferrari 066/11 combines a 1.6L turbocharged V6 engine with two energy recovery systems:
+- MGU-K (Kinetic): Energy recovery from braking
+- MGU-H (Heat): Harvests energy from exhaust heat and turbocharger
+- Total power output: ~1,000 horsepower
+- Maximum RPM: 15,000 (regulated by F1 rules)
 
-### Five Victories and a Title Challenge
+**Chassis Development**: The SF-24 showed exceptional development throughout the season, with particularly strong pace improvements after the summer break. The aerodynamic package and chassis refinements allowed Ferrari to compete consistently at the front of the grid, enabling both race victories and podium finishes against formidable competition from Red Bull and McLaren.
 
-The 2024 season showcased Ferrari's return to winning form. Carlos Sainz opened the account with a stunning victory in Australia, overtaking Max Verstappen on the opening lap despite returning from emergency appendix surgery just two weeks earlier. He then led teammate Charles Leclerc home for Ferrari's first 1-2 finish since Bahrain 2022.
+### Season Performance
 
-Charles Leclerc delivered perhaps the season's most emotional victory at Monaco - his long-awaited home race win that had eluded him throughout his career. The Monegasque driver added another triumph at Monza, where the passionate Tifosi erupted in celebration. Sainz claimed victory in Mexico City, while the United States Grand Prix saw another Ferrari 1-2 finish.
+The 2024 season showcased Ferrari's return to winning form with five victories:
 
-The SF-24 featured Ferrari's 066/11 hybrid power unit, an evolution of the previous year's engine combining a 1.6-liter turbocharged V6 with MGU-K and MGU-H energy recovery systems for approximately 1,000 horsepower total. The improvements extended beyond the power unit - the chassis development throughout the season proved particularly strong, with Ferrari showing exceptional pace after the summer break.
+**Race Victories:**
+- **Australia**: Carlos Sainz's stunning win, overtaking Max Verstappen on the opening lap despite returning from emergency appendix surgery just two weeks earlier, followed by Ferrari's first 1-2 finish since Bahrain 2022
+- **Monaco**: Charles Leclerc's emotional home race victory, ending his long wait to win at Monte Carlo
+- **Monza**: Leclerc's triumph before the passionate Tifosi
+- **Mexico City**: Sainz's second victory of the season
+- **United States**: Ferrari's second 1-2 finish of 2024
 
-### The Championship Battle
+**Championship Battle**: Ferrari mounted a genuine challenge for the Constructors' Championship, surpassing Red Bull to claim second place. The team challenged McLaren for the title until the final round in Abu Dhabi, representing a massive step forward from previous seasons.
 
-The 2024 season saw Ferrari genuinely challenge for the Constructors' Championship. The team surpassed Red Bull to claim second place and mounted a serious bid against McLaren that lasted until the final round in Abu Dhabi. While they ultimately fell short of the title, finishing second represented a massive step forward - "a huge step forward in a successful season," as Formula 1 officially described it.
+### Driver Performance
 
-Charles Leclerc finished third in the Drivers' Championship with 356 points, taking three race victories. His qualifying prowess shone through with three pole positions, and he comprehensively beat Sainz in the 2024 qualifying head-to-head battle. Carlos Sainz secured fifth place with 290 points and two race wins. His nine podium finishes across the season - in what would be his final year with Ferrari before moving to Williams - demonstrated consistent strong performance.
+**Charles Leclerc (#16)**:
+- **Championship Position**: 3rd in Drivers' Championship
+- **Points**: 356
+- **Wins**: 3 (Monaco, Monza, and one additional victory)
+- **Pole Positions**: 3
+- **Season Highlight**: Comprehensively beat Sainz in the 2024 qualifying head-to-head battle
 
-Together, the Ferrari drivers delivered 22 podium finishes, four pole positions, and four fastest laps. The stat that mattered most: five victories, proving the SF-24 could not only challenge at the front but actually win races against formidable competition.
+**Carlos Sainz (#55)**:
+- **Championship Position**: 5th in Drivers' Championship
+- **Points**: 290
+- **Wins**: 2 (Australia, Mexico City)
+- **Podium Finishes**: 9
+- **Season Note**: Final year with Ferrari before moving to Williams
 
-### Shell and Ferrari - A Trackside Partnership
-
-Shell's relationship with Scuderia Ferrari stretches back decades, providing fuel technology and lubricants that help power the team's F1 campaigns. These petrol pump promotions extend that partnership beyond the racetrack, giving everyday customers a piece of the racing heritage. The SF-24 promotional models appeared at participating Shell stations during 2024, available through sticker collection programs that rewarded customer loyalty.
-
-Bburago's involvement makes sense - as a Maisto International brand, they've produced officially licensed Ferrari models for years. These promotional editions maintain that quality while making F1 collectibles accessible to customers who might never visit a specialty diecast shop.
+**Team Statistics**:
+- Total podium finishes: 22
+- Pole positions: 4
+- Fastest laps: 4
+- Total wins: 5
 
 ### Collection Value
 
-This Shell promotional edition sits in an interesting space within the collection. It wasn't expensive - just the accumulated cost of petrol purchased during normal driving. It didn't require hunting through hobby shops or online marketplaces. But it represents something genuine: a connection between everyday life and Formula 1 racing, between filling up the tank and the fuel technology that powers F1 cars.
+This Bburago 1:41 scale model captures the SF-24 in detailed form:
+- Diecast metal construction providing solid weight and presence
+- Detailed tampo-printed livery reproducing the 2024 SF-24 race livery
+- Classic Scuderia Ferrari Rosso Corsa red with authentic sponsor decals
+- 1:41 scale - an unusual size between the popular 1:43 and 1:64 scales
+- Display base included
 
-The 1:41 scale means it displays well alongside other F1 models without overwhelming the shelf. The Rosso Corsa red captures Ferrari's iconic color, while the sponsor decals authentically reproduce the 2024 SF-24 livery. As a piece commemorating the 2024 season, it marks Ferrari's resurgence - five victories, second in the Constructors' Championship, and a genuine title challenge that lasted until the final race.
+**Acquisition**: This model was part of Shell V-Power's petrol pump promotion program during 2024, reflecting Shell's long-standing partnership with Scuderia Ferrari. Manufactured by Bburago (Maisto International), who have produced officially licensed Ferrari models for years.
 
-From Leclerc's emotional Monaco triumph to the 1-2 finishes in Australia and the United States, the SF-24 proved Ferrari could fight at the front consistently. This little red car, earned through petrol pump promotions, captured that resurgent spirit. Sometimes the best additions to a collection aren't the most expensive - they're the ones with the most authentic stories behind them, celebrating seasons where the team truly delivered.
+A significant piece commemorating Ferrari's resurgent 2024 season - five victories, second in the Constructors' Championship, and a genuine title challenge. From Leclerc's emotional Monaco triumph to the 1-2 finishes in Australia and the United States, the SF-24 proved Ferrari could consistently fight at the front.

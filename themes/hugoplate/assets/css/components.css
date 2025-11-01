@@ -1,10 +1,10 @@
 /* section style */
 .section {
-  @apply py-12 xl:py-14;
+  @apply py-6 xl:py-6;
 }
 
 .section-sm {
-  @apply py-8 xl:py-10;
+  @apply py-4 xl:py-5;
 }
 
 /* container */

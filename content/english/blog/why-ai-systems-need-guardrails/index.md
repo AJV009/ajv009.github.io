@@ -3,7 +3,8 @@ title: "Why AI Systems Need Guardrails"
 meta_title: "Why AI Systems Need Guardrails - A Comprehensive Guide"
 description: "Learn how to implement effective prompt-based guardrails for AI systems. From pre-search filtering to post-search relevance checks, discover practical approaches to building trust and control in AI applications."
 date: 2025-03-19T00:00:00Z
-image: "assets/cover.png"
+image: "assets/cover.jpg"
+image_credits: "[Unsplash](https://unsplash.com/photos/a-padlock-and-chain-secure-a-green-door-bU-WcDrKoUo)"
 categories: ["AI", "BizTech"]
 author: "Alphons Jaimon"
 tags: ["AI", "Guardrails", "LLM", "RAG", "Prompt Engineering", "AI Safety", "ChatGPT"]

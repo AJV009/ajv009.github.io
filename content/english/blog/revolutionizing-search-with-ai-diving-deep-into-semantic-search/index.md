@@ -4,6 +4,7 @@ meta_title: "Revolutionizing Search with AI: Diving Deep into Semantic Search"
 description: "Today's AI, powered by machine learning algorithms, has introduced us to semantic search. Explore how we combined Pinecone and OpenAI to create intelligent, user-friendly AI experiences and unravel the code that powers our demo application."
 date: 2023-09-12T00:00:00Z
 image: "assets/cover.png"
+image_credits: "QED42"
 categories: ["BizTech", "AI"]
 author: "Alphons Jaimon"
 tags: ["AI", "Semantic Search", "Pinecone", "OpenAI", "Vector Database", "Rust", "Machine Learning", "GPT-3"]

@@ -4,6 +4,7 @@ meta_title: "Data Security - The Critical Factor in Our Digital Age"
 description: "Exploring the importance of data security in our increasingly connected world. From data collection practices to privacy concerns and the growing need for cybersecurity professionals."
 date: 2018-10-02T05:00:00Z
 image: "assets/cover.png"
+image_credits: "Google Gemini AI"
 categories: ["Technology", "Security", "Privacy"]
 author: "Alphons Jaimon"
 tags: ["Data Security", "Privacy", "Cybersecurity", "Data Protection", "Digital Privacy"]
