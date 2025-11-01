@@ -1,0 +1,145 @@
+<!-- Calendar Modal Component -->
+<div id="calendar-modal" class="calendar-modal">
+  <div class="calendar-modal-overlay"></div>
+  <div class="calendar-modal-content">
+    <button class="calendar-modal-close" aria-label="Close calendar">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+
+    <div class="calendar-modal-body">
+      <!-- Google Calendar Appointment Scheduling -->
+      <iframe
+        src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ1xa_K1PnQZLzmPtXCBaCkKz2u0UtXsPbXzK7YESDOhZMvC-w3I_0HwRhOL-LSU2H5z1Fyl84fa?gv=true"
+        style="border: 0"
+        width="100%"
+        height="600"
+        frameborder="0"
+        title="Book my Calendar">
+      </iframe>
+      <!-- end Google Calendar Appointment Scheduling -->
+    </div>
+  </div>
+</div>
+
+<style>
+  .calendar-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .calendar-modal.active {
+    display: flex;
+    opacity: 1;
+  }
+
+  .calendar-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .calendar-modal-content {
+    position: relative;
+    background: white !important;
+    border-radius: 1rem;
+    width: 90vw;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+  }
+
+  .calendar-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.1) !important;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 2;
+    color: #374151 !important;
+  }
+
+  .calendar-modal-close:hover {
+    transform: scale(1.1);
+    background: rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .calendar-modal-body {
+    width: 100%;
+    height: 600px;
+    max-height: calc(90vh - 2rem);
+    overflow: auto;
+    background: white !important;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .calendar-modal-content {
+      width: 95vw;
+      max-height: 95vh;
+    }
+
+    .calendar-modal-body {
+      height: auto;
+      min-height: 500px;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    const modal = document.getElementById('calendar-modal');
+    const overlay = modal.querySelector('.calendar-modal-overlay');
+    const closeBtn = modal.querySelector('.calendar-modal-close');
+
+    // Open modal function
+    window.openCalendarModal = function() {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    };
+
+    // Close modal function
+    window.closeCalendarModal = function() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    };
+
+    // Close button click
+    closeBtn.addEventListener('click', window.closeCalendarModal);
+
+    // Overlay click to close
+    overlay.addEventListener('click', window.closeCalendarModal);
+
+    // ESC key to close
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        window.closeCalendarModal();
+      }
+    });
+  })();
+</script>

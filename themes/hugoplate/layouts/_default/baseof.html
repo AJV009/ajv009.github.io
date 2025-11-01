@@ -37,6 +37,7 @@
     <!-- header (don't cache it) -->
     {{ partial "essentials/header.html" . }}
     {{ partial "search-modal.html" (dict "Context" . ) }}
+    {{ partial "components/calendar-modal" . }}
 
 
     <main>

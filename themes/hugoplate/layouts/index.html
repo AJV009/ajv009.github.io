@@ -38,23 +38,14 @@
                   </a>
                 {{ end }}
               {{ end }}
-              <!-- Google Calendar for mobile/tablet (hidden on desktop since it's in header) -->
+              <!-- Book Calendar button for mobile/tablet (hidden on desktop since it's in header) -->
               <div class="lg:hidden w-full flex justify-center mt-2">
-                <link href="https://calendar.google.com/calendar/scheduling-button-script.css" rel="stylesheet">
-                <script src="https://calendar.google.com/calendar/scheduling-button-script.js" async></script>
-                <script>
-                (function() {
-                  var target = document.currentScript;
-                  window.addEventListener('load', function() {
-                    calendar.schedulingButton.load({
-                      url: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ1xa_K1PnQZLzmPtXCBaCkKz2u0UtXsPbXzK7YESDOhZMvC-w3I_0HwRhOL-LSU2H5z1Fyl84fa?gv=true',
-                      color: '#D81B60',
-                      label: 'Book my Calendar',
-                      target,
-                    });
-                  });
-                })();
-                </script>
+                <button onclick="openCalendarModal()" class="btn btn-primary">
+                  <svg class="inline-block w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                  Book my Calendar
+                </button>
               </div>
             </div>
           </div>

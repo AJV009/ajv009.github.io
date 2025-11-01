@@ -389,6 +389,34 @@
       // Initialize
       updateThumbnails();
 
+      // Touch/swipe support for main gallery
+      const galleryMainContainer = document.querySelector('.gallery-main-container');
+      let galleryTouchStartX = 0;
+      let galleryTouchEndX = 0;
+
+      if (galleryMainContainer) {
+        galleryMainContainer.addEventListener('touchstart', function(e) {
+          galleryTouchStartX = e.changedTouches[0].screenX;
+        }, false);
+
+        galleryMainContainer.addEventListener('touchend', function(e) {
+          galleryTouchEndX = e.changedTouches[0].screenX;
+          handleGallerySwipe();
+        }, false);
+
+        function handleGallerySwipe() {
+          const swipeThreshold = 50;
+          if (galleryTouchEndX < galleryTouchStartX - swipeThreshold) {
+            // Swipe left - next image
+            if (nextBtn) nextBtn.click();
+          }
+          if (galleryTouchEndX > galleryTouchStartX + swipeThreshold) {
+            // Swipe right - previous image
+            if (prevBtn) prevBtn.click();
+          }
+        }
+      }
+
       // Lightbox functionality
       const lightbox = document.createElement('div');
       lightbox.className = 'lightbox';
