@@ -32,7 +32,7 @@
                 {{ end }}
 
                 <!-- overlay with title and metadata -->
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 overlay-info">
                   <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
                     <h3 class="font-semibold text-lg mb-1 line-clamp-2">{{ .Title }}</h3>
                     {{ if .Params.category }}
@@ -96,6 +96,13 @@
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
+    }
+
+    /* Show overlay by default on small screens (< 14-inch laptop) */
+    @media (max-width: 1439px) {
+      .overlay-info {
+        opacity: 1 !important;
+      }
     }
   </style>
 {{ end }}
