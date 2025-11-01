@@ -28,7 +28,7 @@
                     {{ partial "image" (dict "Src" .Params.image "Context" .Page "Alt" (printf "%s background" .Title) "Class" "ambient-bg" "Size" "400x300") }}
 
                     <!-- Foreground: fitted image respecting aspect ratio -->
-                    {{ partial "image" (dict "Src" .Params.image "Context" .Page "Alt" .Title "Class" "fitted-image" "Size" "400x300") }}
+                    {{ partial "image" (dict "Src" .Params.image "Context" .Page "Alt" .Title "Class" "fitted-image") }}
                   </div>
                 {{ else }}
                   <div class="w-full h-64 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
