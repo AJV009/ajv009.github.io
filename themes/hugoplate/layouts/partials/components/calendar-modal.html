@@ -1,14 +1,17 @@
 <!-- Calendar Modal Component -->
 <div id="calendar-modal" class="calendar-modal">
   <div class="calendar-modal-overlay"></div>
-  <div class="calendar-modal-content">
+
+  <!-- Wrapper for content and close button -->
+  <div class="calendar-modal-wrapper">
     <button class="calendar-modal-close" aria-label="Close calendar">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
       </svg>
     </button>
 
-    <div class="calendar-modal-body">
+    <div class="calendar-modal-content">
+      <div class="calendar-modal-body">
       <!-- Google Calendar Appointment Scheduling -->
       <iframe
         src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ1xa_K1PnQZLzmPtXCBaCkKz2u0UtXsPbXzK7YESDOhZMvC-w3I_0HwRhOL-LSU2H5z1Fyl84fa?gv=true"
@@ -19,6 +22,7 @@
         title="Book my Calendar">
       </iframe>
       <!-- end Google Calendar Appointment Scheduling -->
+      </div>
     </div>
   </div>
 </div>
@@ -54,28 +58,32 @@
     -webkit-backdrop-filter: blur(8px);
   }
 
+  .calendar-modal-wrapper {
+    position: relative;
+    width: 90vw;
+    max-width: 1000px;
+    z-index: 1;
+  }
+
   .calendar-modal-content {
     position: relative;
     background: white !important;
     border-radius: 1rem;
-    width: 90vw;
-    max-width: 900px;
     max-height: 90vh;
     overflow: hidden;
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-    z-index: 1;
   }
 
   .calendar-modal-close {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: -3.5rem;
+    right: 0;
     width: 2.5rem;
     height: 2.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.1) !important;
+    background: rgba(255, 255, 255, 0.9) !important;
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -86,7 +94,7 @@
 
   .calendar-modal-close:hover {
     transform: scale(1.1);
-    background: rgba(0, 0, 0, 0.2) !important;
+    background: rgba(255, 255, 255, 1) !important;
   }
 
   .calendar-modal-body {
@@ -99,14 +107,21 @@
 
   /* Mobile adjustments */
   @media (max-width: 768px) {
-    .calendar-modal-content {
+    .calendar-modal-wrapper {
       width: 95vw;
+    }
+
+    .calendar-modal-content {
       max-height: 95vh;
     }
 
     .calendar-modal-body {
       height: auto;
       min-height: 500px;
+    }
+
+    .calendar-modal-close {
+      top: -3rem;
     }
   }
 </style>
