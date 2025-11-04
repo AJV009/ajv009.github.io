@@ -1,0 +1,174 @@
+<!-- color theme switcher -->
+{{ $class := .Class }}
+<div class="color-theme-switcher {{ $class }} relative">
+  <button
+    id="color-theme-btn"
+    class="flex items-center gap-2 px-3 py-2 rounded-lg bg-light dark:bg-darkmode-light border border-border dark:border-darkmode-border hover:bg-primary/10 dark:hover:bg-darkmode-primary/10 transition-all"
+    aria-label="Select color theme">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+    </svg>
+    <span class="text-sm font-medium hidden sm:inline" id="current-theme-name">Aurora Dream</span>
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+    </svg>
+  </button>
+
+  <!-- Dropdown Menu -->
+  <div
+    id="color-theme-dropdown"
+    class="absolute right-0 mt-2 w-56 rounded-lg bg-body dark:bg-darkmode-body border border-border dark:border-darkmode-border shadow-xl opacity-0 invisible transition-all duration-200 z-50"
+    style="transform: translateY(-10px);">
+    <div class="p-2">
+      <div class="text-xs font-semibold text-text-light dark:text-darkmode-text-light px-3 py-2 uppercase tracking-wider">
+        Color Themes
+      </div>
+      <button
+        class="color-theme-option w-full text-left px-3 py-2 rounded hover:bg-light dark:hover:bg-darkmode-light transition-colors flex items-center justify-between group"
+        data-theme="aurora">
+        <span class="flex items-center gap-2">
+          <span class="w-4 h-4 rounded-full" style="background: linear-gradient(135deg, #ff69b4, #9370db, #40e0d0);"></span>
+          <span class="text-sm">Aurora Dream</span>
+        </span>
+        <svg class="w-4 h-4 text-primary dark:text-darkmode-primary opacity-0 group-[.active]:opacity-100" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+        </svg>
+      </button>
+      <button
+        class="color-theme-option w-full text-left px-3 py-2 rounded hover:bg-light dark:hover:bg-darkmode-light transition-colors flex items-center justify-between group"
+        data-theme="sunset">
+        <span class="flex items-center gap-2">
+          <span class="w-4 h-4 rounded-full" style="background: linear-gradient(135deg, #ff5252, #ff9f40, #ffce56);"></span>
+          <span class="text-sm">Sunset Blaze</span>
+        </span>
+        <svg class="w-4 h-4 text-primary dark:text-darkmode-primary opacity-0 group-[.active]:opacity-100" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+        </svg>
+      </button>
+      <button
+        class="color-theme-option w-full text-left px-3 py-2 rounded hover:bg-light dark:hover:bg-darkmode-light transition-colors flex items-center justify-between group"
+        data-theme="ocean">
+        <span class="flex items-center gap-2">
+          <span class="w-4 h-4 rounded-full" style="background: linear-gradient(135deg, #38bdf8, #0ea5e9, #06b6d4);"></span>
+          <span class="text-sm">Deep Ocean</span>
+        </span>
+        <svg class="w-4 h-4 text-primary dark:text-darkmode-primary opacity-0 group-[.active]:opacity-100" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+        </svg>
+      </button>
+      <button
+        class="color-theme-option w-full text-left px-3 py-2 rounded hover:bg-light dark:hover:bg-darkmode-light transition-colors flex items-center justify-between group"
+        data-theme="forest">
+        <span class="flex items-center gap-2">
+          <span class="w-4 h-4 rounded-full" style="background: linear-gradient(135deg, #34d399, #10b981, #84cc16);"></span>
+          <span class="text-sm">Matrix Forest</span>
+        </span>
+        <svg class="w-4 h-4 text-primary dark:text-darkmode-primary opacity-0 group-[.active]:opacity-100" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Color Theme Switcher JavaScript -->
+<script>
+  (function() {
+    const themeNames = {
+      'aurora': 'Aurora Dream',
+      'sunset': 'Sunset Blaze',
+      'ocean': 'Deep Ocean',
+      'forest': 'Matrix Forest'
+    };
+
+    const themes = ['aurora', 'sunset', 'ocean', 'forest'];
+
+    // Initialize color theme - use sessionStorage for session-only persistence
+    let colorTheme = sessionStorage.getItem('colorTheme');
+
+    // If no saved theme in session, randomly pick one
+    if (!colorTheme) {
+      colorTheme = themes[Math.floor(Math.random() * themes.length)];
+      sessionStorage.setItem('colorTheme', colorTheme);
+    }
+
+    // Apply theme immediately (before page render)
+    document.documentElement.setAttribute('data-color-theme', colorTheme);
+
+    // Wait for DOM to be ready
+    document.addEventListener('DOMContentLoaded', function() {
+      const btn = document.getElementById('color-theme-btn');
+      const dropdown = document.getElementById('color-theme-dropdown');
+      const options = document.querySelectorAll('.color-theme-option');
+      const currentThemeName = document.getElementById('current-theme-name');
+
+      // Update UI to show current theme
+      function updateUI(theme) {
+        currentThemeName.textContent = themeNames[theme];
+
+        // Update active state
+        options.forEach(opt => {
+          if (opt.dataset.theme === theme) {
+            opt.classList.add('active');
+          } else {
+            opt.classList.remove('active');
+          }
+        });
+      }
+
+      updateUI(colorTheme);
+
+      // Toggle dropdown
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const isVisible = dropdown.classList.contains('opacity-100');
+
+        if (isVisible) {
+          dropdown.classList.remove('opacity-100', 'visible');
+          dropdown.classList.add('opacity-0', 'invisible');
+          dropdown.style.transform = 'translateY(-10px)';
+        } else {
+          dropdown.classList.remove('opacity-0', 'invisible');
+          dropdown.classList.add('opacity-100', 'visible');
+          dropdown.style.transform = 'translateY(0)';
+        }
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!btn.contains(e.target) && !dropdown.contains(e.target)) {
+          dropdown.classList.remove('opacity-100', 'visible');
+          dropdown.classList.add('opacity-0', 'invisible');
+          dropdown.style.transform = 'translateY(-10px)';
+        }
+      });
+
+      // Handle theme selection
+      options.forEach(option => {
+        option.addEventListener('click', function() {
+          const selectedTheme = this.dataset.theme;
+
+          // Apply theme
+          document.documentElement.setAttribute('data-color-theme', selectedTheme);
+
+          // Save to sessionStorage (only persists during browser session)
+          sessionStorage.setItem('colorTheme', selectedTheme);
+
+          // Update UI
+          updateUI(selectedTheme);
+
+          // Close dropdown
+          dropdown.classList.remove('opacity-100', 'visible');
+          dropdown.classList.add('opacity-0', 'invisible');
+          dropdown.style.transform = 'translateY(-10px)';
+
+          // Add a subtle animation
+          document.body.style.transition = 'background-color 0.5s ease';
+          setTimeout(() => {
+            document.body.style.transition = '';
+          }, 500);
+        });
+      });
+    });
+  })();
+</script>

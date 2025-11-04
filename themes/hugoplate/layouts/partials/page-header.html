@@ -1,9 +1,8 @@
-<section>
-  <div class="container text-center">
-    <div
-      class="from-body to-light dark:from-darkmode-body dark:to-darkmode-light rounded-2xl bg-gradient-to-b px-4 py-7">
-      <h1>{{ T (printf "%s" (lower .Title)) | default .Title | title }}</h1>
-      {{ partial "components/breadcrumb" (dict "Context" . "Class" "mt-6") }}
+<section class="py-8 mb-8">
+  <div class="container text-center max-w-full mx-auto px-4">
+    <div class="page-header-glass rounded-2xl px-6 py-8">
+      <h1 class="break-words">{{ T (printf "%s" (lower .Title)) | default .Title | title }}</h1>
+      {{ partial "components/breadcrumb" (dict "Context" . "Class" "mt-6 break-words whitespace-normal") }}
     </div>
   </div>
 </section>

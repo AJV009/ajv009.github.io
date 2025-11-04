@@ -1,1 +1,1017 @@
-/* Add your own custom styles here */
+/* Liquid Glass Lite - Custom Styles */
+
+/* ============================================
+   COLOR THEME VARIABLES
+   ============================================ */
+
+/* Default Theme: Aurora Dream (Purple/Pink/Violet) */
+:root {
+  --aurora-1-light: rgba(255, 105, 180, 0.35);
+  --aurora-2-light: rgba(147, 112, 219, 0.35);
+  --aurora-3-light: rgba(64, 224, 208, 0.3);
+  --aurora-4-light: rgba(255, 160, 122, 0.3);
+  --aurora-5-light: rgba(255, 182, 193, 0.25);
+
+  --aurora-1-dark: rgba(139, 92, 246, 0.5);
+  --aurora-2-dark: rgba(34, 211, 238, 0.45);
+  --aurora-3-dark: rgba(168, 85, 247, 0.4);
+  --aurora-4-dark: rgba(79, 70, 229, 0.45);
+  --aurora-5-dark: rgba(236, 72, 153, 0.35);
+
+  --orb-main-light: rgba(255, 182, 193, 0.25);
+  --orb-main-light-2: rgba(147, 112, 219, 0.15);
+  --orb-main-light-border: rgba(255, 182, 193, 0.3);
+  --orb-main-light-shadow: rgba(255, 182, 193, 0.4);
+
+  --orb-main-dark: rgba(139, 92, 246, 0.35);
+  --orb-main-dark-2: rgba(34, 211, 238, 0.2);
+  --orb-main-dark-border: rgba(139, 92, 246, 0.4);
+  --orb-main-dark-shadow: rgba(139, 92, 246, 0.5);
+
+  --orb-banner-light: rgba(64, 224, 208, 0.3);
+  --orb-banner-light-2: rgba(255, 160, 122, 0.15);
+  --orb-banner-dark: rgba(34, 211, 238, 0.4);
+  --orb-banner-dark-2: rgba(168, 85, 247, 0.2);
+
+  --orb-feature1-light: rgba(147, 112, 219, 0.25);
+  --orb-feature1-light-2: rgba(255, 105, 180, 0.15);
+  --orb-feature1-dark: rgba(168, 85, 247, 0.35);
+  --orb-feature1-dark-2: rgba(236, 72, 153, 0.2);
+
+  --orb-feature2-light: rgba(255, 160, 122, 0.3);
+  --orb-feature2-light-2: rgba(64, 224, 208, 0.15);
+  --orb-feature2-dark: rgba(79, 70, 229, 0.4);
+  --orb-feature2-dark-2: rgba(34, 211, 238, 0.2);
+
+  /* Accent colors for buttons and links */
+  --accent-primary: #7c3aed;
+  --accent-primary-hover: #6d28d9;
+  --accent-primary-rgb: 124, 58, 237;
+  --accent-dark: #a78bfa;
+  --accent-dark-hover: #8b5cf6;
+  --accent-dark-rgb: 167, 139, 250;
+
+  /* Glass effect accent colors */
+  --glass-border-light: rgba(255, 255, 255, 0.3);
+  --glass-border-dark: rgba(167, 139, 250, 0.2);
+  --glass-glow-dark: rgba(167, 139, 250, 0.3);
+}
+
+/* Sunset Blaze Theme (Red/Orange/Yellow) */
+:root[data-color-theme="sunset"] {
+  --aurora-1-light: rgba(255, 82, 82, 0.35);
+  --aurora-2-light: rgba(255, 159, 64, 0.35);
+  --aurora-3-light: rgba(255, 206, 86, 0.3);
+  --aurora-4-light: rgba(255, 140, 0, 0.3);
+  --aurora-5-light: rgba(255, 107, 107, 0.25);
+
+  --aurora-1-dark: rgba(239, 68, 68, 0.5);
+  --aurora-2-dark: rgba(249, 115, 22, 0.45);
+  --aurora-3-dark: rgba(234, 88, 12, 0.4);
+  --aurora-4-dark: rgba(251, 191, 36, 0.45);
+  --aurora-5-dark: rgba(252, 165, 165, 0.35);
+
+  --orb-main-light: rgba(255, 159, 64, 0.25);
+  --orb-main-light-2: rgba(255, 206, 86, 0.15);
+  --orb-main-light-border: rgba(255, 140, 0, 0.3);
+  --orb-main-light-shadow: rgba(255, 140, 0, 0.4);
+
+  --orb-main-dark: rgba(249, 115, 22, 0.35);
+  --orb-main-dark-2: rgba(251, 191, 36, 0.2);
+  --orb-main-dark-border: rgba(239, 68, 68, 0.4);
+  --orb-main-dark-shadow: rgba(239, 68, 68, 0.5);
+
+  --orb-banner-light: rgba(255, 206, 86, 0.3);
+  --orb-banner-light-2: rgba(255, 82, 82, 0.15);
+  --orb-banner-dark: rgba(251, 191, 36, 0.4);
+  --orb-banner-dark-2: rgba(234, 88, 12, 0.2);
+
+  --orb-feature1-light: rgba(255, 140, 0, 0.25);
+  --orb-feature1-light-2: rgba(255, 159, 64, 0.15);
+  --orb-feature1-dark: rgba(234, 88, 12, 0.35);
+  --orb-feature1-dark-2: rgba(252, 165, 165, 0.2);
+
+  --orb-feature2-light: rgba(255, 82, 82, 0.3);
+  --orb-feature2-light-2: rgba(255, 206, 86, 0.15);
+  --orb-feature2-dark: rgba(239, 68, 68, 0.4);
+  --orb-feature2-dark-2: rgba(249, 115, 22, 0.2);
+
+  /* Accent colors for buttons and links */
+  --accent-primary: #ea580c;
+  --accent-primary-hover: #c2410c;
+  --accent-primary-rgb: 234, 88, 12;
+  --accent-dark: #fb923c;
+  --accent-dark-hover: #f97316;
+  --accent-dark-rgb: 251, 146, 60;
+
+  /* Glass effect accent colors */
+  --glass-border-light: rgba(255, 255, 255, 0.3);
+  --glass-border-dark: rgba(249, 115, 22, 0.2);
+  --glass-glow-dark: rgba(249, 115, 22, 0.3);
+}
+
+/* Deep Ocean Theme (Blues) */
+:root[data-color-theme="ocean"] {
+  --aurora-1-light: rgba(56, 189, 248, 0.35);
+  --aurora-2-light: rgba(14, 165, 233, 0.35);
+  --aurora-3-light: rgba(6, 182, 212, 0.3);
+  --aurora-4-light: rgba(59, 130, 246, 0.3);
+  --aurora-5-light: rgba(125, 211, 252, 0.25);
+
+  --aurora-1-dark: rgba(34, 211, 238, 0.5);
+  --aurora-2-dark: rgba(59, 130, 246, 0.45);
+  --aurora-3-dark: rgba(79, 70, 229, 0.4);
+  --aurora-4-dark: rgba(20, 184, 166, 0.45);
+  --aurora-5-dark: rgba(96, 165, 250, 0.35);
+
+  --orb-main-light: rgba(56, 189, 248, 0.25);
+  --orb-main-light-2: rgba(6, 182, 212, 0.15);
+  --orb-main-light-border: rgba(14, 165, 233, 0.3);
+  --orb-main-light-shadow: rgba(14, 165, 233, 0.4);
+
+  --orb-main-dark: rgba(34, 211, 238, 0.35);
+  --orb-main-dark-2: rgba(59, 130, 246, 0.2);
+  --orb-main-dark-border: rgba(79, 70, 229, 0.4);
+  --orb-main-dark-shadow: rgba(34, 211, 238, 0.5);
+
+  --orb-banner-light: rgba(6, 182, 212, 0.3);
+  --orb-banner-light-2: rgba(59, 130, 246, 0.15);
+  --orb-banner-dark: rgba(20, 184, 166, 0.4);
+  --orb-banner-dark-2: rgba(79, 70, 229, 0.2);
+
+  --orb-feature1-light: rgba(59, 130, 246, 0.25);
+  --orb-feature1-light-2: rgba(125, 211, 252, 0.15);
+  --orb-feature1-dark: rgba(79, 70, 229, 0.35);
+  --orb-feature1-dark-2: rgba(96, 165, 250, 0.2);
+
+  --orb-feature2-light: rgba(14, 165, 233, 0.3);
+  --orb-feature2-light-2: rgba(6, 182, 212, 0.15);
+  --orb-feature2-dark: rgba(59, 130, 246, 0.4);
+  --orb-feature2-dark-2: rgba(20, 184, 166, 0.2);
+
+  /* Accent colors for buttons and links */
+  --accent-primary: #0284c7;
+  --accent-primary-hover: #0369a1;
+  --accent-primary-rgb: 2, 132, 199;
+  --accent-dark: #22d3ee;
+  --accent-dark-hover: #06b6d4;
+  --accent-dark-rgb: 34, 211, 238;
+
+  /* Glass effect accent colors */
+  --glass-border-light: rgba(255, 255, 255, 0.3);
+  --glass-border-dark: rgba(34, 211, 238, 0.2);
+  --glass-glow-dark: rgba(34, 211, 238, 0.3);
+}
+
+/* Matrix Forest Theme (Greens) */
+:root[data-color-theme="forest"] {
+  --aurora-1-light: rgba(52, 211, 153, 0.35);
+  --aurora-2-light: rgba(16, 185, 129, 0.35);
+  --aurora-3-light: rgba(132, 204, 22, 0.3);
+  --aurora-4-light: rgba(34, 197, 94, 0.3);
+  --aurora-5-light: rgba(110, 231, 183, 0.25);
+
+  --aurora-1-dark: rgba(34, 197, 94, 0.5);
+  --aurora-2-dark: rgba(163, 230, 53, 0.45);
+  --aurora-3-dark: rgba(52, 211, 153, 0.4);
+  --aurora-4-dark: rgba(16, 185, 129, 0.45);
+  --aurora-5-dark: rgba(134, 239, 172, 0.35);
+
+  --orb-main-light: rgba(52, 211, 153, 0.25);
+  --orb-main-light-2: rgba(132, 204, 22, 0.15);
+  --orb-main-light-border: rgba(16, 185, 129, 0.3);
+  --orb-main-light-shadow: rgba(16, 185, 129, 0.4);
+
+  --orb-main-dark: rgba(34, 197, 94, 0.35);
+  --orb-main-dark-2: rgba(163, 230, 53, 0.2);
+  --orb-main-dark-border: rgba(52, 211, 153, 0.4);
+  --orb-main-dark-shadow: rgba(34, 197, 94, 0.5);
+
+  --orb-banner-light: rgba(132, 204, 22, 0.3);
+  --orb-banner-light-2: rgba(34, 197, 94, 0.15);
+  --orb-banner-dark: rgba(163, 230, 53, 0.4);
+  --orb-banner-dark-2: rgba(52, 211, 153, 0.2);
+
+  --orb-feature1-light: rgba(16, 185, 129, 0.25);
+  --orb-feature1-light-2: rgba(110, 231, 183, 0.15);
+  --orb-feature1-dark: rgba(52, 211, 153, 0.35);
+  --orb-feature1-dark-2: rgba(134, 239, 172, 0.2);
+
+  --orb-feature2-light: rgba(34, 197, 94, 0.3);
+  --orb-feature2-light-2: rgba(132, 204, 22, 0.15);
+  --orb-feature2-dark: rgba(16, 185, 129, 0.4);
+  --orb-feature2-dark-2: rgba(163, 230, 53, 0.2);
+
+  /* Accent colors for buttons and links */
+  --accent-primary: #059669;
+  --accent-primary-hover: #047857;
+  --accent-primary-rgb: 5, 150, 105;
+  --accent-dark: #22c55e;
+  --accent-dark-hover: #16a34a;
+  --accent-dark-rgb: 34, 197, 94;
+
+  /* Glass effect accent colors */
+  --glass-border-light: rgba(255, 255, 255, 0.3);
+  --glass-border-dark: rgba(34, 197, 94, 0.2);
+  --glass-glow-dark: rgba(34, 197, 94, 0.3);
+}
+
+/* ============================================
+   ANIMATED AURORA BACKGROUNDS
+   ============================================ */
+
+/* Light Mode - Pastel Aurora */
+body:not(.dark)::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 1;
+  background:
+    radial-gradient(circle at 20% 30%, var(--aurora-1-light) 0%, transparent 45%),
+    radial-gradient(circle at 80% 20%, var(--aurora-2-light) 0%, transparent 45%),
+    radial-gradient(circle at 40% 80%, var(--aurora-3-light) 0%, transparent 45%),
+    radial-gradient(circle at 90% 70%, var(--aurora-4-light) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, var(--aurora-5-light) 0%, transparent 60%);
+  background-size: 200% 200%;
+  animation: aurora-light 25s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Dark Mode - Vibrant Aurora */
+body.dark::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 1;
+  background:
+    radial-gradient(circle at 20% 30%, var(--aurora-1-dark) 0%, transparent 40%),
+    radial-gradient(circle at 80% 20%, var(--aurora-2-dark) 0%, transparent 40%),
+    radial-gradient(circle at 40% 80%, var(--aurora-3-dark) 0%, transparent 40%),
+    radial-gradient(circle at 90% 70%, var(--aurora-4-dark) 0%, transparent 40%),
+    radial-gradient(circle at 60% 60%, var(--aurora-5-dark) 0%, transparent 50%);
+  background-size: 200% 200%;
+  animation: aurora-dark 25s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Aurora Animation Keyframes */
+@keyframes aurora-light {
+  0%, 100% {
+    background-position: 0% 0%, 100% 0%, 0% 100%, 100% 100%;
+  }
+  25% {
+    background-position: 50% 25%, 75% 50%, 25% 75%, 50% 50%;
+  }
+  50% {
+    background-position: 100% 50%, 0% 100%, 50% 0%, 0% 0%;
+  }
+  75% {
+    background-position: 25% 75%, 50% 25%, 75% 50%, 25% 25%;
+  }
+}
+
+@keyframes aurora-dark {
+  0%, 100% {
+    background-position: 0% 0%, 100% 0%, 0% 100%, 100% 100%;
+  }
+  25% {
+    background-position: 40% 30%, 80% 40%, 30% 80%, 60% 60%;
+  }
+  50% {
+    background-position: 100% 60%, 0% 100%, 60% 0%, 0% 20%;
+  }
+  75% {
+    background-position: 30% 70%, 60% 20%, 80% 60%, 20% 30%;
+  }
+}
+
+/* ============================================
+   GLASSMORPHISM EFFECTS
+   ============================================ */
+
+/* Glass Cards - Homepage Features */
+.features .feature,
+.features .row > div {
+  position: relative;
+}
+
+.features .feature::before,
+.features .row > div::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  padding: 2px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.1)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.dark .features .feature::before,
+.dark .features .row > div::before {
+  background: linear-gradient(
+    135deg,
+    rgba(var(--accent-dark-rgb), 0.4),
+    rgba(var(--accent-dark-rgb), 0.2)
+  );
+}
+
+/* Glass Effect for Feature Sections */
+.features .feature,
+.section {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 8px 32px 0 rgba(31, 38, 135, 0.15),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+}
+
+.dark .features .feature,
+.dark .section {
+  background: rgba(10, 10, 10, 0.4);
+  border: 1px solid var(--glass-border-dark);
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 0 var(--glass-border-dark);
+}
+
+/* ============================================
+   HOMEPAGE BANNER GLASS EFFECT
+   ============================================ */
+
+.banner {
+  position: relative;
+  overflow: visible;
+}
+
+.features {
+  position: relative;
+  overflow: visible;
+}
+
+.banner .container {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 2rem;
+  padding: 3rem 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 8px 32px 0 rgba(31, 38, 135, 0.1),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
+}
+
+.dark .banner .container {
+  background: rgba(10, 10, 10, 0.35);
+  border: 1px solid rgba(var(--accent-dark-rgb), 0.25);
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 0 rgba(var(--accent-dark-rgb), 0.25);
+}
+
+/* ============================================
+   PAGE HEADER GLASS EFFECT
+   ============================================ */
+
+.page-header-glass {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 8px 32px 0 rgba(31, 38, 135, 0.12),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.25);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .page-header-glass {
+  background: rgba(10, 10, 10, 0.4);
+  border: 1px solid rgba(var(--accent-dark-rgb), 0.25);
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 0 rgba(var(--accent-dark-rgb), 0.25);
+}
+
+/* ============================================
+   BUTTON GLASS EFFECTS
+   ============================================ */
+
+.btn,
+.btn-primary {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background: rgba(var(--accent-primary-rgb), 0.8);
+  border: 1px solid rgba(var(--accent-primary-rgb), 0.5);
+  box-shadow:
+    0 4px 16px 0 rgba(var(--accent-primary-rgb), 0.4),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before,
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.btn:hover::before,
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+.btn:hover,
+.btn-primary:hover {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(var(--accent-primary-rgb), 0.9);
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 24px 0 rgba(var(--accent-primary-rgb), 0.6),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+}
+
+.dark .btn,
+.dark .btn-primary {
+  background: rgba(var(--accent-dark-rgb), 0.8);
+  border-color: rgba(var(--accent-dark-rgb), 0.5);
+  box-shadow:
+    0 4px 16px 0 rgba(var(--accent-dark-rgb), 0.4),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+}
+
+.dark .btn:hover,
+.dark .btn-primary:hover {
+  background: rgba(var(--accent-dark-rgb), 0.9);
+  box-shadow:
+    0 8px 24px 0 rgba(var(--accent-dark-rgb), 0.6),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================
+   CARD GLASS EFFECTS (Blog, Collectables, etc)
+   ============================================ */
+
+.card,
+.blog-card,
+.collectable-card {
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 1.25rem;
+  box-shadow:
+    0 8px 32px 0 rgba(31, 38, 135, 0.12),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.dark .card,
+.dark .blog-card,
+.dark .collectable-card {
+  background: rgba(10, 10, 10, 0.45);
+  border: 1px solid rgba(var(--accent-dark-rgb), 0.25);
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 0 rgba(var(--accent-dark-rgb), 0.25);
+}
+
+.card:hover,
+.blog-card:hover,
+.collectable-card:hover {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: rgba(255, 255, 255, 0.28);
+  border-color: rgba(255, 255, 255, 0.45);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow:
+    0 16px 48px 0 rgba(31, 38, 135, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+}
+
+.dark .card:hover,
+.dark .blog-card:hover,
+.dark .collectable-card:hover {
+  background: rgba(10, 10, 10, 0.65);
+  border-color: rgba(var(--accent-dark-rgb), 0.4);
+  box-shadow:
+    0 16px 48px 0 rgba(var(--accent-dark-rgb), 0.35),
+    inset 0 1px 0 0 rgba(var(--accent-dark-rgb), 0.35);
+}
+
+/* Blog Card Specific Overrides */
+.blog-card {
+  border-radius: 0.75rem;
+  min-height: 500px;
+  max-height: 500px;
+  cursor: pointer;
+  text-decoration: none;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Ensure text colors are preserved when card is a link */
+.blog-card h5,
+.blog-card p,
+.blog-card time,
+.blog-card span {
+  color: inherit;
+}
+
+.blog-card h5 {
+  transition: color 0.3s ease;
+}
+
+.blog-card:hover h5 {
+  color: var(--accent-primary);
+}
+
+.dark .blog-card:hover h5 {
+  color: var(--accent-dark);
+}
+
+/* Blog Image Container - Fixed at exactly HALF the card */
+.blog-image-container {
+  flex-shrink: 0; /* Prevent flexbox from shrinking the image */
+  height: 250px; /* Exactly half of 500px card */
+}
+
+/* Dynamic Description Area - Flexes to fill remaining space */
+.blog-description-area {
+  overflow: hidden;
+  /* No max-height - let flexbox determine the space naturally */
+  /* Area shrinks when title/tags are long, grows when they're short */
+}
+
+/* Blur fade anchored to card bottom - always visible regardless of description length */
+.blog-card-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 18px;
+  backdrop-filter: blur(100px);
+  -webkit-backdrop-filter: blur(50px);
+  /* mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%); */
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ============================================
+   GALLERY GLASS EFFECT (Collectables)
+   ============================================ */
+
+.gallery-main-container {
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 8px 32px 0 rgba(31, 38, 135, 0.1),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .gallery-main-container {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(var(--accent-dark-rgb), 0.2);
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 0 rgba(var(--accent-dark-rgb), 0.15);
+}
+
+.gallery-image {
+  backdrop-filter: blur(0px); /* No blur on image itself */
+}
+
+/* ============================================
+   NAVIGATION GLASS EFFECT
+   ============================================ */
+
+header,
+.header {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(250, 248, 245, 0.8);
+  border-bottom: 1px solid rgba(232, 228, 223, 0.5);
+  box-shadow: 0 4px 24px 0 rgba(31, 38, 135, 0.1);
+}
+
+.dark header,
+.dark .header {
+  background: rgba(10, 10, 10, 0.8);
+  border-bottom-color: rgba(39, 39, 42, 0.5);
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
+   TEXT READABILITY ENHANCEMENTS
+   ============================================ */
+
+/* Ensure critical text has solid backgrounds */
+.features h2,
+.features h3,
+.banner h1,
+.banner h2 {
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    0 1px 2px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+.dark .features h2,
+.dark .features h3,
+.dark .banner h1,
+.dark .banner h2 {
+  text-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.8),
+    0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Solid background for text-heavy content */
+.features .content,
+.features p,
+.features ul,
+.features li {
+  background: rgba(255, 255, 255, 0.6);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.dark .features .content,
+.dark .features p,
+.dark .features ul,
+.dark .features li {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
+   FLOATING GLASS ORBS (Decorative)
+   ============================================ */
+
+.glass-orb {
+  position: fixed;
+  border-radius: 50%;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+  z-index: -1;
+  animation: float 20s ease-in-out infinite;
+}
+
+.dark .glass-orb {
+  background: rgba(var(--accent-dark-rgb), 0.08);
+  border-color: rgba(var(--accent-dark-rgb), 0.15);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+/* Add some orbs to the page */
+body::after {
+  content: '';
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  top: 10%;
+  right: 5%;
+  border-radius: 50%;
+  backdrop-filter: blur(60px);
+  -webkit-backdrop-filter: blur(60px);
+  background: radial-gradient(circle, var(--orb-main-light) 0%, var(--orb-main-light-2) 50%, transparent 100%);
+  border: 2px solid var(--orb-main-light-border);
+  pointer-events: none;
+  z-index: -1;
+  animation: float 20s ease-in-out infinite reverse;
+  box-shadow: 0 0 80px var(--orb-main-light-shadow);
+}
+
+.dark body::after {
+  background: radial-gradient(circle, var(--orb-main-dark) 0%, var(--orb-main-dark-2) 50%, transparent 100%);
+  border-color: var(--orb-main-dark-border);
+  box-shadow: 0 0 120px var(--orb-main-dark-shadow);
+}
+
+/* Additional Floating Elements for More Visible Animation */
+.banner::before {
+  content: '';
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  bottom: 5%;
+  left: 8%;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--orb-banner-light) 0%, var(--orb-banner-light-2) 50%, transparent 100%);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: -1;
+  animation: float 18s ease-in-out infinite;
+}
+
+.dark .banner::before {
+  background: radial-gradient(circle, var(--orb-banner-dark) 0%, var(--orb-banner-dark-2) 50%, transparent 100%);
+  filter: blur(50px);
+}
+
+.features::before {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  top: 15%;
+  left: 10%;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--orb-feature1-light) 0%, var(--orb-feature1-light-2) 50%, transparent 100%);
+  filter: blur(35px);
+  pointer-events: none;
+  z-index: -1;
+  animation: float 22s ease-in-out infinite reverse;
+}
+
+.dark .features::before {
+  background: radial-gradient(circle, var(--orb-feature1-dark) 0%, var(--orb-feature1-dark-2) 50%, transparent 100%);
+  filter: blur(45px);
+}
+
+.features::after {
+  content: '';
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  bottom: 10%;
+  right: 12%;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--orb-feature2-light) 0%, var(--orb-feature2-light-2) 50%, transparent 100%);
+  filter: blur(30px);
+  pointer-events: none;
+  z-index: -1;
+  animation: float 20s ease-in-out infinite;
+}
+
+.dark .features::after {
+  background: radial-gradient(circle, var(--orb-feature2-dark) 0%, var(--orb-feature2-dark-2) 50%, transparent 100%);
+  filter: blur(40px);
+}
+
+/* ============================================
+   SMOOTH TRANSITIONS
+   ============================================ */
+
+* {
+  transition-property: background, border, box-shadow, transform;
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================
+   ACCESSIBILITY: Respect Reduced Motion
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================
+   THEME ACCENT COLOR OVERRIDES
+   ============================================ */
+
+/* Override Tailwind primary colors with theme accent colors */
+
+/* Links */
+a.text-primary,
+.text-primary {
+  color: var(--accent-primary) !important;
+}
+
+.dark a.text-primary,
+.dark .text-primary {
+  color: var(--accent-dark) !important;
+}
+
+a.hover\:text-primary:hover,
+.hover\:text-primary:hover {
+  color: var(--accent-primary-hover) !important;
+}
+
+.dark a.hover\:text-primary:hover,
+.dark .hover\:text-primary:hover {
+  color: var(--accent-dark-hover) !important;
+}
+
+/* Social Icons */
+.social-icons li a {
+  background-color: var(--accent-primary) !important;
+}
+
+.dark .social-icons li a {
+  background-color: var(--accent-dark) !important;
+}
+
+/* Swiper Pagination Dots */
+.swiper-pagination-bullet-active {
+  background-color: var(--accent-primary) !important;
+}
+
+.dark .swiper-pagination-bullet-active {
+  background-color: var(--accent-dark) !important;
+}
+
+/* Blockquote borders */
+.prose-blockquote\:border-primary blockquote,
+.content blockquote {
+  border-left-color: var(--accent-primary) !important;
+}
+
+.dark .prose-blockquote\:border-primary blockquote,
+.dark .content blockquote {
+  border-left-color: var(--accent-dark) !important;
+}
+
+/* Border primary utilities */
+.border-primary {
+  border-color: var(--accent-primary) !important;
+}
+
+.dark .border-primary {
+  border-color: var(--accent-dark) !important;
+}
+
+/* Background primary utilities */
+.bg-primary {
+  background-color: var(--accent-primary) !important;
+}
+
+.dark .bg-primary {
+  background-color: var(--accent-dark) !important;
+}
+
+/* ============================================
+   MOBILE OPTIMIZATIONS
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Reduce blur intensity on mobile for performance */
+  .features .feature,
+  .section,
+  .card,
+  .blog-card {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* Simplify aurora on mobile but keep it visible */
+  body::before,
+  body.dark::before {
+    opacity: 0.8;
+    animation-duration: 35s;
+  }
+
+  /* Scale down decorative orb on mobile */
+  body::after {
+    width: 200px;
+    height: 200px;
+  }
+
+  /* Simplify floating elements on mobile */
+  .banner::before,
+  .features::before,
+  .features::after {
+    opacity: 0.6;
+  }
+}
+
+/* ============================================
+   THEME-AWARE LINK AND BUTTON COLORS
+   ============================================ */
+
+/* Override navigation links to use theme accent colors */
+.nav-link:hover {
+  color: var(--accent-primary) !important;
+}
+
+.dark .nav-link:hover {
+  color: var(--accent-dark) !important;
+}
+
+.nav-link.active {
+  color: var(--accent-primary) !important;
+}
+
+.dark .nav-link.active {
+  color: var(--accent-dark) !important;
+}
+
+/* Override dropdown links */
+.nav-dropdown-link:hover {
+  color: var(--accent-primary) !important;
+}
+
+.dark .nav-dropdown-link:hover {
+  color: var(--accent-dark) !important;
+}
+
+/* Override any text-primary classes to use theme accent */
+.text-primary,
+a.text-primary {
+  color: var(--accent-primary) !important;
+}
+
+.dark .text-primary,
+.dark a.text-primary {
+  color: var(--accent-dark) !important;
+}
+
+/* Hover states for primary text */
+.hover\:text-primary:hover {
+  color: var(--accent-primary) !important;
+}
+
+.dark .hover\:text-primary:hover,
+.dark .dark\:hover\:text-darkmode-primary:hover {
+  color: var(--accent-dark) !important;
+}
+
+/* Override border colors for theme awareness */
+.border-primary {
+  border-color: var(--accent-primary) !important;
+}
+
+.dark .border-primary,
+.dark .dark\:border-darkmode-primary {
+  border-color: var(--accent-dark) !important;
+}
+
+/* Override focus states */
+.focus\:border-primary:focus,
+.focus\:ring-primary:focus {
+  border-color: var(--accent-primary) !important;
+  --tw-ring-color: var(--accent-primary) !important;
+}
+
+.dark .focus\:border-primary:focus,
+.dark .focus\:ring-primary:focus {
+  border-color: var(--accent-dark) !important;
+  --tw-ring-color: var(--accent-dark) !important;
+}
+
+/* Update social icons and other interactive elements */
+.social-icons li a:hover,
+a[class*="social"]:hover {
+  background-color: var(--accent-primary) !important;
+}
+
+.dark .social-icons li a:hover,
+.dark a[class*="social"]:hover {
+  background-color: var(--accent-dark) !important;
+}

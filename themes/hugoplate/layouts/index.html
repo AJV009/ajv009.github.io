@@ -81,17 +81,17 @@
             </p>
             <ul>
               {{ range $index, $item := .bulletpoints }}
-                <li class="relative mb-4 pl-6">
+                <li class="relative mb-1 pl-6">
                   <i class="fa fa-angle-right absolute left-0 top-1.5"></i>
                   {{ if $item.description }}
                     <!-- Collapsible item with description -->
                     <div class="expandable-item">
                       <div class="font-medium">{{ $item.title | markdownify }}</div>
-                      <div class="expandable-content mt-2" data-expanded="false">
+                      <div class="expandable-content" data-expanded="false">
                         <div class="expandable-text text-text-light dark:text-darkmode-text-light">
                           {{ $item.description | markdownify }}
                         </div>
-                        <button class="expand-toggle text-primary dark:text-darkmode-primary text-sm mt-2 font-medium hover:underline">
+                        <button class="expand-toggle text-primary dark:text-darkmode-primary text-sm font-medium hover:underline">
                           Read more →
                         </button>
                       </div>
@@ -99,6 +99,7 @@
                   {{ else }}
                     <!-- Simple item with just title -->
                     {{ $item.title | markdownify }}
+                    <div class="mb-3"></div>
                   {{ end }}
                 </li>
               {{ end }}
@@ -241,10 +242,16 @@
       position: relative;
     }
 
+    /* .expandable-content[data-expanded="false"] {
+      position: relative;
+      padding-bottom: 0.5rem;
+    } */
+
     .expandable-content[data-expanded="false"] .expandable-text {
       max-height: 1.3em;
       overflow: hidden;
       position: relative;
+      padding-bottom: 1rem;
     }
 
     .expandable-content[data-expanded="false"] .expandable-text::after {
@@ -253,16 +260,21 @@
       bottom: 0;
       left: 0;
       right: 0;
-      height: 1.5em;
-      background: linear-gradient(to bottom, transparent, var(--color-light));
+      height: 1em;
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(4px);
+      mask-image: linear-gradient(to bottom, transparent, black);
+      -webkit-mask-image: linear-gradient(to bottom, transparent, black);
     }
 
-    .dark .expandable-content[data-expanded="false"] .expandable-text::after {
-      background: linear-gradient(to bottom, transparent, var(--color-darkmode-light));
+    .expandable-content[data-expanded="false"] .expand-toggle {
+      position: relative;
+      z-index: 1;
     }
 
     .expandable-content[data-expanded="true"] .expandable-text {
       max-height: none;
+      padding-bottom: 0;
     }
 
     .expandable-content[data-expanded="true"] .expandable-text::after {

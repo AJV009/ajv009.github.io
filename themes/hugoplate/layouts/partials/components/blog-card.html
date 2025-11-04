@@ -1,8 +1,8 @@
-<div class="blog-card bg-body dark:bg-darkmode-body">
+<a href="{{ .RelPermalink }}" class="blog-card bg-body dark:bg-darkmode-body flex flex-col p-6 block no-underline hover:no-underline relative">
   {{ $image:= .Params.image }}
   {{ if $image }}
-    <!-- Image container with layered effect for consistent sizing -->
-    <div class="blog-image-container w-full h-64 relative mb-6 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+    <!-- Image container - Fixed at exactly HALF the card height (250px) -->
+    <div class="blog-image-container w-full relative mb-6 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800 flex-shrink-0" style="height: 250px;">
       <!-- Background: blurred stretched image for ambient effect -->
       {{ partial "image" (dict "Src" $image "Context" .Page "Alt" (printf "%s background" .Title) "Class" "blog-ambient-bg" "Size" "400x300") }}
 
@@ -10,37 +10,32 @@
       {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "blog-fitted-image") }}
     </div>
   {{ end }}
-  <h5 class="mb-3">
-    <a href="{{ .RelPermalink }}">
+
+  <!-- Content wrapper with flex-grow to fill remaining half -->
+  <div class="flex flex-col flex-grow">
+    <h5 class="mb-3 text-text-dark dark:text-darkmode-text-dark">
       {{ .Title }}
-    </a>
-  </h5>
-  {{ $categories:= .Params.categories }}
-  {{ if $categories }}
-    <ul class="mb-4">
-      <li class="mr-4 inline-block">
-        <i class="fa-regular fa-calendar mr-1"></i>
-        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
-      </li>
-      <li class="mr-4 inline-block">
-        <i class="fa-regular fa-folder mr-1"></i>
-        {{ range $i,$p:= $categories }}
-          <a
-            href="{{ `categories/` | relLangURL }}{{ . | urlize | lower }}/"
-            class="ms-1"
-            >{{ . | humanize }}{{ if ne $i (sub (len $categories) 1) }}
-              {{ "," }}
-            {{ end }}
-          </a>
-        {{ end }}
-      </li>
-    </ul>
-  {{ end }}
-  <div class="relative overflow-hidden mb-6" style="max-height: 90px;">
-    <p class="blog-summary-text">{{ .Params.description | default .Summary | plainify }}</p>
-    <div class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-body dark:from-darkmode-body to-transparent pointer-events-none"></div>
+    </h5>
+    {{ $categories:= .Params.categories }}
+    {{ if $categories }}
+      <ul class="mb-4">
+        <li class="mr-4 inline-block">
+          <i class="fa-regular fa-calendar mr-1"></i>
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+        </li>
+        <li class="mr-4 inline-block">
+          <i class="fa-regular fa-folder mr-1"></i>
+          {{ range $i,$p:= $categories }}
+            <span class="ms-1">{{ . | humanize }}{{ if ne $i (sub (len $categories) 1) }}{{ "," }}{{ end }}</span>
+          {{ end }}
+        </li>
+      </ul>
+    {{ end }}
+    <div class="overflow-hidden mb-1 flex-grow blog-description-area">
+      <p class="blog-summary-text">{{ .Params.description | default .Summary | plainify }}</p>
+    </div>
   </div>
-  <a class="btn btn-outline-primary btn-sm" href="{{ .RelPermalink }}">
-    {{ T "read_more" }}
-  </a>
-</div>
+
+  <!-- Blur fade anchored to card bottom - works regardless of description length -->
+  <div class="blog-card-fade"></div>
+</a>

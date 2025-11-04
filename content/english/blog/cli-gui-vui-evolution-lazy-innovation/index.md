@@ -1,5 +1,5 @@
 ---
-title: "CLI → GUI → VUI: \"Wow, I Want to Be More Lazy Man! Bring Me Something More Innovative\""
+title: "CLI → GUI → VUI: \"Make me more lazy\""
 meta_title: "The Evolution of User Interfaces - From CLI to GUI to VUI and Beyond"
 description: "Exploring the evolution of computer interfaces from command lines to graphical interfaces to voice commands, and the future of brain-computer interaction. How technology makes us increasingly efficient... and lazy!"
 date: 2018-10-06T05:00:00Z
