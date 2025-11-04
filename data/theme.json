@@ -23,9 +23,9 @@
         "dark": "#fff"
       },
       "text_color": {
-        "text": "#B4AFB6",
+        "text": "#ffffff",
         "text_dark": "#fff",
-        "text_light": "#B4AFB6"
+        "text_light": "#ffffff"
       }
     }
   },

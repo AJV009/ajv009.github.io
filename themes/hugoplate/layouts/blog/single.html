@@ -80,8 +80,8 @@
       {{ $related := .Site.RegularPages.Related . | first 10 }}
       {{ $related = $related | shuffle | first 3 }}
       {{ with $related }}
-        <div class="section pb-0">
-          <h2 class="h3 mb-12">{{ T "related_posts" }}</h2>
+        <div class="pb-0">
+          <h2 class="h3 mt-6 mb-4">{{ T "related_posts" }}</h2>
           <div class="row">
             {{ range . }}
               <div class="lg:col-4 md:col-6 mb-14">
