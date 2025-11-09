@@ -610,9 +610,9 @@ Want to dive deeper? Here are starting points:
 #### Additional Guides
 Two simple guides that you can refer if needed. Note that I used AI to alter the original prod template to clean it off brand names and sensitive info. So its not the exact template but more or less similar, but if you have understand everything so far, you prolly can skip this entirely and just built one in like 30-40mins, you do understand its that simple, all you need is a structured JSON, a good system prompt and finally some programming knowledge to write some code that captures, stores and maintains the states and triggers.
 
-{{< sub-section "assets/lead-collection-template.md" >}}
+{{< sub-section "assets/lead-collection-template.md" >}}{{< /sub-section >}}
 
-{{< sub-section "assets/search-filter-template.md" >}}
+{{< sub-section "assets/search-filter-template.md" >}}{{< /sub-section >}}
 
 *Build something amazing.*
 

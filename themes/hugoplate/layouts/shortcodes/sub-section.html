@@ -1,18 +1,55 @@
+{{- /*
+  Sub-Section Shortcode
+
+  Creates a collapsible section with glass morphism styling matching series/TOC sections.
+  Supports two modes:
+
+  1. FILE MODE - Load content from a markdown file:
+     {{< sub-section "assets/file.md" >}}
+     {{< sub-section "assets/file.md" icon="fa-code" >}}
+
+  2. INLINE MODE - Use inline content:
+     {{< sub-section title="My Title" >}}
+     Your markdown content here...
+     {{< /sub-section >}}
+
+     {{< sub-section title="Code Example" icon="fa-code" >}}
+     ```javascript
+     console.log("hello");
+     ```
+     {{< /sub-section >}}
+
+  Parameters:
+  - Positional 0: File path (for file mode)
+  - title: Title for inline mode (or override for file mode)
+  - icon: FontAwesome icon class (default: "fa-book-open")
+*/ -}}
+
 {{- $filePath := .Get 0 -}}
 {{- $currentPage := .Page -}}
+{{- $title := "" -}}
+{{- $content := "" -}}
+{{- $isFileMode := false -}}
+{{- $icon := .Get "icon" | default "fa-book-open" -}}
 
-{{- /* Construct the full path to the markdown file */ -}}
-{{- $fullPath := path.Join $currentPage.File.Dir $filePath -}}
+{{- /* Determine mode: file-based or inline */ -}}
+{{- if $filePath -}}
+  {{- /* FILE MODE: Load content from file */ -}}
+  {{- $resource := $currentPage.Resources.GetMatch $filePath -}}
 
-{{- /* Try to get the page resource */ -}}
-{{- $resource := $currentPage.Resources.GetMatch $filePath -}}
+  {{- if $resource -}}
+    {{- $isFileMode = true -}}
+    {{- $content = $resource.Content | safeHTML -}}
+    {{- $title = $resource.Params.title | default "Additional Resource" -}}
+  {{- end -}}
+{{- else -}}
+  {{- /* INLINE MODE: Use provided title and inner content */ -}}
+  {{- $isFileMode = true -}}
+  {{- $title = .Get "title" | default "Additional Content" -}}
+  {{- $content = .Inner | .Page.RenderString -}}
+{{- end -}}
 
-{{- if $resource -}}
-  {{- /* Read the markdown content */ -}}
-  {{- $content := $resource.Content | safeHTML -}}
-
-  {{- /* Get title from front matter, or use filename as fallback */ -}}
-  {{- $title := $resource.Params.title | default "Additional Resource" -}}
+{{- if $isFileMode -}}
 
   {{- /* Generate a unique ID for this section */ -}}
   {{- $sectionId := anchorize $title -}}
@@ -27,7 +64,7 @@
         aria-controls="sub-section-{{ $sectionId }}"
       >
         <span class="flex items-center">
-          <i class="fa-solid fa-book-open mr-2"></i>
+          <i class="fa-solid {{ $icon }} mr-2"></i>
           {{ $title }}
         </span>
         <i class="{{ $iconClass }} fa-solid fa-chevron-down transition-transform rotate-0"></i>
@@ -100,9 +137,19 @@
     }
   </style>
 {{- else -}}
-  <div class="bg-red-100 dark:bg-red-900 p-4 rounded-lg">
-    <p class="text-red-800 dark:text-red-200">
-      <strong>Error:</strong> Could not find resource at <code>{{ $filePath }}</code>
-    </p>
-  </div>
+  {{- if $filePath -}}
+    {{- /* File was specified but not found */ -}}
+    <div class="bg-red-100 dark:bg-red-900 p-4 rounded-lg">
+      <p class="text-red-800 dark:text-red-200">
+        <strong>Error:</strong> Could not find resource at <code>{{ $filePath }}</code>
+      </p>
+    </div>
+  {{- else -}}
+    {{- /* No file and no inline content */ -}}
+    <div class="bg-yellow-100 dark:bg-yellow-900 p-4 rounded-lg">
+      <p class="text-yellow-800 dark:text-yellow-200">
+        <strong>Warning:</strong> Sub-section shortcode requires either a file path or inline content with a title parameter.
+      </p>
+    </div>
+  {{- end -}}
 {{- end -}}
