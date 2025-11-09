@@ -41,7 +41,7 @@
             </li>
           </ul>
           <div class="content mb-10">
-            {{ partial "toc.html" (dict "Class" "blog" "Collapsed" true "TableOfContents" .TableOfContents ) }}
+            {{ partial "series-and-toc.html" (dict "Context" . "Collapsed" true "TableOfContents" .TableOfContents ) }}
             {{ .Content }}
           </div>
           <div class="space-y-6">
@@ -75,6 +75,9 @@
           {{ end }}
         </article>
       </div>
+
+      <!-- Series Section -->
+      {{ partial "components/series-section" . }}
 
       <!-- Related posts -->
       {{ $related := .Site.RegularPages.Related . | first 10 }}

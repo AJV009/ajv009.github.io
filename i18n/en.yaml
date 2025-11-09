@@ -2,6 +2,7 @@ home: Home
 read_more: Read More
 send: Send
 related_posts: Related Posts
+series_posts_prefix: "Other posts in the series:"
 categories: Categories
 tags: Tags
 toc: Table of Contents

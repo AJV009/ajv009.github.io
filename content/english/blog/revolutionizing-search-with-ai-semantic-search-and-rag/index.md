@@ -8,6 +8,9 @@ image_credits: "QED42"
 categories: ["BizTech", "AI"]
 author: "Alphons Jaimon"
 tags: ["AI", "Semantic Search", "RAG", "LLM", "Vector Database", "OpenAI", "GPT", "Pinecone", "Meilisearch"]
+series_id: "revolutionizing-search-with-ai"
+series_name: "Revolutionizing Search with AI"
+series_order: 1
 draft: false
 ---
 

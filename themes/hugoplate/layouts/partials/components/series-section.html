@@ -1,0 +1,28 @@
+{{ $currentPage := . }}
+{{ $seriesID := .Params.series_id }}
+{{ $seriesName := .Params.series_name }}
+
+{{ if $seriesID }}
+  {{ $seriesPosts := slice }}
+
+  {{ range where .Site.RegularPages "Params.series_id" $seriesID }}
+    {{ if ne .RelPermalink $currentPage.RelPermalink }}
+      {{ $seriesPosts = $seriesPosts | append . }}
+    {{ end }}
+  {{ end }}
+
+  {{ $seriesPosts = sort $seriesPosts "Params.series_order" "asc" }}
+
+  {{ if gt (len $seriesPosts) 0 }}
+    <div class="pb-0">
+      <h2 class="h3 mt-6 mb-4">{{ T "series_posts_prefix" }} {{ $seriesName }}</h2>
+      <div class="row">
+        {{ range $seriesPosts }}
+          <div class="lg:col-4 md:col-6 mb-14">
+            {{ partial "components/blog-card" . }}
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  {{ end }}
+{{ end }}

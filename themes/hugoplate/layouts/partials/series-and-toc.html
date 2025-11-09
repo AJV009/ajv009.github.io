@@ -1,0 +1,208 @@
+{{ $currentPage := .Context }}
+{{ $collapsed := .Collapsed }}
+{{ $toc := .TableOfContents }}
+{{ $seriesID := $currentPage.Params.series_id }}
+{{ $seriesName := $currentPage.Params.series_name }}
+
+{{ $hasSeries := false }}
+{{ $seriesPosts := slice }}
+
+{{ if $seriesID }}
+  {{ range where $currentPage.Site.RegularPages "Params.series_id" $seriesID }}
+    {{ $seriesPosts = $seriesPosts | append . }}
+  {{ end }}
+  {{ $seriesPosts = sort $seriesPosts "Params.series_order" "asc" }}
+  {{ if gt (len $seriesPosts) 1 }}
+    {{ $hasSeries = true }}
+  {{ end }}
+{{ end }}
+
+{{ if or $hasSeries $toc }}
+<div class="navigation-wrapper mb-8 px-4 rounded-lg border border-border dark:border-darkmode-border">
+
+  <!-- Series Navigation Section -->
+  {{ if $hasSeries }}
+  <div class="nav-section py-3">
+    <button
+      class="nav-toggle w-full flex items-center justify-between text-left font-semibold text-lg mb-0 cursor-pointer text-text-dark dark:text-darkmode-text-dark hover:text-primary dark:hover:text-darkmode-primary transition-colors"
+      onclick="toggleNavSection('series')"
+      aria-expanded="{{ if $collapsed }}false{{ else }}true{{ end }}"
+      aria-controls="series-nav-content"
+    >
+      <span class="flex items-center">
+        <i class="fa-solid fa-layer-group mr-2"></i>
+        Other posts in this series
+      </span>
+      <i class="series-nav-icon fa-solid fa-chevron-down transition-transform {{ if $collapsed }}rotate-0{{ else }}rotate-180{{ end }}"></i>
+    </button>
+
+    <div
+      id="series-nav-content"
+      class="nav-content mt-4 {{ if $collapsed }}hidden{{ end }}"
+    >
+      <ul class="series-list">
+        {{ range $index, $post := $seriesPosts }}
+          <li class="series-item {{ if eq $post.RelPermalink $currentPage.RelPermalink }}current-post{{ end }}">
+            {{ if eq $post.RelPermalink $currentPage.RelPermalink }}
+              <span class="flex items-center">
+                <i class="fa-solid fa-circle-dot mr-2 text-primary dark:text-darkmode-primary"></i>
+                <span class="font-semibold">Part {{ $post.Params.series_order }}: {{ $post.Title }}</span>
+              </span>
+            {{ else }}
+              <a href="{{ $post.RelPermalink }}" class="flex items-center">
+                <i class="fa-regular fa-circle mr-2"></i>
+                <span>Part {{ $post.Params.series_order }}: {{ $post.Title }}</span>
+              </a>
+            {{ end }}
+          </li>
+        {{ end }}
+      </ul>
+    </div>
+  </div>
+  {{ end }}
+
+  <!-- Divider between sections -->
+  {{ if and $hasSeries $toc }}
+  <div class="border-t border-border dark:border-darkmode-border my-0"></div>
+  {{ end }}
+
+  <!-- Table of Contents Section -->
+  {{ if $toc }}
+  <div class="nav-section py-3">
+    <button
+      class="nav-toggle w-full flex items-center justify-between text-left font-semibold text-lg mb-0 cursor-pointer text-text-dark dark:text-darkmode-text-dark hover:text-primary dark:hover:text-darkmode-primary transition-colors"
+      onclick="toggleNavSection('toc')"
+      aria-expanded="{{ if $collapsed }}false{{ else }}true{{ end }}"
+      aria-controls="toc-content"
+    >
+      <span class="flex items-center">
+        <i class="fa-solid fa-rectangle-list mr-2"></i>
+        Table of Contents
+      </span>
+      <i class="toc-icon fa-solid fa-chevron-down transition-transform {{ if $collapsed }}rotate-0{{ else }}rotate-180{{ end }}"></i>
+    </button>
+
+    <div
+      id="toc-content"
+      class="nav-content mt-4 {{ if $collapsed }}hidden{{ end }}"
+    >
+      {{ $toc | safeHTML }}
+    </div>
+  </div>
+  {{ end }}
+
+</div>
+
+<script>
+  function toggleNavSection(section) {
+    const contentId = section === 'series' ? 'series-nav-content' : 'toc-content';
+    const iconClass = section === 'series' ? '.series-nav-icon' : '.toc-icon';
+
+    const content = document.getElementById(contentId);
+    const icon = document.querySelector(iconClass);
+    const button = content.previousElementSibling;
+
+    if (content.classList.contains('hidden')) {
+      content.classList.remove('hidden');
+      icon.classList.add('rotate-180');
+      icon.classList.remove('rotate-0');
+      button.setAttribute('aria-expanded', 'true');
+    } else {
+      content.classList.add('hidden');
+      icon.classList.remove('rotate-180');
+      icon.classList.add('rotate-0');
+      button.setAttribute('aria-expanded', 'false');
+    }
+  }
+</script>
+
+<style>
+  /* Glass morphism effect matching blog cards */
+  .navigation-wrapper {
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    background: rgba(255, 255, 255, 0.18) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    box-shadow:
+      0 8px 32px 0 rgba(31, 38, 135, 0.12),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+  }
+
+  .dark .navigation-wrapper {
+    background: rgba(10, 10, 10, 0.45) !important;
+    border: 1px solid rgba(var(--accent-dark-rgb), 0.25) !important;
+    box-shadow:
+      0 8px 32px 0 rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 0 rgba(var(--accent-dark-rgb), 0.25);
+  }
+
+  .series-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  .series-item {
+    margin-bottom: 0.25rem;
+  }
+
+  .series-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .series-item a {
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: flex;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+  }
+
+  .series-item a:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+  }
+
+  .series-item.current-post > span {
+    padding: 0.5rem;
+  }
+
+  .dark .series-item a:hover {
+    background-color: rgba(59, 130, 246, 0.2);
+  }
+
+  /* ToC specific styles */
+  #toc-content ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  #toc-content ul ul {
+    padding-left: 1.5rem;
+    margin-top: 0.5rem;
+  }
+
+  /* #toc-content li {
+    margin-bottom: 0.5rem;
+  } */
+
+  #toc-content a {
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: block;
+    /* padding: 0.25rem 0; */
+  }
+
+  #toc-content a:hover {
+    color: var(--color-primary);
+  }
+
+  .rotate-0 {
+    transform: rotate(0deg);
+  }
+
+  .rotate-180 {
+    transform: rotate(180deg);
+  }
+</style>
+{{ end }}

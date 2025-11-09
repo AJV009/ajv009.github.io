@@ -8,6 +8,9 @@ image_credits: "QED42"
 categories: ["BizTech", "AI"]
 author: "Alphons Jaimon"
 tags: ["AI", "Semantic Search", "Pinecone", "OpenAI", "Vector Database", "Rust", "Machine Learning", "GPT-3"]
+series_id: "revolutionizing-search-with-ai"
+series_name: "Revolutionizing Search with AI"
+series_order: 2
 draft: false
 ---
 

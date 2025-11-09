@@ -8,6 +8,9 @@ image_credits: "QED42"
 categories: ["BizTech", "AI"]
 author: "Alphons Jaimon"
 tags: ["AI", "RAG", "Retrieval Augmented Generation", "Semantic Search", "GPT", "OpenAI", "Pinecone", "Rust"]
+series_id: "revolutionizing-search-with-ai"
+series_name: "Revolutionizing Search with AI"
+series_order: 3
 draft: false
 ---
 
