@@ -5,16 +5,21 @@
         <article class="lg:col-10">
           {{ $image:= .Params.image }}
           {{ if $image }}
-            <div>
-              {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "w-full rounded") }}
-              {{ with .Params.image_credits }}
-                <div class="text-right">
-                  <span class="image-credits">
-                    Image credits: {{ . | markdownify }}
-                  </span>
-                </div>
-              {{ end }}
+            <!-- Image container with ambient background effect - Fixed at half viewport height -->
+            <div class="blog-single-image-container w-full relative mb-4 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800" style="height: 50vh;">
+              <!-- Background: blurred stretched image for ambient effect -->
+              {{ partial "image" (dict "Src" $image "Context" .Page "Alt" (printf "%s background" .Title) "Class" "blog-single-ambient-bg" "Size" "800x600") }}
+
+              <!-- Foreground: fitted image respecting aspect ratio -->
+              {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "blog-single-fitted-image") }}
             </div>
+            {{ with .Params.image_credits }}
+              <div class="text-right mb-4">
+                <span class="image-credits">
+                  Image credits: {{ . | markdownify }}
+                </span>
+              </div>
+            {{ end }}
           {{ end }}
           <h1 class="h2 mb-4">
             {{ .Title }}
@@ -97,8 +102,42 @@
     </div>
   </section>
 
-  <!-- add custom styles for image credits -->
+  <!-- add custom styles for image credits and blog single image -->
   <style>
+    /* Blog single page image container */
+    .blog-single-image-container {
+      position: relative;
+    }
+
+    /* Ambient background image - blurred and stretched */
+    .blog-single-ambient-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: blur(8px);
+      transform: scale(1.1);
+      z-index: 1;
+    }
+
+    /* Fitted foreground image - respects aspect ratio */
+    .blog-single-fitted-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain !important;
+      z-index: 2;
+    }
+
+    /* Fix long URLs breaking layout - allow wrapping at slashes */
+    .content a {
+      word-break: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
+    }
+
     .image-credits {
       font-size: 0.625rem; /* 10px - between 6-9px range but readable */
       color: #6b7280; /* grey-500 */
