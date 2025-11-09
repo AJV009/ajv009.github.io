@@ -1,10 +1,12 @@
-# Search Filter Optimization - Step-by-Step Guide
-
-A practical guide to build an LLM-powered search assistant for complex databases in under 3 hours.
+---
+title: "Search Filters"
+draft: true
+---
+A guide to build an LLM-powered search assistant for complex filter configurations.
 
 ---
 
-## Step 1: Define Your Field Schema (30 min)
+## Step 1: Define Your Field Schema
 
 Copy this template and customize the placeholders:
 
@@ -310,15 +312,15 @@ Copy this template and customize the placeholders:
 ```
 
 **Customization Checklist:**
-- [ ] Define your search preset modes and what they optimize for
-- [ ] Update `categories.options` with your actual categories
-- [ ] Adjust `status.options` for your data
-- [ ] Set up dynamic options loading for location fields (if needed)
-- [ ] Configure analysis features based on your capabilities
+- Define your search preset modes and what they optimize for
+- Update `categories.options` with your actual categories
+- Adjust `status.options` for your data
+- Set up dynamic options loading for location fields (if needed)
+- Configure analysis features based on your capabilities
 
 ---
 
-## Step 2: Write Your System Prompt (45 min)
+## Step 2: Write Your System Prompt
 
 Copy and customize this prompt:
 
@@ -387,9 +389,9 @@ When enableAnalysis disabled:
 # Dynamic Suggestion System
 
 **ALWAYS use this marker for fields with options:**
-```
+'''
 [[showSuggestions:fieldName]]
-```
+'''
 
 **Examples:**
 - "What search mode? [[showSuggestions:preset]]"
@@ -429,373 +431,11 @@ When enableAnalysis true but clusterAnalysis false:
 ```
 
 **Customization Checklist:**
-- [ ] Replace `[DATABASE_NAME]` with your database name
-- [ ] Define what each preset mode optimizes for
-- [ ] Update category-related descriptions
-- [ ] Adjust analysis feature descriptions
+- Replace `[DATABASE_NAME]` with your database name
+- Define what each preset mode optimizes for
+- Update category-related descriptions
+- Adjust analysis feature descriptions
 
 ---
-
-## Step 3: Build the Widget (1 hour)
-
-### HTML Structure
-
-```html
-<div id="search-widget">
-  <div id="messages"></div>
-  <div id="suggestions"></div>
-  <input id="user-input" type="text" placeholder="Describe your search...">
-  <button id="send-btn">Send</button>
-</div>
-```
-
-### JavaScript Core Functions
-
-```javascript
-class SearchFilterWidget {
-  constructor() {
-    this.messages = JSON.parse(sessionStorage.getItem('search-messages') || '[]');
-    this.filters = JSON.parse(sessionStorage.getItem('search-filters') || '{}');
-    this.schema = {}; // Load your field schema
-  }
-
-  // Handle preset changes - update dependent fields
-  handlePresetChange(newPreset) {
-    const presetField = this.schema.preset;
-
-    // Reset fields specified in stateManagement
-    const resetFields = presetField.stateManagement.triggers.onChange.reset;
-    resetFields.forEach(field => {
-      this.filters[field] = this.schema[field].default;
-    });
-
-    // Update fields with preset-based defaults
-    Object.keys(this.schema).forEach(fieldName => {
-      const field = this.schema[fieldName];
-      if (field.presetBasedDefaults?.[newPreset]) {
-        this.filters[fieldName] = field.presetBasedDefaults[newPreset];
-      }
-    });
-
-    this.saveState();
-  }
-
-  // Check if field should be visible
-  isFieldVisible(fieldName) {
-    const field = this.schema[fieldName];
-
-    // Check disabledWhen
-    if (field.disabledWhen) {
-      for (const [checkField, checkValues] of Object.entries(field.disabledWhen)) {
-        if (checkValues.includes(this.filters[checkField])) {
-          return false;
-        }
-      }
-    }
-
-    // Check visibleWhen
-    if (field.visibleWhen) {
-      for (const [checkField, checkValues] of Object.entries(field.visibleWhen)) {
-        if (checkValues === "!empty") {
-          return this.filters[checkField] && this.filters[checkField].length > 0;
-        }
-        if (!checkValues.includes(this.filters[checkField])) {
-          return false;
-        }
-      }
-    }
-
-    // Check enabledWhen
-    if (field.enabledWhen) {
-      for (const [checkField, checkValue] of Object.entries(field.enabledWhen)) {
-        if (this.filters[checkField] !== checkValue) {
-          return false;
-        }
-      }
-    }
-
-    return true;
-  }
-
-  // Load dynamic options from API
-  async getFieldOptions(fieldName) {
-    const field = this.schema[fieldName];
-
-    if (typeof field.options === 'string' && field.options.startsWith('dynamic')) {
-      const response = await fetch(`/api/options/${fieldName}`);
-      return response.json();
-    }
-
-    return field.options;
-  }
-
-  // Execute search with collected filters
-  async executeSearch() {
-    const searchParams = {
-      filters: {
-        preset: this.filters.preset,
-        categories: this.filters.categories,
-        status: this.filters.status,
-        location: this.filters.location,
-        dateRange: this.filters.dateRange,
-        resultCount: this.filters.resultCount,
-        sortBy: this.filters.sortBy
-      },
-      analysis: {
-        enabled: this.filters.enableAnalysis,
-        query: this.filters.analysisQuery,
-        clusterAnalysis: this.filters.clusterAnalysis,
-        clusterQuery: this.filters.clusterQuery
-      }
-    };
-
-    const response = await fetch('/api/search', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(searchParams)
-    });
-
-    return response.json();
-  }
-
-  // Save state
-  saveState() {
-    sessionStorage.setItem('search-messages', JSON.stringify(this.messages));
-    sessionStorage.setItem('search-filters', JSON.stringify(this.filters));
-  }
-}
-```
-
----
-
-## Step 4: Set Up API Endpoints (30 min)
-
-### Chat Endpoint
-
-```javascript
-app.post('/api/chat', async (req, res) => {
-  const { messages } = req.body;
-
-  const stream = await openai.chat.completions.create({
-    model: 'gpt-4o-mini',
-    messages: messages,
-    stream: true,
-  });
-
-  res.setHeader('Content-Type', 'text/event-stream');
-
-  for await (const chunk of stream) {
-    res.write(`data: ${JSON.stringify(chunk)}\n\n`);
-  }
-
-  res.write('data: [DONE]\n\n');
-  res.end();
-});
-```
-
-### Search Execution Endpoint
-
-```javascript
-app.post('/api/search', async (req, res) => {
-  const { filters, analysis } = req.body;
-
-  // Build database query
-  let query = db.collection('items')
-    .where('status', 'in', filters.status)
-    .where('category', 'in', filters.categories);
-
-  if (filters.location?.length) {
-    query = query.where('location', 'in', filters.location);
-  }
-
-  // Execute search
-  let results = await query
-    .limit(filters.resultCount)
-    .orderBy(filters.sortBy)
-    .get();
-
-  // Optional: Run analysis if enabled
-  if (analysis.enabled) {
-    for (let result of results) {
-      result.analysis = await analyzeResult(result, analysis.query);
-    }
-  }
-
-  // Optional: Cluster analysis
-  if (analysis.clusterAnalysis) {
-    results.clusterAnalysis = await analyzeCluster(results, analysis.clusterQuery);
-  }
-
-  res.json({
-    results: results,
-    metadata: {
-      totalResults: results.length,
-      executionTime: Date.now() - startTime
-    }
-  });
-});
-```
-
-### Dynamic Options Endpoint
-
-```javascript
-app.get('/api/options/:fieldName', async (req, res) => {
-  const { fieldName } = req.params;
-
-  switch(fieldName) {
-    case 'location':
-      const locations = await db.collection('locations').distinct('name');
-      res.json(locations);
-      break;
-
-    case 'subLocation':
-      const parentLocation = req.query.parent;
-      const subLocations = await db.collection('locations')
-        .where('parent', '==', parentLocation)
-        .distinct('name');
-      res.json(subLocations);
-      break;
-
-    default:
-      res.status(404).json({ error: 'Unknown field' });
-  }
-});
-```
-
----
-
-## Step 5: Test Critical Paths (30 min)
-
-### Test 1: Default Mode
-1. User selects "default" preset
-2. Customizes all filters manually
-3. **Expected:** Full customization, no auto-config
-
-### Test 2: Comparison Mode
-1. User selects "comparison" preset
-2. **Expected:** Categories skipped (auto-configured)
-3. **Expected:** Analysis enabled automatically
-4. **Expected:** Analysis query required
-
-### Test 3: Conditional Visibility
-1. User selects location
-2. **Expected:** subLocation field appears
-3. User clears location
-4. **Expected:** subLocation field hidden
-
-### Test 4: Custom Date Range
-1. User selects "custom" for dateRange
-2. **Expected:** customStartDate and customEndDate appear
-3. **Expected:** Both dates required
-
-### Test 5: Cascading Analysis
-1. User enables enableAnalysis
-2. **Expected:** clusterAnalysis becomes available
-3. User disables enableAnalysis
-4. **Expected:** clusterAnalysis auto-disabled, queries reset
-
-### Test 6: Preset State Management
-1. User selects "research" preset with analysis query filled
-2. User changes to "default" preset
-3. **Expected:** analysisQuery reset, filters updated
-
----
-
-## Quick Reference
-
-### Preset Configuration Patterns
-
-**Hide in Specific Modes:**
-```json
-"disabledWhen": {
-  "preset": ["comparison"]
-}
-```
-
-**Show Only in Specific Modes:**
-```json
-"visibleWhen": {
-  "preset": ["expert_mode"]
-}
-```
-
-**Mode-Specific Defaults:**
-```json
-"presetBasedDefaults": {
-  "research": ["all", "categories"],
-  "discovery": ["some", "categories"]
-}
-```
-
-**Required in Specific Modes:**
-```json
-"validation": {
-  "requiredWhen": {
-    "preset": ["comparison", "research"]
-  }
-}
-```
-
-### State Management Patterns
-
-**Reset on Change:**
-```json
-"stateManagement": {
-  "triggers": {
-    "onChange": {
-      "reset": ["field1", "field2"]
-    }
-  }
-}
-```
-
-**Disable Cascading:**
-```json
-"stateManagement": {
-  "triggers": {
-    "onDisable": {
-      "disable": ["dependent"],
-      "reset": ["queries"]
-    }
-  }
-}
-```
-
----
-
-## Common Issues & Fixes
-
-**Issue:** Preset change doesn't update fields
-- **Fix:** Implement `handlePresetChange()` properly, check stateManagement
-
-**Issue:** Conditional fields not hiding/showing
-- **Fix:** Implement `isFieldVisible()`, check all condition types
-
-**Issue:** Dynamic options not loading
-- **Fix:** Verify API endpoint, check options field format
-
-**Issue:** Analysis not triggering
-- **Fix:** Check enabledWhen conditions, verify dependencies
-
----
-
-## Deployment Checklist
-
-- [ ] Schema defines all preset modes
-- [ ] System prompt handles all presets correctly
-- [ ] Widget handles preset changes (state management)
-- [ ] Conditional field visibility works
-- [ ] Dynamic options loading implemented
-- [ ] Search endpoint executes queries correctly
-- [ ] Analysis endpoints functional (if applicable)
-- [ ] All 6 test scenarios pass
-- [ ] State persists correctly
-- [ ] Error handling for failed searches
-
----
-
-**Estimated Total Time:** 3 hours
-
-**Cost per search:** ~$0.001 (using GPT-4o-mini for conversation)
 
 **Next:** Monitor search quality, track most-used presets, optimize defaults based on usage patterns.

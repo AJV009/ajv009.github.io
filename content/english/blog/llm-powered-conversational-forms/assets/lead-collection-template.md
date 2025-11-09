@@ -1,10 +1,12 @@
-# Lead Collection Conversational Form - Step-by-Step Guide
-
-A practical guide to build an LLM-powered lead collection system for service-based businesses in under 3 hours.
+---
+title: "Lead Collection"
+draft: true
+---
+A guide to build an LLM-powered lead collection system
 
 ---
 
-## Step 1: Define Your Field Schema (30 min)
+## Step 1: Define Your Field Schema
 
 Copy this template and customize the placeholders:
 
@@ -218,15 +220,15 @@ Copy this template and customize the placeholders:
 ```
 
 **Customization Checklist:**
-- [ ] Replace `StateA, StateB, StateC` with your service states
-- [ ] Update `[YOUR CRITERIA]` in hasQualifyingCondition
-- [ ] Define your `serviceGoals` options and labels
-- [ ] Adjust insurance providers list if needed
-- [ ] Add/remove fields based on your needs
+- Replace `StateA, StateB, StateC` with your service states
+- Update `[YOUR CRITERIA]` in hasQualifyingCondition
+- Define your `serviceGoals` options and labels
+- Adjust insurance providers list if needed
+- Add/remove fields based on your needs
 
 ---
 
-## Step 2: Write Your System Prompt (45 min)
+## Step 2: Write Your System Prompt
 
 Copy and customize this prompt:
 
@@ -277,9 +279,9 @@ intake sessions while systematically collecting information.
 # Dynamic Suggestion System
 
 **ALWAYS use this marker for fields with options:**
-```
+'''
 [[showSuggestions:fieldName]]
-```
+'''
 
 **Examples:**
 - "Which state are you in? [[showSuggestions:state]]"
@@ -291,9 +293,9 @@ intake sessions while systematically collecting information.
 # Lead Capture System
 
 **When you've collected minimum required info, send this marker ONCE:**
-```
+'''
 [[leadCaptured:{"state":"Virginia","hasQualifyingCondition":"yes","contactEmail":"user@email.com",...}]]
-```
+'''
 
 **Minimum Required:**
 - state: Must be in [ELIGIBLE_STATES]
@@ -314,18 +316,18 @@ intake sessions while systematically collecting information.
 "Since we work only with [CRITERIA], we won't be able to provide services right now. When [CONDITION CHANGES], we'd love to support you!"
 
 # The Fields Definition
-{{fields_json}}
+{{fields_json}} -- INSERT YOUR FIELDS SCHEMA JSON HERE --
 ```
 
 **Customization Checklist:**
-- [ ] Replace all `[PLACEHOLDERS]` with your info
-- [ ] Update eligibility rejection messages
-- [ ] Adjust conversation style to match your brand
-- [ ] Define your service areas and criteria
+- Replace all `[PLACEHOLDERS]` with your info
+- Update eligibility rejection messages
+- Adjust conversation style to match your brand
+- Define your service areas and criteria
 
 ---
 
-## Step 3: Build the Widget (1 hour)
+## Step 3: Build the Widget
 
 ### HTML Structure
 
@@ -416,7 +418,7 @@ class LeadFormWidget {
 
 ---
 
-## Step 4: Set Up API Endpoint (30 min)
+## Step 4: Set Up API Endpoint
 
 ### Request Format
 
@@ -431,6 +433,8 @@ POST /api/chat
   "stream": true
 }
 ```
+
+OR better just use it with your existing OpenAI SDK setup or similar, its just a prompt 
 
 ### Response (Server-Sent Events)
 
@@ -466,97 +470,5 @@ app.post('/api/chat', async (req, res) => {
 ```
 
 ---
-
-## Step 5: Test Critical Paths (30 min)
-
-### Test 1: Happy Path
-1. User in eligible state
-2. Meets qualifying condition
-3. Provides all info
-4. **Expected:** Lead captured successfully
-
-### Test 2: Location Rejection
-1. User in non-eligible state
-2. **Expected:** Polite rejection, no lead capture
-
-### Test 3: Criteria Rejection
-1. User in eligible state
-2. Does NOT meet qualifying condition
-3. **Expected:** Explain limitations, no lead capture
-
-### Test 4: Flexible Input
-1. User says "yeah" instead of "yes"
-2. User says "blue cross" instead of selecting exact option
-3. User says "I'm in VA" instead of "Virginia"
-4. **Expected:** All mapped correctly
-
-### Test 5: Conditional Fields
-1. User selects "private_insurance"
-2. **Expected:** insuranceProvider question appears
-3. User selects "no_insurance"
-4. **Expected:** insuranceProvider question skipped
-
----
-
-## Quick Reference
-
-### Field Types
-- `select`: Single choice dropdown
-- `multiselect`: Multiple choices
-- `radio`: Single choice with visible options
-- `switch`: Boolean toggle
-- `text`: Free text input
-- `textarea`: Long text input
-- `number`: Numeric input
-
-### Conditional Properties
-- `visibleWhen`: Show field only when condition met
-- `disabledWhen`: Hide field when condition met
-- `validation.requiredWhen`: Required only when condition met
-- `chatbot.onlyAskWhen`: Ask only when condition met
-- `chatbot.skipWhen`: Skip when condition met
-
-### Important Metadata
-- `askOrder`: Question sequence (1, 2, 3...)
-- `importance`: "high", "medium", "low"
-- `eligibilityField`: true/false - used for early rejection
-- `field_instruction`: Special handling instructions for LLM
-- `helpText`: Guidance for uncertain users
-
----
-
-## Common Issues & Fixes
-
-**Issue:** LLM not following conditional logic
-- **Fix:** Make rules explicit in system prompt with examples
-
-**Issue:** Suggestion buttons not appearing
-- **Fix:** Check regex pattern, verify marker format exactly
-
-**Issue:** Lead not capturing
-- **Fix:** Verify JSON is valid, check minimum fields collected
-
-**Issue:** Conversation feels robotic
-- **Fix:** Add more contextualQuestions variations, use natural language in prompt
-
----
-
-## Deployment Checklist
-
-- [ ] Fields schema finalized and tested
-- [ ] System prompt customized for your business
-- [ ] Widget processes both marker types correctly
-- [ ] API endpoint returns streaming responses
-- [ ] Lead capture endpoint saves to database/CRM
-- [ ] State persists across page reloads
-- [ ] All 5 test scenarios pass
-- [ ] Mobile UI tested
-- [ ] Error handling implemented
-
----
-
-**Estimated Total Time:** 3 hours
-
-**Cost per conversation:** ~$0.0005 (using GPT-4o-mini)
 
 **Next:** Monitor drop-off points, iterate on question phrasing, A/B test different flows.

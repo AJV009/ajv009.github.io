@@ -3,6 +3,7 @@
 {{ $toc := .TableOfContents }}
 {{ $seriesID := $currentPage.Params.series_id }}
 {{ $seriesName := $currentPage.Params.series_name }}
+{{ $aiAssistance := $currentPage.Params.ai_assistance }}
 
 {{ $hasSeries := false }}
 {{ $seriesPosts := slice }}
@@ -17,7 +18,7 @@
   {{ end }}
 {{ end }}
 
-{{ if or $hasSeries $toc }}
+{{ if or $hasSeries $toc $aiAssistance }}
 <div class="navigation-wrapper mb-8 px-4 rounded-lg border border-border dark:border-darkmode-border">
 
   <!-- Series Navigation Section -->
@@ -91,12 +92,54 @@
   </div>
   {{ end }}
 
+  <!-- Divider before AI Disclaimer -->
+  {{ if and (or $hasSeries $toc) $aiAssistance }}
+  <div class="border-t border-border dark:border-darkmode-border my-0"></div>
+  {{ end }}
+
+  <!-- AI Assistance Disclaimer Section -->
+  {{ if $aiAssistance }}
+  <div class="nav-section py-3">
+    <button
+      class="nav-toggle w-full flex items-center justify-between text-left font-semibold text-lg mb-0 cursor-pointer text-text-dark dark:text-darkmode-text-dark hover:text-primary dark:hover:text-darkmode-primary transition-colors"
+      onclick="toggleNavSection('ai-disclaimer')"
+      aria-expanded="{{ if $collapsed }}false{{ else }}true{{ end }}"
+      aria-controls="ai-disclaimer-content"
+    >
+      <span class="flex items-center">
+        <i class="fa-solid fa-robot mr-2"></i>
+        AI Assistance Disclaimer
+      </span>
+      <i class="ai-disclaimer-icon fa-solid fa-chevron-down transition-transform {{ if $collapsed }}rotate-0{{ else }}rotate-180{{ end }}"></i>
+    </button>
+
+    <div
+      id="ai-disclaimer-content"
+      class="nav-content mt-4 {{ if $collapsed }}hidden{{ end }}"
+    >
+      <div class="ai-disclaimer-text text-sm italic text-text dark:text-darkmode-text leading-relaxed">
+        I had AI-assistance to craft an outline for this blog, to draft a version 0 based on all the possible context, flow, and structure, and finally as part of polishing phase I did read through this at least 2-3 times to edit, make tone changes, align better, removing and adding portions of text and code as needed. So if you see some parts of this article that seems a bit off or not aligned with the rest, it's probably because of that. I do my best to ensure quality and coherence. Please leave a message at <a href="mailto:chat@ajv009.com" class="text-primary dark:text-darkmode-primary hover:underline">chat@ajv009.com</a> explaining what you found as too GenAI generated like, and if I find it worth something and if I make an edit based on that feedback I'll be happy to spare you a dollar. :)
+      </div>
+    </div>
+  </div>
+  {{ end }}
+
 </div>
 
 <script>
   function toggleNavSection(section) {
-    const contentId = section === 'series' ? 'series-nav-content' : 'toc-content';
-    const iconClass = section === 'series' ? '.series-nav-icon' : '.toc-icon';
+    let contentId, iconClass;
+
+    if (section === 'series') {
+      contentId = 'series-nav-content';
+      iconClass = '.series-nav-icon';
+    } else if (section === 'toc') {
+      contentId = 'toc-content';
+      iconClass = '.toc-icon';
+    } else if (section === 'ai-disclaimer') {
+      contentId = 'ai-disclaimer-content';
+      iconClass = '.ai-disclaimer-icon';
+    }
 
     const content = document.getElementById(contentId);
     const icon = document.querySelector(iconClass);
@@ -199,6 +242,19 @@
 
   .dark #toc-content a:hover {
     color: var(--accent-dark);
+  }
+
+  /* AI Disclaimer specific styles */
+  .ai-disclaimer-text {
+    line-height: 1.6;
+  }
+
+  .ai-disclaimer-text a {
+    text-decoration: none;
+  }
+
+  .ai-disclaimer-text a:hover {
+    text-decoration: underline;
   }
 
   .rotate-0 {

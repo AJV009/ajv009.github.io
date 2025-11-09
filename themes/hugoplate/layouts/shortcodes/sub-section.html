@@ -1,0 +1,108 @@
+{{- $filePath := .Get 0 -}}
+{{- $currentPage := .Page -}}
+
+{{- /* Construct the full path to the markdown file */ -}}
+{{- $fullPath := path.Join $currentPage.File.Dir $filePath -}}
+
+{{- /* Try to get the page resource */ -}}
+{{- $resource := $currentPage.Resources.GetMatch $filePath -}}
+
+{{- if $resource -}}
+  {{- /* Read the markdown content */ -}}
+  {{- $content := $resource.Content | safeHTML -}}
+
+  {{- /* Get title from front matter, or use filename as fallback */ -}}
+  {{- $title := $resource.Params.title | default "Additional Resource" -}}
+
+  {{- /* Generate a unique ID for this section */ -}}
+  {{- $sectionId := anchorize $title -}}
+  {{- $iconClass := printf "sub-section-icon-%s" $sectionId -}}
+
+  <div class="sub-section-wrapper mb-6 px-4 rounded-lg border border-border dark:border-darkmode-border">
+    <div class="nav-section py-3">
+      <button
+        class="nav-toggle w-full flex items-center justify-between text-left font-semibold text-lg mb-0 cursor-pointer text-text-dark dark:text-darkmode-text-dark hover:text-primary dark:hover:text-darkmode-primary transition-colors"
+        onclick="toggleSubSection('{{ $sectionId }}')"
+        aria-expanded="false"
+        aria-controls="sub-section-{{ $sectionId }}"
+      >
+        <span class="flex items-center">
+          <i class="fa-solid fa-book-open mr-2"></i>
+          {{ $title }}
+        </span>
+        <i class="{{ $iconClass }} fa-solid fa-chevron-down transition-transform rotate-0"></i>
+      </button>
+
+      <div
+        id="sub-section-{{ $sectionId }}"
+        class="sub-section-content mt-4 hidden"
+      >
+        <div class="prose prose-sm dark:prose-invert max-w-none">
+          {{ $content }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleSubSection(sectionId) {
+      const contentId = 'sub-section-' + sectionId;
+      const iconClass = '.sub-section-icon-' + sectionId;
+
+      const content = document.getElementById(contentId);
+      const icon = document.querySelector(iconClass);
+      const button = content.previousElementSibling;
+
+      if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        icon.classList.add('rotate-180');
+        icon.classList.remove('rotate-0');
+        button.setAttribute('aria-expanded', 'true');
+      } else {
+        content.classList.add('hidden');
+        icon.classList.remove('rotate-180');
+        icon.classList.add('rotate-0');
+        button.setAttribute('aria-expanded', 'false');
+      }
+    }
+  </script>
+
+  <style>
+    /* Glass morphism effect matching series-and-toc */
+    .sub-section-wrapper {
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      background: rgba(255, 255, 255, 0.18) !important;
+      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      box-shadow:
+        0 8px 32px 0 rgba(31, 38, 135, 0.12),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+    }
+
+    .dark .sub-section-wrapper {
+      background: rgba(10, 10, 10, 0.45) !important;
+      border: 1px solid rgba(var(--accent-dark-rgb), 0.25) !important;
+      box-shadow:
+        0 8px 32px 0 rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 0 rgba(var(--accent-dark-rgb), 0.25);
+    }
+
+    .sub-section-content {
+      line-height: 1.6;
+    }
+
+    .rotate-0 {
+      transform: rotate(0deg);
+    }
+
+    .rotate-180 {
+      transform: rotate(180deg);
+    }
+  </style>
+{{- else -}}
+  <div class="bg-red-100 dark:bg-red-900 p-4 rounded-lg">
+    <p class="text-red-800 dark:text-red-200">
+      <strong>Error:</strong> Could not find resource at <code>{{ $filePath }}</code>
+    </p>
+  </div>
+{{- end -}}

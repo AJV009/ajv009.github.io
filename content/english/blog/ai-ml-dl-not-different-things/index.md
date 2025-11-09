@@ -11,7 +11,7 @@ tags: ["AI", "Machine Learning", "Deep Learning", "Neural Networks", "TensorFlow
 draft: false
 ---
 
-> Following is a little article I wrote up back in 2018 for my college magazine. I was 16/17 and stupid, today kids are busy raising millions for startup but I was just figuring out coding, ego-fighting with friends and trying to hit girls in my diploma college. And yes this blog has a lot of grammar mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.
+> Following is a little article I wrote up back in 2018 for my college magazine. I was 16/17 and stupid, today kids are busy raising millions for startup but I was just figuring out coding, ego-fighting with friends and trying to get a girl out of pure FOMO and status back in college. <br> So yeah this blog has a lot of grammar mistakes, but I intend to keep it as is because it would be fun to read this later and hey in todays world where everything is heavily moderated using AI tools, its good to have some raw unedited content too. hehe.
 
 ### How would you differentiate them AI, ML, DL?
 
