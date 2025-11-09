@@ -1,5 +1,5 @@
 ---
-title: "Task-Oriented Dialogue Systems: A Metadata-Driven Architecture for Structured Conversations"
+title: "Structured Conversations with Task-Oriented Dialogue Systems"
 meta_title: "Building Low-Agency AI for Guided Conversations: Task-Oriented Dialogue with LLMs"
 description: "Learn how to build task-oriented dialogue systems using LLMs and metadata-driven architecture. From lead qualification to government form assistance, discover how low-agency AI achieves higher completion rates than traditional forms at 1/10th the cost."
 date: 2025-11-09T00:00:00Z
