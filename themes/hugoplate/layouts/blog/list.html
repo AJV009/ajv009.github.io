@@ -16,23 +16,32 @@
     <div class="container">
       <div class="row gx-5">
         <!-- blog posts -->
-        <div class="lg:col-8">
-          <div class="row">
+        <div class="lg:col-12">
+          <div class="row" id="blog-posts-container">
             {{ $paginator:= .Paginate .RegularPages }}
             {{ range $paginator.Pages }}
-              <div class="md:col-6 mb-14">
+              <div class="lg:col-4 md:col-6 mb-14">
                 {{ partial "components/blog-card" . }}
               </div>
             {{ end }}
           </div>
-          {{ partial "components/pagination.html" . }}
+
+          <!-- Loading indicator -->
+          <div id="loading-indicator" class="text-center py-8 hidden">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary dark:border-darkmode-primary"></div>
+            <p class="mt-4 text-text dark:text-darkmode-text">Loading more posts...</p>
+          </div>
+
+          <!-- Pagination (hidden, used by infinite scroll) -->
+          <div id="pagination-wrapper" style="display: none;">
+            {{ partial "components/pagination.html" . }}
+          </div>
         </div>
-        <!-- sidebar -->
-        <div class="lg:col-4">
-          <!-- widget -->
+        <!-- sidebar - hidden -->
+        <!-- <div class="lg:col-4">
           {{ $widget:= site.Params.widgets.sidebar }}
           {{ partialCached "widgets/widget-wrapper" ( dict "Widgets" $widget "Scope" . ) }}
-        </div>
+        </div> -->
       </div>
     </div>
   </section>
@@ -72,4 +81,108 @@
       transform: scale(1.05);
     }
   </style>
+
+  <!-- Infinite Scroll Script -->
+  <script>
+    (function() {
+      let loading = false;
+      let currentPage = 1;
+      let hasMorePages = true;
+      const container = document.getElementById('blog-posts-container');
+      const loadingIndicator = document.getElementById('loading-indicator');
+      const paginationWrapper = document.getElementById('pagination-wrapper');
+
+      // Check if there's a "next" link in pagination
+      function checkForNextPage() {
+        // Find the link that contains sr-only "Next" text
+        const links = paginationWrapper.querySelectorAll('a[aria-label="Pagination Arrow"]');
+        let nextLink = null;
+
+        links.forEach(link => {
+          const srOnly = link.querySelector('.sr-only');
+          if (srOnly && srOnly.textContent === 'Next') {
+            nextLink = link;
+          }
+        });
+
+        if (!nextLink) {
+          hasMorePages = false;
+          return null;
+        }
+        return nextLink.getAttribute('href');
+      }
+
+      // Load next page
+      async function loadNextPage() {
+        if (loading || !hasMorePages) return;
+
+        const nextPageUrl = checkForNextPage();
+        if (!nextPageUrl) return;
+
+        loading = true;
+        loadingIndicator.classList.remove('hidden');
+
+        try {
+          const response = await fetch(nextPageUrl);
+          const html = await response.text();
+
+          // Parse the HTML
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+
+          // Extract blog cards
+          const newCards = doc.querySelectorAll('#blog-posts-container > div');
+
+          // Append to current container
+          newCards.forEach(card => {
+            container.appendChild(card.cloneNode(true));
+          });
+
+          // Update pagination for next iteration
+          const newPagination = doc.querySelector('#pagination-wrapper');
+          if (newPagination) {
+            paginationWrapper.innerHTML = newPagination.innerHTML;
+          }
+
+          currentPage++;
+
+          // Check if there are more pages
+          if (!checkForNextPage()) {
+            hasMorePages = false;
+          }
+        } catch (error) {
+          console.error('Error loading next page:', error);
+          hasMorePages = false;
+        } finally {
+          loading = false;
+          loadingIndicator.classList.add('hidden');
+        }
+      }
+
+      // Scroll event listener
+      function handleScroll() {
+        if (loading || !hasMorePages) return;
+
+        const scrollPosition = window.innerHeight + window.scrollY;
+        const threshold = document.documentElement.scrollHeight - 800;
+
+        if (scrollPosition >= threshold) {
+          console.log('Infinite scroll: Triggering load next page');
+          loadNextPage();
+        }
+      }
+
+      // Initialize
+      window.addEventListener('scroll', handleScroll);
+
+      // Initial check for pagination
+      const initialNextUrl = checkForNextPage();
+      if (!initialNextUrl) {
+        hasMorePages = false;
+        console.log('Infinite scroll: No more pages available');
+      } else {
+        console.log('Infinite scroll: Initialized, next page:', initialNextUrl);
+      }
+    })();
+  </script>
 {{ end }}
