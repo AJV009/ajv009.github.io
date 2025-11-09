@@ -48,7 +48,7 @@
             {{ $tags:= .Params.tags }}
             {{ if $tags }}
               <div class="flex items-center">
-                <h5 class="mr-3">{{ T "tags" }} :</h5>
+                <h5 class="mr-3" style="white-space: nowrap;">{{ T "tags" }} :</h5>
                 <ul>
                   {{ range $i,$p:= $tags }}
                     <li class="inline-block">
