@@ -625,38 +625,21 @@ Two simple guides that you can refer if needed. Note that I used AI to alter the
 - [Lead Collection Template](assets/lead-collection-template.md) 
 - [Search Filter Optimization Template](assets/search-filter-template.md)
 
----
+*Build something amazing.*
+
 
 ## Footnotes and Citations
-
-[^form-stats]: Zuko Analytics (2024). "Average Conversion Rates on Forms and Checkouts: Industry Benchmarking" - https://www.zuko.io/benchmarking/industry-benchmarking
-
-[^complex-forms]: SaleCycle Research (2024). "Over 80% of shoppers abandon booking and checkout forms" - Referenced in WPForms Statistics 2024
-
-[^dialogflow]: Google Cloud Documentation (2024). "Generative features overview | Dialogflow CX" - https://cloud.google.com/dialogflow/cx/docs/concept/generative
-
-[^lex]: AWS Blog (2024). "Elevate your self-service assistants with new generative AI features in Amazon Lex" - https://aws.amazon.com/blogs/machine-learning/elevate-your-self-service-assistants-with-new-generative-ai-features-in-amazon-lex/
-
-[^copilot]: Microsoft Learn (2024). "Overview - Microsoft Copilot Studio" - https://learn.microsoft.com/en-us/microsoft-copilot-studio/fundamentals-what-is-copilot-studio
-
-[^rasa]: Rasa Blog (2024). "Rasa Developer Edition for LLM-Powered Chatbots" - https://rasa.com/blog/rasa-developer-edition-revolutionizing-llm-powered-chatbots/
-
-[^botpress]: Botpress (2024). "The Complete AI Agent Platform" - https://www.botpress.com/
-
-[^landbot]: Landbot (2024). "AI Chatbot Generator for Conversational Experiences" - https://landbot.io
-
-[^salesforce]: Salesforce (2024). "Salesforce Announces General Availability of Einstein Copilot" - https://www.salesforce.com/news/press-releases/2024/04/25/einstein-copilot-general-availability/
-
-[^dialogflow-pricing]: Google Cloud Pricing (2024). "Dialogflow CX Pricing" - https://cloud.google.com/dialogflow/pricing
-
-[^lex-pricing]: AWS Pricing (2024). "Amazon Lex Pricing" - https://aws.amazon.com/lex/pricing/
-
-[^copilot-pricing]: Microsoft (2024). "Microsoft Copilot Studio Pricing" - https://www.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-studio
-
-[^botpress-pricing]: Botpress Pricing (2024). "Botpress Cloud Pricing" - https://www.botpress.com/pricing
-
-[^landbot-pricing]: Landbot Pricing (2024). "Landbot Pricing Plans" - https://landbot.io/pricing
-
----
-
-*Build something amazing.*
+- [^form-stats]: Zuko Analytics (2024). "Average Conversion Rates on Forms and Checkouts: Industry Benchmarking" - https://www.zuko.io/benchmarking/industry-benchmarking
+- [^complex-forms]: SaleCycle Research (2024). "Over 80% of shoppers abandon booking and checkout forms" - Referenced in WPForms Statistics 2024
+- [^dialogflow]: Google Cloud Documentation (2024). "Generative features overview | Dialogflow CX" - https://cloud.google.com/dialogflow/cx/docs/concept/generative
+- [^lex]: AWS Blog (2024). "Elevate your self-service assistants with new generative AI features in Amazon Lex" - https://aws.amazon.com/blogs/machine-learning/elevate-your-self-service-assistants-with-new-generative-ai-features-in-amazon-lex/
+- [^copilot]: Microsoft Learn (2024). "Overview - Microsoft Copilot Studio" - https://learn.microsoft.com/en-us/microsoft-copilot-studio/fundamentals-what-is-copilot-studio
+- [^rasa]: Rasa Blog (2024). "Rasa Developer Edition for LLM-Powered Chatbots" - https://rasa.com/blog/rasa-developer-edition-revolutionizing-llm-powered-chatbots/
+- [^botpress]: Botpress (2024). "The Complete AI Agent Platform" - https://www.botpress.com/
+- [^landbot]: Landbot (2024). "AI Chatbot Generator for Conversational Experiences" - https://landbot.io
+- [^salesforce]: Salesforce (2024). "Salesforce Announces General Availability of Einstein Copilot" - https://www.salesforce.com/news/press-releases/2024/04/25/einstein-copilot-general-availability/
+- [^dialogflow-pricing]: Google Cloud Pricing (2024). "Dialogflow CX Pricing" - https://cloud.google.com/dialogflow/pricing
+- [^lex-pricing]: AWS Pricing (2024). "Amazon Lex Pricing" - https://aws.amazon.com/lex/pricing/
+- [^copilot-pricing]: Microsoft (2024). "Microsoft Copilot Studio Pricing" - https://www.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-studio
+- [^botpress-pricing]: Botpress Pricing (2024). "Botpress Cloud Pricing" - https://www.botpress.com/pricing
+- [^landbot-pricing]: Landbot Pricing (2024). "Landbot Pricing Plans" - https://landbot.io/pricing
