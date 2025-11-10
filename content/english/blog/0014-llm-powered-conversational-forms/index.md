@@ -126,7 +126,7 @@ The breakthrough isn't just that LLMs can understand language better (though the
 
 LLMs can map user intent to structured data without training:
 
-```
+```markdown
 Healthcare Intake:
 User: "yeah my kid is autistic"
 → hasAutismDiagnosis: "yes"
@@ -160,7 +160,7 @@ This flexible mapping is impossible with traditional chatbots that rely on exact
 
 LLMs maintain conversation state and use it intelligently:
 
-```
+```markdown
 Service Provider Intake:
 AI: "Which state are you located in?"
 User: "Virginia"
@@ -189,7 +189,7 @@ Notice how the AI references previous answers naturally and adapts follow-up que
 
 Tell the LLM the rules, and it follows them:
 
-```
+```markdown
 Healthcare: "Only ask about insurance provider if they selected private insurance"
 Search: "Skip profile sections when preset is 'benchmark'"
 Government: "Only ask about spouse income if marital status is 'married' or 'separated'"
@@ -242,7 +242,7 @@ Instead of hardcoding conversation flow, we define it declaratively in JSON meta
 
 ### The Three-Layer System
 
-```
+```markdown
 ┌─────────────────────────────────────┐
 │  Field Schema (JSON)                  ← Business logic
 │  - What to collect                  
@@ -507,7 +507,7 @@ You conduct warm, conversational sessions while systematically collecting inform
 We added a dynamic suggestion system because we if we provide options in the JSON, its not that super necessary to show the suggestions every single time, a mid-agency level bot would be able to judge a users conversation flow to decide if they would need suggestions or not. I appreciate having less elements than overwhelm the user with options when not needed.
 
 The trigger looks something like this
-```
+```markdown
 AI: "What are your therapy goals? [[showSuggestions:therapyGoals]]"
 
 → Widget shows:
@@ -538,7 +538,7 @@ Important:
 We had an additional trigger for the chatbot to use when it felt it had collected enough information to qualify a lead. I know - I know that there are much better systems for lead capture but this was one of the simplest ways to do it without having to build complex API integrations into the chatbot itself.
 
 The trigger looks something like this:
-```
+```markdown
 [[leadCaptured:{
   "state": "Virginia",
   "hasAutismDiagnosis": "yes",
