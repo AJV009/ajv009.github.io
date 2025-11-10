@@ -30,9 +30,9 @@
 .content {
   @apply prose max-w-none;
   @apply prose-headings:mb-[.3em] prose-headings:mt-[.6em] prose-headings:text-text-dark dark:prose-headings:text-darkmode-text-dark;
-  @apply prose-h1:text-h1-sm md:prose-h1:text-h1;
-  @apply prose-h2:text-h2-sm md:prose-h2:text-h2;
-  @apply prose-h3:text-h3-sm md:prose-h3:text-h3;
+  @apply prose-h1:text-h2-sm md:prose-h1:text-h2;
+  @apply prose-h2:text-h3-sm md:prose-h2:text-h3;
+  @apply prose-h3:text-h4-sm md:prose-h3:text-h4;
   @apply prose-p:text-base prose-p:text-text dark:prose-p:text-darkmode-text;
   @apply prose-a:text-text prose-a:[&.btn]:no-underline  dark:prose-a:text-darkmode-text;
   @apply prose-img:max-w-full prose-img:rounded;

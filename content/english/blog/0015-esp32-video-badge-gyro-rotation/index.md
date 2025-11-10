@@ -14,14 +14,24 @@ series_order: 1
 draft: false
 ---
 
-#### A quick backstory
+## A quick backstory
 So QED42, my previous company is hosting an AI conference soon in last week of November 2025, and hey I just thought it would be really cool if I can the event logo animated on a badge that I will put inside the lanyard. So I first got the video animated using Google Veo 3.1 on Weavy.ai which Figma recently acquired.
 
 Since I was a bit cash tight I had to think of a very cheap and way way to do this. Randomly explored my regular site Robu.in and found that a lot of ESP32 boards came with LCD displays, that too as small as 1.3 inches to 2.4 inches. I thought why not use one of those boards to display the video. After filtering based on cost and an ideal size and features I finally settled on the Waveshare ESP32-S3-LCD-2 board which costed me around 1.5K INR or 17 USD at the time of purchase. (Nov 2025)
 
 Spoiler: It's pretty easy to hack around and awesome to just look at.
 
-#### The Hardware: ESP32-S3-LCD-2
+I wanted to build something that could:
+
+1. Play a video file in an infinite loop
+2. Store the video in flash memory (no SD card, because I had trouble with getting older SD card up and running, it was too much hacky work for a simple project)
+3. Automatically rotate the display based on device orientation
+4. Respond to button presses (pause/play, power management)
+5. And finally run smoothly without stuttering!
+
+Think of it like a digital photo frame, but cooler because it's a video badge that knows which way is up. Hehe
+
+## The Hardware: ESP32-S3-LCD-2
 
 The board I'm working with is the ESP32-S3-LCD-2, which is basically an all-in-one solution for display projects. Here's what makes it interesting:
 
@@ -42,19 +52,10 @@ Read more about the board here:
 - [Waveshare ESP32-S3-LCD-2 Wiki](https://www.waveshare.com/wiki/ESP32-S3-LCD-2)
 - [Robu.in Product Listing for the same](https://robu.in/product/waveshare-esp32-s3-2inch-display-development-board-240x320-pixels-32-bit-lx7-dual-core-processor-esp32-with-display/)
 
-#### The Idea: A Self-Contained Video Player
 
-I wanted to build something that could:
+## Video Component
 
-1. Play a video file in an infinite loop
-2. Store the video in flash memory (no SD card, because I had trouble with getting older SD card up and running, it was too much hacky work for a simple project)
-3. Automatically rotate the display based on device orientation
-4. Respond to button presses (pause/play, power management)
-5. And finally run smoothly without stuttering!
-
-Think of it like a digital photo frame, but cooler because it's a video badge that knows which way is up. Hehe
-
-#### Video Format: Why MJPEG?
+### Why MJPEG?
 
 First question: What video format should we use? The options aren't great for microcontrollers:
 
@@ -72,7 +73,7 @@ MJPEG (Motion JPEG) turned out to be perfect for this use case. It's essentially
 
 The tradeoff is file size compared to modern codecs like H.264, but for a 3-second loop stored in flash? MJPEG is ideal.
 
-#### Converting Video with FFmpeg
+### Converting Video with FFmpeg
 
 Getting video into MJPEG format is straightforward with FFmpeg. Here's what I'm doing:
 
@@ -90,51 +91,26 @@ Let's break this down:
 
 The result is a 1.2MB file for about 3 seconds of video. Small enough to fit comfortably in flash with room to spare.
 
-#### The Architecture: How It All Fits Together
+## The Architecture: How It All Fits Together
 
 Here's the high-level flow:
 
-```
-       │ Upload to Flash first
-       ▼
-┌─────────────┐
-│ Flash (16MB)│
-│ output.mjpeg│
-└──────┬──────┘
-       │ Load into PSRAM at startup
-       ▼
-┌─────────────┐
-│ PSRAM (8MB) │
-│ Video Buffer│
-└──────┬──────┘
-       │ Stream frames
-       ▼
-┌─────────────┐      ┌──────────────┐
-│ MJPEG Parser├─────►│ JPEG Decoder │
-└─────────────┘      └──────┬───────┘
-                            │ Render
-                            ▼
-                     ┌──────────────┐
-                     │ ST7789 LCD   │
-                     └──────────────┘
-
-┌─────────────┐      ┌──────────────────┐
-│ QMI8658 IMU ├─────►│ Orientation Mgr  │──► Auto-rotate
-└─────────────┘      └──────────────────┘
-
-┌─────────────┐      ┌──────────────────┐
-│ BOOT Button ├─────►│ Button Handler   │──► Pause/Power
-└─────────────┘      └──────────────────┘
-```
+![flow](assets/badge_architecture.png)
 
 The key insight: Load the entire video into PSRAM (external RAM) at startup, then stream from there. PSRAM is slower than internal SRAM, but it's perfect for bulk storage like this.
 
-#### Memory Strategy: PSRAM vs SRAM
+## Memory & Streaming Strategy
+
+### PSRAM vs SRAM
 
 The ESP32-S3 has two types of memory:
 
 - **SRAM (512KB)**: Fast, but limited
 - **PSRAM (8MB)**: Slower, but abundant
+
+{{< sub-section title="Arduino C++ Code generation with Claude Code" icon="fa-robot" >}}
+I got all the code generated with Claude Code, am not a C/C++ expert, I can read it and assume things based on my previous learnings from college time and also having played with Rust some time back. So I understand the code might have been a bit overwhelming, but trust me once you get the hang of it, it's pretty straightforward. The key is breaking down the problem into manageable pieces: video format, memory management, input handling, and display rendering. And often AI would help with that, but in worst case if that fails, reading datasheets and library docs always helps. Just feed those docs and stuff in as well to AI and it can help you generate code snippets that work in a single shot with minimal edits.
+{{< /sub-section >}}
 
 Here's how I'm using them:
 
@@ -153,7 +129,7 @@ decodeBuf = (uint8_t*)malloc(320 * 240 / 2);  // malloc = SRAM allocation
 - Decode buffer (38KB) → SRAM (speed matters here)
 - Working memory → SRAM (everything else)
 
-#### The MemoryStream Class: Streaming from PSRAM
+### The MemoryStream Class: Streaming from PSRAM
 
 To make the video loop infinitely, I created a simple `MemoryStream` class that implements Arduino's `Stream` interface:
 
@@ -178,7 +154,7 @@ public:
 
 This lets us treat the PSRAM buffer as if it were a file. When we reach the end, just call `reset()` and start over. Simple and effective.
 
-#### Parsing MJPEG: Finding Frame Boundaries
+### Parsing MJPEG: Finding Frame Boundaries
 
 MJPEG is just a sequence of JPEG images concatenated together. Each JPEG image starts with the marker `FF D8` (Start of Image) and ends with `FF D9` (End of Image).
 
@@ -216,7 +192,7 @@ bool readMjpegBuf() {
 
 Once we have a complete frame, we hand it off to the JPEGDEC library which handles the decompression and renders directly to the display.
 
-#### Gyro-Based Auto-Rotation: The Fun Part
+## Gyro-Based Auto-Rotation: The Fun Part
 
 The board has a QMI8658 IMU with both accelerometer and gyroscope. For orientation detection, we only need the accelerometer - specifically the Y-axis reading.
 
@@ -224,7 +200,7 @@ When the device is held normally (USB port on the right), gravity pulls down, gi
 
 But there's a problem: Sensors are noisy. If we just check the raw accelerometer value, the screen would flicker constantly as tiny vibrations cross the threshold.
 
-#### Debouncing with Hysteresis
+### Debouncing with Hysteresis
 
 The solution is a two-part strategy:
 
@@ -267,7 +243,7 @@ if (desiredRotation != currentRotation) {
 
 This means you have to hold the device in the new orientation for a full second before it rotates. It sounds like a long time, but in practice it feels natural - you flip the device, and a moment later the screen updates. No jitter, no accidental rotations. Ah also since the video I played had some flowing liquid elements and a circle logo thing the other half, it rarely ever felt like it rotated, it just always felt as part of the video.
 
-#### The OrientationManager Class
+### The OrientationManager Class
 
 I packaged all this logic into an `OrientationManager` class:
 
@@ -309,7 +285,8 @@ public:
 
 The `hasChanged()` method returns `true` exactly once when a rotation occurs, making it easy to react to orientation changes without continuously updating the display.
 
-#### Button Controls: Pause and Power
+## Button Controls
+### Pause and Power
 
 The board has a BOOT button (GPIO 0) that we can repurpose for user interaction. Using the OneButton library, I set up two actions:
 
@@ -340,7 +317,8 @@ void loop() {
 
 The power-off feature is especially useful for battery-powered scenarios. Long-press the button, and the screen goes blank with the backlight off, saving significant power while keeping the device technically running. (I do intent to expand this to actual deep sleep mode and auto timer based sleep as well for future iterations)
 
-#### The Main Loop: Putting It All Together
+## The Main Loop
+### Putting It All Together
 
 After all that setup, the main loop is surprisingly simple:
 
@@ -368,7 +346,8 @@ That's it. No complex state management, no threading, no interrupts. Just:
 3. Play the next frame
 4. Repeat
 
-#### Uploading to Flash: The upload_to_flash.sh Script
+## Uploading to Flash
+### The upload_to_flash.sh Script
 
 Getting the MJPEG file onto the ESP32's flash memory requires a few steps:
 
@@ -400,8 +379,4 @@ Just drop your `output.mjpeg` file in the `data/` folder and run the script. The
 
 {{< sub-section title="Git Sources" icon="fa-wrench" >}}
 You can find my experiments here https://github.com/AJV009/esp32-s3-lcd-2-badge/tree/main/workbench/working_protos/00_video_loop_btn_pause_gyro_rotate <br> Do note that its just experiments at the moment, this repo will eventually grow as my updated plan for the badge is something very different. This is just 1 of around 5-6 blogs in this series alone.
-{{< /sub-section >}}
-
-{{< sub-section title="Arduino C++ Code generation with Claude Code" icon="fa-robot" >}}
-I got all the code generated with Claude Code, am not a C/C++ expert, I can read it and assume thing based on my previous learnings from college time and also have played with Rust some time back. So I understand the code might have been a bit overwhelming, but trust me once you get the hang of it, it's pretty straightforward. The key is breaking down the problem into manageable pieces: video format, memory management, input handling, and display rendering. And often AI would help with that, but in worst case if that fails, reading datasheets and library docs always helps. Just feed in these collected info to AI and it can help you generate code snippets that work in a single shot with minimal edits.
 {{< /sub-section >}}

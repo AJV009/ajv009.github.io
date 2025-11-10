@@ -12,7 +12,7 @@ tags: ["LLM", "Task-Oriented Dialogue", "AI Agents", "Conversational UI", "Slot-
 draft: false
 ---
 
-### The Form Problem Nobody Talks About
+## The Form Problem Nobody Talks About
 
 Here's a stat you should know: **~30-50% of users complete web forms, meaning half of them just drop out entirely** [^form-stats]. And the ones who do complete them? They're probably gritting their teeth through the experience. For complex forms like insurance applications or government benefits, abandonment rates can exceed 80% [^complex-forms].
 
@@ -32,7 +32,7 @@ Simple chatbots promised to fix this. "Make forms conversational!" they said. Bu
 
 The answer is yes; using a low-agency AI architecture that costs 1/10th of commercial platforms.
 
-### Introducing Task-Oriented Dialogue Systems
+## Introducing Task-Oriented Dialogue Systems
 
 Before diving into implementation, let's understand what the academic world calls what we're building: **Task-Oriented Dialogue (TOD) Systems**.
 
@@ -48,7 +48,7 @@ Unlike open-ended chatbots (like ChatGPT), TOD systems have a specific goal: col
 
 The pattern is universal: **any scenario where you need structured data from unstructured conversation**.
 
-#### The Core Components
+### The Core Components
 
 Traditional TOD systems consist of:
 
@@ -62,7 +62,7 @@ Here's the beautiful part: **LLMs handle all of these simultaneously**.
 
 Before GPT-4, you'd need separate trained models for each component. Companies would spend months building intent classifiers, entity extractors, and state trackers. Now? One well-crafted system prompt does it all. Isn't that wild?
 
-### The Modern Enterprise Platform Landscape
+## The Modern Enterprise Platform Landscape
 
 Before we dive deeper, let's acknowledge existing **major conversational AI platforms have already integrated LLMs**. And they're sophisticated.
 
@@ -75,9 +75,9 @@ Before we dive deeper, let's acknowledge existing **major conversational AI plat
 
 These platforms offer visual development environments, pre-built integrations, enterprise support, team collaboration, and managed infrastructure. They're real solutions serving real enterprises.
 
-#### So Why Another Approach?
+### So Why Another Approach?
 
-Well to be blunt honest I needed something very quick, easy to control, guide, customize and manage without being locked into a platform suddenly. one of my most hated things in my life is tying myself to a platform that am not fully invested or build trust with. So I built this system that anyone can implement on any LLM API. This metadata-driven pattern isn't "better"; it's **fundamentally different**.
+Well to be blunt honest I needed something very quick, easy to control, guide, customize and manage without being locked into a platform suddenly. one of my most hated things in my life is tying myself to a platform that am not fully invested or build trust with. So I built this system that anyone can implement on any LLM API. This metadata-driven pattern isn't "better"; it's **different**.
 
 **Enterprise platforms** start with conversation design paradigms (intents, flows, topics), then add LLM capabilities to make them more flexible.
 
@@ -100,11 +100,29 @@ Both approaches leverage LLMs. Both work. The choice depends on your needs, team
 
 **The closest analog?** Salesforce Einstein Copilot also uses metadata (data models, field relationships) to ground conversations. [^salesforce] But it's Salesforce-specific. Our approach is portable; run it on any LLM API, any cloud, any stack.
 
-### Why LLMs Change Everything
+### Commercial Platforms
 
-The breakthrough isn't just that LLMs can understand language better (though they absolutely can). It's these three capabilities combined:
+Let's talk about economics. **Enterprise conversational AI platforms offer tremendous value; but at enterprise prices**.
 
-#### 1. Zero-Shot Slot-Filling
+The platforms we mentioned earlier (Dialogflow CX, Amazon Lex, Copilot Studio, Rasa, Botpress, Landbot) provide managed infrastructure, support teams, visual builders, and integrations. That infrastructure costs money.
+
+### Economics
+
+**Pricing models** (approximate, as of 2024-2025):
+- **Dialogflow CX**: Pay-per-request pricing, can range from hundreds to thousands monthly depending on volume [^dialogflow-pricing]
+- **Amazon Lex**: $0.75 per 1,000 text requests, $1.00 per 1,000 speech requests [^lex-pricing]
+- **Microsoft Copilot Studio**: Starts at $200/month per user for standard capacity [^copilot-pricing]
+- **Rasa**: Enterprise pricing (custom quotes, typically $50k+ annually for production deployments)
+- **Botpress**: Open-source (free) or Cloud ($10-500+/mo depending on usage) [^botpress-pricing]
+- **Landbot**: $40-1,200+/mo depending on features and conversations [^landbot-pricing]
+
+You are obviously paying for the managed hosting, infrastructure, support, and visual tools. If your organization needs those, great! These platforms are worth it. Honestly it might **not be a rip-off**; you're paying for the platform ecosystem, not just the LLM calls.
+
+## Why LLMs Change Everything
+
+The breakthrough isn't just that LLMs can understand language better (though they absolutely can, and we know that since GPT-3 days). It's these three capabilities combined:
+
+### 1. Zero-Shot Slot-Filling
 
 LLMs can map user intent to structured data without training:
 
@@ -138,7 +156,7 @@ User: "I want to see recent stuff from the east coast"
 
 This flexible mapping is impossible with traditional chatbots that rely on exact phrase matching or button clicks.
 
-#### 2. Context-Aware Conversation
+### 2. Context-Aware Conversation
 
 LLMs maintain conversation state and use it intelligently:
 
@@ -167,7 +185,7 @@ AI: "Thank you. In your state, separations over 6 months have different requirem
 
 Notice how the AI references previous answers naturally and adapts follow-up questions based on context? That's what you'd need complex state management to achieve with traditional systems.
 
-#### 3. Conditional Logic Without Code
+### 3. Conditional Logic Without Code
 
 Tell the LLM the rules, and it follows them:
 
@@ -181,11 +199,11 @@ Finance: "Only require tax documents if annual income exceeds $50,000"
 
 Traditional form builders require complex branching logic setup with visual flow diagrams and nested conditions. LLMs just... get it from plain English instructions.
 
-### Low-Agency AI: A Feature when carefully Designed
+## Low-Agency AI: A Feature when carefully Designed
 
 Before diving into the architecture, let's address a crucial design philosophy: **this is intentionally low-agency AI**.
 
-#### Understanding Agency Levels
+### Understanding Agency Levels
 
 **High-Agency AI Agents** have broad autonomy:
 - Make independent decisions about goals and strategies
@@ -199,7 +217,7 @@ Before diving into the architecture, let's address a crucial design philosophy: 
 - Collect specific, structured information
 - Example: "Help me fill out this wedding venue questionnaire" → AI follows the form's required fields
 
-#### Why Low-Agency Wins for Structured Data Collection
+### Why Low-Agency Wins for Structured Data Collection
 
 You might think, "Why constrain the AI? Why not let it intelligently figure out what to ask?"
 
@@ -216,43 +234,43 @@ The metadata (fields.json which we will refer later) is the real "agent" - it en
 
 Just a quick note, high-agency AI orchestrates low-agency systems in a way if you think about it. So in most cases today high-agency AI auto-magically spins up new sub-agents with goals, and these sub-agents often use specific tools or MCPs or APIs, and these tools often have a ideal method of usage, which has to be often followed to get things working for them. So here basically the tool definitions become the low-agency systems.
 
-### The Architecture: Metadata-Driven Conversational Forms
+## The Architecture: Metadata-Driven Conversational Forms
 
 Here's the core idea: **separate your conversation logic from your conversation execution**.
 
 Instead of hardcoding conversation flow, we define it declaratively in JSON metadata and let the LLM interpret and execute it.
 
-#### The Three-Layer System
+### The Three-Layer System
 
 ```
 ┌─────────────────────────────────────┐
-│  Field Schema (JSON)                │  ← Business logic
-│  - What to collect                  │
-│  - Validation rules                 │
-│  - Conditional visibility           │
-│  - Samples, Suggestions, Helpers    │
+│  Field Schema (JSON)                  ← Business logic
+│  - What to collect                  
+│  - Validation rules                 
+│  - Conditional visibility           
+│  - Samples, Suggestions, Helpers    
 ├─────────────────────────────────────┤
-│  LLM Agent (System Prompt)          │  ← Intelligence
-│  - Interprets schema                │
-│  - Conducts conversation            │
-│  - Handles flexible input           │
+│  LLM Agent (System Prompt)            ← Intelligence
+│  - Interprets schema                
+│  - Conducts conversation            
+│  - Handles flexible input           
 ├─────────────────────────────────────┤
-│  Widget (UI + Markers)              │  ← User experience
-│  - Message display                  │
-│  - Suggestion buttons               │
-│  - Lead capture                     │
+│  Widget (UI + Markers)                ← User experience
+│  - Message display                  
+│  - Suggestion buttons               
+│  - Lead capture                     
 └─────────────────────────────────────┘
 ```
 
 This separation is powerful. Non-developers can modify conversation flow by editing JSON. Developers focus on the UI and backend integration. The LLM bridges them together. Maybe if you fancy it maybe the JSON can be dynamically generated from existing forms or databases too.
 
-### Real-World Examples: The Same Architecture, Different Domains
+## Real-World Examples: The Same Architecture, Different Domains
 
 I've built and used this architecture for multiple real scenarios. Let's examine two very different use cases to understand how the same pattern adapts across domains.
 
 > Note: The actual field schemas that we use are quite large and comprehensive with more features. The examples below are simplified for clarity.
 
-#### Use Case 1: Lead Collection for Service Providers
+### Use Case 1: Lead Collection for Service Providers
 
 **The Challenge**: Collect contact information and qualification data for services provider while maintaining empathy and trust.
 
@@ -304,7 +322,7 @@ I've built and used this architecture for multiple real scenarios. Let's examine
 
 Notice `field_instruction` in `therapyGoals`? That's an instruction directly to the LLM on how to handle this specific field. This is metadata-driven prompt engineering. And other things like `askOrder`, `contextualQuestions`, and `helpText` guide the conversation flow and helps LLMs craft better responses and questions when conversing with the users.
 
-#### Use Case 2: Search Filter Optimization for a human resource Directory
+### Use Case 2: Search Filter Optimization for a human resource Directory
 
 **The Challenge**: Help users build complex search queries across a human resource database with conditional filters and analysis options.
 
@@ -385,11 +403,11 @@ Look at the conditional logic:
 
 The LLM interprets all of this and adjusts the conversation accordingly. No complex branching code needed.
 
-### The Field Schema: Your Conversation Blueprint
+## The Field Schema: Your Conversation Blueprint
 
 Let's break down what makes an effective field schema:
 
-#### Essential Properties
+### Essential Properties
 
 ```json
 {
@@ -413,7 +431,7 @@ Let's break down what makes an effective field schema:
 }
 ```
 
-#### Chatbot-Specific Metadata
+### Chatbot-Specific Metadata
 
 The `chatbot` object contains instructions specifically for the LLM:
 
@@ -435,7 +453,7 @@ The `chatbot` object contains instructions specifically for the LLM:
 }
 ```
 
-#### Conditional Logic
+### Conditional Logic
 
 Conditional logic allows us to tune and change the conversation flow dynamically:
 
@@ -459,11 +477,11 @@ Conditional logic allows us to tune and change the conversation flow dynamically
 ```
 
 
-### The System Prompt: Teaching the LLM to Be a Conversational Form
+## The System Prompt: Teaching the LLM to Be a Conversational Form
 
 Now that we have our schema, we need to instruct the LLM how to use it. This is where prompt engineering becomes critical.
 
-#### Core Prompt Structure
+### Core Prompt Structure
 
 Here's the template I use across both implementations:
 
@@ -553,25 +571,7 @@ Rules:
 
 ```
 
-### Commercial Platforms
-
-Let's talk about economics. **Enterprise conversational AI platforms offer tremendous value; but at enterprise prices**.
-
-The platforms we mentioned earlier (Dialogflow CX, Amazon Lex, Copilot Studio, Rasa, Botpress, Landbot) provide managed infrastructure, support teams, visual builders, and integrations. That infrastructure costs money.
-
-#### Commercial Platform Economics
-
-**Pricing models** (approximate, as of 2024-2025):
-- **Dialogflow CX**: Pay-per-request pricing, can range from hundreds to thousands monthly depending on volume [^dialogflow-pricing]
-- **Amazon Lex**: $0.75 per 1,000 text requests, $1.00 per 1,000 speech requests [^lex-pricing]
-- **Microsoft Copilot Studio**: Starts at $200/month per user for standard capacity [^copilot-pricing]
-- **Rasa**: Enterprise pricing (custom quotes, typically $50k+ annually for production deployments)
-- **Botpress**: Open-source (free) or Cloud ($10-500+/mo depending on usage) [^botpress-pricing]
-- **Landbot**: $40-1,200+/mo depending on features and conversations [^landbot-pricing]
-
-You are obviously paying for the managed hosting, infrastructure, support, and visual tools. If your organization needs those, great! These platforms are worth it. Honestly it might **not be a rip-off**; you're paying for the platform ecosystem, not just the LLM calls.
-
-### Where This Is Going
+## Where This Is Going
 
 This architecture isn't just about replacing forms. It's a **general pattern for task-oriented dialogue in any domain**.
 
@@ -586,7 +586,7 @@ But hold on what if or imagine metadata that learns:
 
 Because now you can track outcomes, flow, and user satisfaction tied directly to field-level metadata. Optimize not just the conversation, but the underlying schema itself. Maybe even connect with A/B testing frameworks to try different field definitions and see what works best. After all, its just a file that can be modified and updated as you see fit.
 
-### Conclusion
+## Conclusion
 
 Traditional forms are dying. But their replacement isn't fully autonomous AI; it's **metadata-driven conversational systems**.
 
@@ -598,16 +598,16 @@ Whether you're building Government benefit applications, Healthcare intake syste
 
 ---
 
-### Additional Resources
+## Additional Resources
 
 Want to dive deeper? Here are starting points:
 
-#### Academic Foundation
+### Academic Foundation
 - [Task-Oriented Dialogue Systems: A Survey](https://arxiv.org/abs/2003.07490)
 - [Dialogue State Tracking Challenge Series](https://www.microsoft.com/en-us/research/event/dialog-state-tracking-challenge/)
 - [Zero-Shot Slot Filling with LLMs](https://arxiv.org/abs/2402.10466)
 
-#### Additional Guides
+### Additional Guides
 Two simple guides that you can refer if needed. Note that I used AI to alter the original prod template to clean it off brand names and sensitive info. So its not the exact template but more or less similar, but if you have understand everything so far, you prolly can skip this entirely and just built one in like 30-40mins, you do understand its that simple, all you need is a structured JSON, a good system prompt and finally some programming knowledge to write some code that captures, stores and maintains the states and triggers.
 
 {{< sub-section "assets/lead-collection-template.md" >}}{{< /sub-section >}}
