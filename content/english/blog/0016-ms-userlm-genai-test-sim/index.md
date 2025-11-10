@@ -1,6 +1,6 @@
 ---
-title: "Microsoft UserLM: Simulating Users for GenAI applications"
-meta_title: "Microsoft UserLM: Simulating Real Users for GenAI Testing"
+title: "Microsoft UserLM: Simulating Users to prepare for less model perplexity"
+meta_title: "Microsoft UserLM: Simulating Users to prepare for less model perplexity"
 description: "Exploring Microsoft's UserLM - a language model trained to simulate realistic human users instead of helpful assistants. Learn how it revolutionizes testing for RAG systems, chatbots, and conversational AI by generating authentic user behavior with typos, vagueness, and natural quirks."
 date: 2025-11-10T00:00:00Z
 image: "assets/cover.jpg"
