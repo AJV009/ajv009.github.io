@@ -48,3 +48,10 @@
   @apply prose-tr:border-border dark:prose-tr:border-darkmode-border;
   @apply prose-td:relative prose-td:z-10 prose-td:px-3 prose-td:py-[18px] dark:prose-td:text-darkmode-text;
 }
+
+/* Wrap inline code only (not code blocks) */
+.content :not(pre) > code {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
