@@ -12,7 +12,7 @@ tags: ["Chrome AI", "Prompt API", "RAG", "Query Routing", "On-device AI", "Gemin
 draft: false
 ---
 
-The web as we know today is undergoing quiet some changes. Finally websites can utilize on-device AI capabilities **without downloading GBs of there own model**, yes and guess what Google Chrome Devs are pushing for it. They have promosed around 6-7 APIs that utilize the underlying AI capable hardware to run AI experiences and expose some essential tools for make interesting experiences **without having to worry about the cost for simple practical use cases**. No servers, no API keys, no data leaving your machine.
+The web as we know today is undergoing quiet some changes. Finally websites can utilize on-device AI capabilities **without downloading GBs of there own model**, yes and guess what Google Chrome Devs are pushing for it. They have proposed around 6-7 APIs that utilize the underlying AI capable hardware to run AI experiences and expose some essential tools for make interesting experiences **without having to worry about the cost for simple practical use cases**. No servers, no API keys, no data leaving your machine.
 
 In this post, I'll show you how I built a hybrid RAG (Retrieval-Augmented Generation) chatbot that routes queries between Chrome's local Prompt API and a FastAPI RAG backend Server. A system that knows when to handle queries locally on-device versus when to reach out to more powerful cloud models.
 
@@ -129,7 +129,7 @@ I designed a little system that classifies user queries into three categories an
 
 ## Implementation Deep Dive
 
-Am not gonna document the whole backend code, its a simpel RAG not that fancy or anything, in fact its too basic. but you can visit [(Github) Chrome AI Demo](https://github.com/AJV009/chrome_ai_demo)
+Am not gonna document the whole backend code, its a simple RAG not that fancy or anything, in fact its too basic. but you can visit [(Github) Chrome AI Demo](https://github.com/AJV009/chrome_ai_demo)
 
 {{< sub-section title="Prompts I used to build the demo" icon="fa-laptop-code" >}}
 
@@ -144,7 +144,7 @@ Its a very simple RAG API, by simple I mean no unnecessary error handlers and su
 
 In fact the RAG background should be just copied from this notebook here, its another utter simple RAG here @/home/alphons/project/OAISYS25/chrome_ai_demo/workbench/rag_synth.ipynb its just a reference to show how simple it could be.
 
-for the vector database use something simple as faiss BUT see that a file or some bin or some dumb is created locally AFTER all the documents are indexed into it because I don't want to re-index everything just because I restart the app, okay?
+for the vector database use something simple as FAISS BUT see that a file or some bin or some dumb is created locally AFTER all the documents are indexed into it because I don't want to re-index everything just because I restart the app, okay?
 
 Now for the embedding model it would be a sentence transformer model but please for gods sake try NOT to download any nvidia libraries and stuff that comes as dependencies, they take GBs and endless times to download.
 I guess its something like installing just the cpu versoin of torch first and then later installing sentence transfer and also setting device as cpu
@@ -201,15 +201,15 @@ messages: [
     },
 ]
 
-Now you might think how will the rag work in this case, so we pick the last element of the message array thats sent in, in this case the "oh thanks ..." and then do a quick retrivial on my function powering the search endpoint.
+Now you might think how will the rag work in this case, so we pick the last element of the message array thats sent in, in this case the "oh thanks ..." and then do a quick retrieval on my function powering the search endpoint.
 
-then pass it to the our openrouter api thing. note that since open sourte wont support custom params like "chunks_referred" don't send that into the openrouter api
+then pass it to the our openrouter api thing. note that since openrouter wont support custom params like "chunks_referred" don't send that into the openrouter api
 
 The response need not be a streaming one for now. Since these are small models we will get the requires response quick so no worries there as well.
 
 And a few more things to keep in mind:
 - No need to write data models and stuff for the API, like I said this is a quick learning demo app.
-- BUT yeah keep the logic code and stuff out of the routes file, every major action / function should be kept in a seperate like how folks structure large projects, even tho this is not large keeping each file line of code to less than 100 lines would be much cleaner and >
+- BUT yeah keep the logic code and stuff out of the routes file, every major action / function should be kept in a separate like how folks structure large projects, even tho this is not large keeping each file line of code to less than 100 lines would be much cleaner and >
 
 I move all the uv init files to @api folder, we will use that folder from now on.
 
@@ -225,7 +225,7 @@ we will create this in the empty @web folder here
 
 Add a simple multi turn chat UI, no need for session managing and services and so on.
 
-Keep the JS part dedicated into its own js file, I mean speccifically the inference one and well make it talk with the python api that we just created.
+Keep the JS part dedicated into its own js file, I mean specifically the inference one and well make it talk with the python api that we just created.
 
 btw keep the UI too very simple, like a multi-turn chat window in the middle, thats pretty much it.
 ```
@@ -249,14 +249,14 @@ Am planning to use this like a prompt router / gateway sort of thing.
 
 1. So when the user inputs there message in the chatbot (the chatbot can be found in the @web folder, as you can already see we have tried to keep all the code very slim, and simple as this is a demo app)
 
-2. We will have a seperate few-shot array of message for the "query_router".
+2. We will have a separate few-shot array of message for the "query_router".
 The query_router thing will sort of classify the prompts into following buckets based on there types:
 
 2.1 Follow up queries: "Oh, can you elaborate please" or "Ahh I see, whats the deal with xyz in there tho"
-These need no calling to our python API, instead we send the same message array of user/assitants to the Prompt API itself
+These need no calling to our python API, instead we send the same message array of user/assistants to the Prompt API itself
 
 2.2 Needs more Context AND not complex or too simple to answer: "ok what does abc mean then" or "help me understand abc along with xyz"
-So here mentioning any topic or keywords and such in the query mean that we need more context to answer, so we ping the /search endpoint (you can refer that in @api/routes.py) and then similar to how the rag works in @api, we simulate the behaviour in the Prompt API itself.
+So here mentioning any topic or keywords and such in the query mean that we need more context to answer, so we ping the /search endpoint (you can refer that in @api/routes.py) and then similar to how the rag works in @api, we simulate the behavior in the Prompt API itself.
 
 2.3 Complex query: "Can you help me understand the complications of pqr in conjunction with xyz'
 Just avoid using Prompt API in this case and route the query to the python endpoint.
@@ -265,13 +265,13 @@ Just avoid using Prompt API in this case and route the query to the python endpo
 
 Few things to keep in mind:
 
-1. the docs suggest that we should implemtn error handelrs and fallbacks and so on, but my whole objective here is to just implement this and use it on a supported platform directly
-2. if it doesn;t work THEN it doesn't work thats it, no fallbacks, no unnecessary try cathes and stuff and so on.
-3. This is a demo application so I just need it working ONE SINGLE TIME jsut to take a video explaining it and so on, so that Later I can blog post this whole experiment / demo thing.
-4. So yeah all of this means that when writing code, just assume things need to work so no over-complications or unnecessary abstractions for future and so on, this will be pretty much the last verison of this demo.
+1. the docs suggest that we should implement error handlers and fallbacks and so on, but my whole objective here is to just implement this and use it on a supported platform directly
+2. if it doest work THEN it doesn't work thats it, no fallbacks, no unnecessary try catch and stuff and so on.
+3. This is a demo application so I just need it working ONE SINGLE TIME just to take a video explaining it and so on, so that Later I can blog post this whole experiment / demo thing.
+4. So yeah all of this means that when writing code, just assume things need to work so no over-complications or unnecessary abstractions for future and so on, this will be pretty much the last version of this demo.
 
 ---
-Alright now instead since I cannot do like a iterative development and test at the moment I need you to ultrathink, take time to think through and plan the whole thing before making any code changes, you will need to propose me the complete implementation plan after you think through the coimplete thing. And thenm i'll decide /modify and so as needed.
+Alright now instead since I cannot do like a iterative development and test at the moment I need you to ultrathink, take time to think through and plan the whole thing before making any code changes, you will need to propose me the complete implementation plan after you think through the complete thing. And then i'll decide /modify and so as needed.
 ```
 
 Thats pretty much, the demo was up within 45mins tested and working, mostly single-shot. Thanks to Sonnet 4.5 through Claude Code.
