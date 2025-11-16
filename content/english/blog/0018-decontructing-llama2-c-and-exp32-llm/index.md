@@ -16,9 +16,9 @@ draft: false
 
 This was one my really fun to experience things. A streaming Language model on a tiny Microcontroller! Sounds stupid right? (I mean in a way its UNUSABLE and stupid.)
 
-But thats precisely what we tried doing here, it was a random thought that maybe I should just google "esp32 llm" and I stumbled on a repo where someone else actually did all the work for me, that is running the smallest possible LLM on an old version of the ESP32. Lets me give you the reality of the ESP32 here: it has just 8MB of PSRAM and a dual-core processor running at around 240MHz, its not even close to couple of decade old Android phones, in fact it might be more relatable to your Vape machine (No I don't smoke, but my friends have one so I know)
+But thats precisely what we tried doing here, it was a random thought that maybe I should just google "esp32 llm" and guess what? I found a repo where someone else actually did all the work for me, that is running the smallest possible LLM on an old version of the ESP32. Let me give you the reality of the ESP32 here: it has just 8MB of PSRAM and a dual-core processor running at around 240MHz, its not even close to couple decade old Android phones, in fact it might be more relatable to your Vape machine (No I don't smoke, but my friends have one so I know)
 
-Alright, so this is quick blog where we will take a quick overview look of Andrej Karpathy's beautiful little llama2.c repo, the existing ESP32_LLM project and finally someone elses llama2.cpp port of the original. And along the way we will try to deconstruct and understand transformer architecture, SIMD optimizations, and the art of squeezing every last drop of performance from embedded hardware.
+Alright, this is quick blog where we will take a quick look at Andrej Karpathy's beautiful little llama2.c repo, the existing ESP32_LLM project and finally someone elses llama2.cpp port of the original Andrejs work. And along the way we will try to deconstruct and understand transformer architecture, SIMD optimizations, and the art of squeezing every last drop of performance from our embedded hardware.
 
 {{< sub-section title="A quick disclaimer on heavy usage of Claude Code" icon="fa-laptop-code" >}}
 
@@ -28,9 +28,9 @@ Starting from dissecting Andrej's C code to the C++ ported code and also all the
 
 This whole C pointer based thing has been a nightmare for me since my college days, I was never the brightest in these things. I try to understand but thats pretty much it, nothing beyond that.
 
-SO yeah take everything with a pinch of salt in this blog, I have tried to best explain whatever I originally intended to do, so if I conveyed it enough for you to understand I guess I'll pat my back BUT if I didn't I'll keep improving, maybe by my 30th blog or so I'll be good enough to explain these things with ease.
+So yeah take everything with a pinch of salt in this blog, I have tried my best to explain whatever I originally intended to do, so if I conveyed it enough for you to understand I guess I'll pat my back BUT if I didn't, then I'll keep improving, maybe by my 30th blog or so I'll be good enough to explain these things with ease.
 
-A huge thanks for even taking time to read, I super appreciate everyone, even if you came here to do a quick judgement, I don't mind.
+A huge thanks for even taking time to read, I super appreciate everyone, even if you came here to do a quick judgement, I don't mind. You are here and that's all it matters right now.
 
 {{< /sub-section >}}
 
@@ -73,7 +73,7 @@ The attention mechanism computes: "How much should 'sat' pay attention to 'cat' 
 
 Attention scores = softmax(Q × K^T) × V
 
-**Attention scores** are similarity measures between the current token's query and all previous tokens' keys-higher scores mean "pay more attention to this past token." **Softmax** (borrowed from traditional ML classification) converts raw scores into probabilities that sum to 1.0, ensuring the model allocates exactly 100% of its "attention budget" across all past tokens.
+**Attention scores** are similarity measures between the current token's query and all previous tokens' keys, higher scores mean "pay more attention to this past token." **Softmax** (borrowed from traditional ML classification) converts raw scores into probabilities that sum to 1.0, ensuring the model allocates exactly 100% of its "attention budget" across all past tokens.
 
 **3. Feed-Forward Network (FFN)**
 After attention, each token passes through a simple neural network:
@@ -101,6 +101,8 @@ Generating text is simple:
 The computational bottleneck? **Matrix multiplication**. Attention and FFN are dominated by multiplying large matrices; exactly what we need to optimize.
 
 ### Memory Deep-Dive: "Once upon a time"
+
+*Side-note*: This is a bit confusing for me as well. And the size calculations here are definitely baseless.
 
 Let's walk through what happens in memory when we generate text for our 15M model (dim=288, layers=8, vocab=32000):
 
@@ -246,7 +248,7 @@ float* forward(Transformer* t, int token, int pos) {
 }
 ```
 
-The beauty: same code processes every token, whether it's the first "Hello" or the 200th token in a long story!
+Same code processes every token, whether it's the first "Hello" or the 200th token in a long story!
 
 Clean, simple, and beautifully understandable.
 
@@ -338,7 +340,7 @@ void matmul(float* xout, float* x, float* w, int n, int d) {
 
 **How the split works:** Imagine multiplying a vector by a 288×288 matrix. We need 288 dot products. Core 0 computes dot products 0-143 while Core 1 simultaneously computes dot products 144-287. Since the two halves are independent, we get near-perfect 2x speedup (limited only by synchronization overhead).
 
-**Result:** Near-2x speedup on matrix operations. Combined with SIMD, we're looking at **4-5x faster than naive C code**.
+**Result:** Near-2x speedup on matrix operations. Combined with SIMD, we're looking at **4-5x faster than naive C code**. (In all practicality we did get the whole 5x bump, there are many other overhead stuff thats takes a pie from it.)
 
 ### Optimization 3: PSRAM Configuration
 
@@ -558,11 +560,9 @@ Matrix multiply (SIMD):        ~15,000 ms (13%)
 Attention + other:             ~5,000 ms (4%)
 ```
 
-**Note:** These timing breakdowns are rough estimates based on observed total inference time and theoretical I/O speeds. We haven't instrumented each component with precise profiling, so the actual bottleneck distribution may differ. What we *know* for certain: total time is ~2 minutes per token, and SD card I/O is the dominant factor (switching to internal flash obviously shows immediate improvement).
+**Disclaimer on performance analysis:** Throughout this section, speed estimates (especially the 83% I/O / 13% compute split) are educated guesses based on theoretical SD card speeds and observed total inference time. Without cycle-accurate profiling instrumentation, we can't definitively say "I/O is 83% of the bottleneck." What we *can* say: the implementation works, it's slow (~2 min/token), and faster storage would likely help significantly. In future work we will add proper timing instrumentation to each component for accurate bottleneck identification.
 
 Still, running a 15M parameter model on an ESP32-S3 at all is pretty cool, even at 0.5 tokens/sec.
-
-**Disclaimer on performance analysis:** Throughout this section, speed estimates (especially the 83% I/O / 13% compute split) are educated guesses based on theoretical SD card speeds and observed total inference time. Without cycle-accurate profiling instrumentation, we can't definitively say "I/O is 83% of the bottleneck." What we *can* say: the implementation works, it's slow (~2 min/token), and faster storage would likely help significantly. Future work should add proper timing instrumentation to each component for accurate bottleneck identification.
 
 Here is an output from it:
 [TODO: attach the image from the disk here]
@@ -570,14 +570,14 @@ Here is an output from it:
 
 ## Conclusion
 
-We started with Karpathy's llama2.c, absorbed DaveBben's ESP32 SIMD wizardry, and built a fully functional LLM inference engine for ESP32-S3 in Arduino. Along the way I learned quite some stuff:
+We started with Karpathy's llama2.c, absorbed DaveBben's ESP32 LLM mods, and built a fully functional LLM inference engine for ESP32-S3 in Arduino. Along the way I learned quite some stuff:
 
 - **Transformers are simple** Just embeddings + attention + FFN, repeated (But in pure honesty as per Novmeber 2025 I still code a transformer on my own even with all torch helper funcs)
 - **Cores and Memory matters**, I need to sit on this again another time and work out the intricates again when time allows, i can sort of envision a much properly written and working version.
 
-The 260K model proves that **LLM inference on microcontrollers can be done**. The 15M streaming experiment demonstrates both the possibilities and current limitations of running larger models on constrained hardware. My next experiment is to fine-tune the 260K for a quick FAQ sort of system not sure if that'll work but lets see.
+The 260K model proves that **LLM inference on microcontrollers can be done**. The 15M streaming experiment demonstrates both the possibilities and current limitations of running larger models on constrained hardware. And importantly, we now have a clean, understandable codebase that demystifies LLM inference. No PyTorch black boxes, no CUDA, just C code, SIMD intrinsics, and the ESP32-S3 doing its best.
 
-Most importantly, we now have a clean, understandable codebase that demystifies LLM inference. No PyTorch black boxes, no CUDA, just C code, SIMD intrinsics, and the ESP32-S3 doing its best.
+I plan to come back at this for the following: I need to try fine-tuning a models ranging from 500K to 15M on a pure chat dataset. To see if it can atleast do a single turn chat, that would be enough for me to get it tuned against a niche data like my profile data OR my complete blog site itself, maybe my dating profile? Maybe it could be LoRAs that attach based on the classification of the query, like a tiny query router based thing, it would perform or act like an MOE, oh what if we do an MoE that doesn't require evertyhing to be in the memory as well. Possibilities and my thoughts are currently limitless, will need to one day sit on this and fix on what I should do next. 
 
 ## Resources
 
@@ -585,4 +585,4 @@ Most importantly, we now have a clean, understandable codebase that demystifies 
 - **esp32-llm (SIMD + dual-core):** https://github.com/DaveBben/esp32-llm
 - **llama2.cpp (Arduino port base):** https://github.com/leloykun/llama2.cpp
 
-*Built for a conference badge - because why have a dumb badge when you can have one that runs LLMs locally?*
+*Built for a conference badge - because why have a dumb paper badge when you can have one that runs LLMs locally?*
