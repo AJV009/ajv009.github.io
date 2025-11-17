@@ -194,6 +194,18 @@
   @apply bg-light dark:bg-darkmode-light;
 }
 
+/* Message speaker button */
+.message-speaker-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+.message-speaker-btn:hover {
+  transform: scale(1.1);
+}
+
 /* Message content prose styling */
 .message-content .prose {
   @apply text-sm;
@@ -313,6 +325,56 @@
 /* Send Button - hidden on desktop (Enter key sends) */
 .send-button {
   display: none;
+}
+
+/* Speech-to-Text Button (Microphone) */
+.stt-button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+}
+
+.stt-button.recording {
+  @apply text-red-500 dark:text-red-400;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Text-to-Speech Button (Volume) */
+.tts-button {
+  background: none;
+  border: none;
+}
+
+/* Default state: red (muted) */
+.tts-button:not(.active) {
+  @apply text-red-500 dark:text-red-400;
+}
+
+/* Active state: accent/primary color */
+.tts-button.active {
+  @apply text-primary dark:text-darkmode-primary;
+}
+
+.tts-button.active i {
+  animation: soundWave 1s ease-in-out infinite;
+}
+
+@keyframes soundWave {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
 }
 
 /* Button hover effects */

@@ -55,10 +55,9 @@
       <!-- Empty State Message -->
       <div class="chat-empty-state">
         <i class="fa-solid fa-wand-magic-sparkles"></i>
-        <h3>This is an on-device AI experience</h3>
-        <p>Feel free to explore and even suggest changes as needed</p>
-        <p class="attribution">Thanks to Chrome's Prompt AI API for making this possible.</p>
-        <p class="tagline">It's Fast and Free</p>
+        <h3>Hi! I am Daisy, how can I help you?</h3>
+        <p class="tagline">I am a Fast, Free, Private and Personalised on-device GenAI chat experience powered by Prompt AI API.</p>
+        <!-- <p class="attribution">Powered by the new Prompt AI API.</p> -->
       </div>
 
     </div>
@@ -75,14 +74,26 @@
 
     <!-- Chat Input Container -->
     <div class="chat-input-container border-t border-border dark:border-darkmode-border bg-body dark:bg-darkmode-body px-6 py-4">
-      <form id="chat-form" class="flex gap-2">
-        <textarea
-          id="chat-input"
-          class="flex-1 resize-none rounded-lg border border-border dark:border-darkmode-border bg-body dark:bg-darkmode-body px-4 py-3 text-text dark:text-darkmode-text placeholder:text-text/50 dark:placeholder:text-darkmode-text/50 focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-darkmode-primary"
-          placeholder="Type your message..."
-          rows="1"
-          maxlength="2000"
-          aria-label="Chat message input"></textarea>
+      <form id="chat-form" class="flex gap-2 relative">
+        <div class="flex-1 relative">
+          <textarea
+            id="chat-input"
+            class="w-full resize-none rounded-lg border border-border dark:border-darkmode-border bg-body dark:bg-darkmode-body px-4 py-3 pr-10 text-text dark:text-darkmode-text placeholder:text-text/50 dark:placeholder:text-darkmode-text/50 focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-darkmode-primary"
+            placeholder="Type your message..."
+            rows="1"
+            maxlength="2000"
+            aria-label="Chat message input"></textarea>
+
+          <!-- Microphone Icon for STT -->
+          <button
+            type="button"
+            id="speech-to-text-btn"
+            class="stt-button absolute right-2 bottom-2 p-2 text-text/50 dark:text-darkmode-text/50 hover:text-primary dark:hover:text-darkmode-primary transition-colors cursor-pointer"
+            title="Voice input"
+            aria-label="Start voice input">
+            <i class="fa-solid fa-microphone"></i>
+          </button>
+        </div>
 
         <button
           type="submit"
@@ -95,9 +106,20 @@
         </button>
       </form>
 
-      <!-- Character Counter (optional) -->
-      <div class="text-xs text-text/50 dark:text-darkmode-text/50 mt-2 text-right">
-        <span id="char-counter">0</span> / 2000
+      <!-- Character Counter + TTS Toggle -->
+      <div class="flex items-center justify-between mt-2 text-xs">
+        <button
+          type="button"
+          id="text-to-speech-btn"
+          class="tts-button p-1 text-red-500 dark:text-red-400 hover:opacity-80 transition-all cursor-pointer"
+          title="Auto-speak disabled"
+          aria-label="Auto-speak disabled">
+          <i class="fa-solid fa-volume-xmark text-base"></i>
+        </button>
+
+        <div class="text-text/50 dark:text-darkmode-text/50">
+          <span id="char-counter">0</span> / 2000
+        </div>
       </div>
     </div>
 

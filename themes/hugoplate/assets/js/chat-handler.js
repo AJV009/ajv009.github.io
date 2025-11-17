@@ -14,11 +14,24 @@ const ChatHandler = {
     closeButton: null,
     statusIndicator: null,
     statusText: null,
-    charCounter: null
+    charCounter: null,
+    sttButton: null,
+    ttsButton: null
   },
 
   // Message counter for unique IDs
   messageCounter: 0,
+
+  // Speech recognition
+  recognition: null,
+  isRecording: false,
+  silenceTimer: null,
+  lastTranscriptTime: 0,
+
+  // Text-to-speech
+  isTTSEnabled: false,
+  speechQueue: [],
+  isSpeaking: false,
 
   /**
    * Initialize the chat handler
@@ -34,9 +47,17 @@ const ChatHandler = {
     this.elements.statusIndicator = document.getElementById('chat-status');
     this.elements.statusText = document.getElementById('chat-status-text');
     this.elements.charCounter = document.getElementById('char-counter');
+    this.elements.sttButton = document.getElementById('speech-to-text-btn');
+    this.elements.ttsButton = document.getElementById('text-to-speech-btn');
 
     // Setup event listeners
     this.setupEventListeners();
+
+    // Initialize speech recognition
+    this.initSpeechRecognition();
+
+    // Initialize speech synthesis voices
+    this.initSpeechVoices();
 
     // Restore previous conversation if exists
     this.restoreMessages();
@@ -71,6 +92,16 @@ const ChatHandler = {
     // Close chat (mobile fallback)
     this.elements.closeButton?.addEventListener('click', () => {
       window.ChatUI?.closeChat();
+    });
+
+    // Speech-to-text button
+    this.elements.sttButton?.addEventListener('click', () => {
+      this.toggleSpeechRecognition();
+    });
+
+    // Text-to-speech button
+    this.elements.ttsButton?.addEventListener('click', () => {
+      this.toggleTTS();
     });
 
     // Enter key to send (Shift+Enter for new line)
@@ -134,6 +165,11 @@ const ChatHandler = {
         this.hideStatus();
         this.setInputEnabled(true);
         this.elements.chatInput.focus();
+
+        // Speak the complete message if TTS is enabled
+        if (this.isTTSEnabled && fullResponse) {
+          this.speakText(fullResponse);
+        }
       },
       // onError
       (error) => {
@@ -181,11 +217,11 @@ const ChatHandler = {
     contentEl.className = 'message-content flex-1';
 
     const bubbleEl = document.createElement('div');
-    bubbleEl.className = `message-bubble ${
+    bubbleEl.className = `message-bubble relative ${
       role === 'user'
         ? 'bg-primary dark:bg-darkmode-primary'
         : 'bg-light dark:bg-darkmode-light'
-    } rounded-lg px-4 py-3`;
+    } rounded-lg px-4 py-3 ${role === 'assistant' ? 'pb-8' : ''}`;
 
     const textEl = document.createElement('div');
     textEl.className = 'prose prose-sm dark:prose-invert max-w-none';
@@ -206,6 +242,20 @@ const ChatHandler = {
     }
 
     bubbleEl.appendChild(textEl);
+
+    // Add speaker button for assistant messages
+    if (role === 'assistant' && content) {
+      const speakerBtn = document.createElement('button');
+      speakerBtn.className = 'message-speaker-btn absolute bottom-2 right-2 text-xs text-text/50 dark:text-darkmode-text/50 hover:text-primary dark:hover:text-darkmode-primary transition-colors';
+      speakerBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+      speakerBtn.title = 'Speak this message';
+      speakerBtn.onclick = (e) => {
+        e.stopPropagation();
+        this.speakText(content);
+      };
+      bubbleEl.appendChild(speakerBtn);
+    }
+
     contentEl.appendChild(bubbleEl);
 
     messageEl.appendChild(avatarEl);
@@ -231,6 +281,30 @@ const ChatHandler = {
 
     // Render markdown
     textEl.innerHTML = window.marked ? window.marked.parse(content) : content;
+
+    // Add/update speaker button for assistant message
+    const bubbleEl = messageEl.querySelector('.message-bubble');
+    if (bubbleEl && messageEl.classList.contains('assistant-message') && content) {
+      let speakerBtn = bubbleEl.querySelector('.message-speaker-btn');
+
+      if (!speakerBtn) {
+        speakerBtn = document.createElement('button');
+        speakerBtn.className = 'message-speaker-btn absolute bottom-2 right-2 text-xs text-text/50 dark:text-darkmode-text/50 hover:text-primary dark:hover:text-darkmode-primary transition-colors';
+        speakerBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+        speakerBtn.title = 'Speak this message';
+        speakerBtn.onclick = (e) => {
+          e.stopPropagation();
+          this.speakText(content);
+        };
+        bubbleEl.appendChild(speakerBtn);
+      } else {
+        // Update onclick with new content
+        speakerBtn.onclick = (e) => {
+          e.stopPropagation();
+          this.speakText(content);
+        };
+      }
+    }
 
     this.scrollToBottom();
   },
@@ -379,6 +453,279 @@ const ChatHandler = {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+  },
+
+  /**
+   * Initialize speech synthesis voices
+   */
+  initSpeechVoices() {
+    if (window.speechSynthesis) {
+      // Load voices (some browsers need this)
+      window.speechSynthesis.getVoices();
+
+      // Reload voices when they change
+      if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = () => {
+          window.speechSynthesis.getVoices();
+        };
+      }
+    }
+  },
+
+  /**
+   * Initialize speech recognition
+   */
+  initSpeechRecognition() {
+    // Check browser support
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      // Hide STT button if not supported
+      if (this.elements.sttButton) {
+        this.elements.sttButton.style.display = 'none';
+      }
+      return;
+    }
+
+    this.recognition = new SpeechRecognition();
+    this.recognition.continuous = true;
+    this.recognition.interimResults = true;
+    this.recognition.lang = 'en-US';
+
+    // Handle results
+    this.recognition.onresult = (event) => {
+      this.lastTranscriptTime = Date.now();
+
+      // Get the latest transcript
+      const result = event.results[event.results.length - 1];
+      const transcript = result[0].transcript;
+
+      // Update textarea with transcript
+      if (result.isFinal) {
+        const currentText = this.elements.chatInput.value;
+        this.elements.chatInput.value = currentText + (currentText ? ' ' : '') + transcript;
+        this.updateCharCounter();
+        this.autoResizeTextarea(this.elements.chatInput);
+      }
+
+      // Reset silence timer
+      this.handleSilence();
+    };
+
+    // Handle errors
+    this.recognition.onerror = (event) => {
+      console.error('Speech recognition error:', event.error);
+      this.stopRecording();
+    };
+
+    // Handle end
+    this.recognition.onend = () => {
+      if (this.isRecording) {
+        // Restart if still recording (for continuous recognition)
+        this.recognition.start();
+      }
+    };
+  },
+
+  /**
+   * Toggle speech recognition on/off
+   */
+  toggleSpeechRecognition() {
+    if (!this.recognition) return;
+
+    if (this.isRecording) {
+      this.stopRecording();
+    } else {
+      this.startRecording();
+    }
+  },
+
+  /**
+   * Start recording
+   */
+  startRecording() {
+    if (!this.recognition || this.isRecording) return;
+
+    try {
+      this.recognition.start();
+      this.isRecording = true;
+      this.lastTranscriptTime = Date.now();
+
+      // Visual feedback
+      this.elements.sttButton?.classList.add('recording');
+
+      // Start silence detection
+      this.handleSilence();
+    } catch (error) {
+      console.error('Failed to start recording:', error);
+    }
+  },
+
+  /**
+   * Stop recording
+   */
+  stopRecording() {
+    if (!this.recognition || !this.isRecording) return;
+
+    try {
+      this.recognition.stop();
+      this.isRecording = false;
+
+      // Visual feedback
+      this.elements.sttButton?.classList.remove('recording');
+
+      // Clear silence timer
+      if (this.silenceTimer) {
+        clearTimeout(this.silenceTimer);
+        this.silenceTimer = null;
+      }
+    } catch (error) {
+      console.error('Failed to stop recording:', error);
+    }
+  },
+
+  /**
+   * Handle silence detection (auto-stop after 6 seconds)
+   */
+  handleSilence() {
+    // Clear existing timer
+    if (this.silenceTimer) {
+      clearTimeout(this.silenceTimer);
+    }
+
+    // Set new timer for 6 seconds
+    this.silenceTimer = setTimeout(() => {
+      const timeSinceLastTranscript = Date.now() - this.lastTranscriptTime;
+
+      // Stop if no transcript in last 6 seconds
+      if (timeSinceLastTranscript >= 6000 && this.isRecording) {
+        this.stopRecording();
+      }
+    }, 6000);
+  },
+
+  /**
+   * Toggle TTS on/off
+   */
+  toggleTTS() {
+    this.isTTSEnabled = !this.isTTSEnabled;
+
+    const icon = this.elements.ttsButton?.querySelector('i');
+
+    // Visual feedback
+    if (this.isTTSEnabled) {
+      this.elements.ttsButton?.classList.add('active');
+      // Change icon to volume-high (enabled)
+      if (icon) {
+        icon.classList.remove('fa-volume-xmark');
+        icon.classList.add('fa-volume-high');
+      }
+      // Update tooltip and aria-label
+      if (this.elements.ttsButton) {
+        this.elements.ttsButton.title = 'Auto-speak enabled';
+        this.elements.ttsButton.setAttribute('aria-label', 'Auto-speak enabled');
+      }
+    } else {
+      this.elements.ttsButton?.classList.remove('active');
+      // Change icon to volume-xmark (muted)
+      if (icon) {
+        icon.classList.remove('fa-volume-high');
+        icon.classList.add('fa-volume-xmark');
+      }
+      // Update tooltip and aria-label
+      if (this.elements.ttsButton) {
+        this.elements.ttsButton.title = 'Auto-speak disabled';
+        this.elements.ttsButton.setAttribute('aria-label', 'Auto-speak disabled');
+      }
+      // Stop any ongoing speech
+      this.stopSpeaking();
+    }
+  },
+
+  /**
+   * Clean text for speech (remove emojis, symbols, markdown)
+   * @param {string} text
+   * @returns {string}
+   */
+  cleanTextForSpeech(text) {
+    // Remove markdown formatting
+    let cleaned = text
+      .replace(/\*\*(.+?)\*\*/g, '$1') // Bold
+      .replace(/\*(.+?)\*/g, '$1')     // Italic
+      .replace(/`(.+?)`/g, '$1')       // Inline code
+      .replace(/```[\s\S]*?```/g, '')  // Code blocks
+      .replace(/^\s*#{1,6}\s+/gm, '')  // Headers
+      .replace(/^\s*[-*+]\s+/gm, '')   // List items
+      .replace(/^\s*\d+\.\s+/gm, '')   // Numbered lists
+      .replace(/\[(.+?)\]\(.+?\)/g, '$1'); // Links
+
+    // Remove emojis (comprehensive regex)
+    cleaned = cleaned.replace(/[\u{1F600}-\u{1F64F}]/gu, '') // Emoticons
+      .replace(/[\u{1F300}-\u{1F5FF}]/gu, '') // Symbols & pictographs
+      .replace(/[\u{1F680}-\u{1F6FF}]/gu, '') // Transport & map symbols
+      .replace(/[\u{1F700}-\u{1F77F}]/gu, '') // Alchemical symbols
+      .replace(/[\u{1F780}-\u{1F7FF}]/gu, '') // Geometric shapes
+      .replace(/[\u{1F800}-\u{1F8FF}]/gu, '') // Supplemental arrows
+      .replace(/[\u{1F900}-\u{1F9FF}]/gu, '') // Supplemental symbols
+      .replace(/[\u{1FA00}-\u{1FA6F}]/gu, '') // Chess symbols
+      .replace(/[\u{1FA70}-\u{1FAFF}]/gu, '') // Symbols and pictographs extended
+      .replace(/[\u{2600}-\u{26FF}]/gu, '')   // Miscellaneous symbols
+      .replace(/[\u{2700}-\u{27BF}]/gu, '');  // Dingbats
+
+    // Remove special symbols (keep basic punctuation for natural pauses)
+    cleaned = cleaned
+      .replace(/[*_~`#]/g, '')           // Markdown symbols
+      .replace(/[!?]{2,}/g, '.')         // Multiple !? to period
+      .replace(/\.{2,}/g, '.')           // Multiple periods to one
+      .replace(/\s+/g, ' ')              // Multiple spaces to one
+      .trim();
+
+    return cleaned;
+  },
+
+  /**
+   * Speak text with male voice
+   * @param {string} text
+   */
+  speakText(text) {
+    if (!this.isTTSEnabled || !text.trim()) return;
+
+    // Check browser support
+    if (!window.speechSynthesis) return;
+
+    // Clean text before speaking
+    const cleanedText = this.cleanTextForSpeech(text);
+    if (!cleanedText.trim()) return;
+
+    const utterance = new SpeechSynthesisUtterance(cleanedText);
+    utterance.lang = 'en-US';
+    utterance.rate = 1.0; // Normal speed
+    utterance.pitch = 0.9; // Slightly lower pitch for male voice
+
+    // Try to find a male voice
+    const voices = window.speechSynthesis.getVoices();
+    const maleVoice = voices.find(voice =>
+      voice.lang.startsWith('en') &&
+      (voice.name.toLowerCase().includes('male') ||
+       voice.name.toLowerCase().includes('david') ||
+       voice.name.toLowerCase().includes('james') ||
+       voice.name.toLowerCase().includes('alex'))
+    );
+
+    if (maleVoice) {
+      utterance.voice = maleVoice;
+    }
+
+    window.speechSynthesis.speak(utterance);
+  },
+
+  /**
+   * Stop all speech
+   */
+  stopSpeaking() {
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
   }
 };
 
