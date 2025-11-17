@@ -1,0 +1,349 @@
+/**
+ * AI Chat Panel Styles
+ * Uses Tailwind v4 utilities and theme tokens
+ */
+
+/* Chat Layout Wrapper - Grid system for content + chat split */
+.chat-layout-wrapper {
+  @apply grid grid-cols-1;
+  width: 100%;
+}
+
+/* Landscape orientation: show split layout */
+@media (orientation: landscape) {
+  .chat-layout-wrapper.chat-enabled {
+    @apply grid-cols-[70fr_30fr] gap-0;
+  }
+
+  .ai-chat-panel[data-chat-state="open"] {
+    @apply block;
+  }
+
+  .ai-chat-panel {
+    position: sticky;
+    top: var(--header-height, 0);
+    height: calc(100vh - var(--header-height, 0px));
+    overflow: hidden;
+    transition: height 0.3s ease-out;
+  }
+
+  /* Ensure main content doesn't overflow */
+  #main-content {
+    min-width: 0;
+  }
+}
+
+/* Portrait orientation: hide chat panel */
+@media (orientation: portrait) {
+  .ai-chat-panel {
+    display: none;
+  }
+}
+
+/* Chat Panel Container */
+.ai-chat-panel {
+  @apply bg-body dark:bg-darkmode-body;
+}
+
+/* Chat panel closed state */
+.ai-chat-panel[data-chat-state="closed"] {
+  @apply hidden;
+}
+
+/* Chat Container */
+.chat-container {
+  @apply flex flex-col h-full;
+}
+
+/* Chat Header */
+.chat-header {
+  @apply flex-shrink-0;
+}
+
+.chat-header button {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+/* Chat header icon swap effect */
+.chat-header-icon {
+  display: inline-block;
+  width: 1.25rem;
+}
+
+.chat-header-icon .arrow-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.chat-header-icon .wand-icon {
+  opacity: 1;
+}
+
+.chat-header-button:hover .wand-icon {
+  opacity: 0;
+}
+
+.chat-header-button:hover .arrow-icon {
+  opacity: 1;
+}
+
+/* Chat Messages Container */
+.chat-messages {
+  @apply scroll-smooth overflow-y-auto;
+  flex: 1 1 0%;
+  min-height: 0;
+  position: relative;
+}
+
+/* Empty State - Centered placeholder */
+.chat-empty-state {
+  @apply flex flex-col items-center justify-center text-center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  pointer-events: none;
+}
+
+.chat-empty-state i {
+  @apply text-5xl mb-6 text-primary dark:text-darkmode-primary;
+  opacity: 0.5;
+}
+
+.chat-empty-state h3 {
+  @apply text-lg font-semibold mb-3 text-text-dark dark:text-darkmode-text-dark;
+  opacity: 0.6;
+}
+
+.chat-empty-state p {
+  @apply text-sm mb-2 text-text dark:text-darkmode-text;
+  opacity: 0.5;
+}
+
+.chat-empty-state .attribution {
+  @apply text-xs mt-4 mb-1 text-text/70 dark:text-darkmode-text/70;
+}
+
+.chat-empty-state .tagline {
+  @apply text-xs font-medium text-text-dark dark:text-darkmode-text-dark;
+  opacity: 0.6;
+}
+
+/* Hide empty state when messages exist */
+.chat-messages:has(.message) .chat-empty-state {
+  display: none;
+}
+
+/* Custom scrollbar for chat */
+.chat-messages::-webkit-scrollbar {
+  @apply w-2;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  @apply bg-border dark:bg-darkmode-border rounded-full;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  @apply bg-text/30 dark:bg-darkmode-text/30;
+}
+
+/* Message Bubbles */
+.message {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* User message */
+.user-message {
+  @apply flex items-start gap-3 flex-row-reverse;
+}
+
+.user-message .message-bubble {
+  @apply bg-primary dark:bg-darkmode-primary text-white;
+}
+
+.user-message .message-avatar {
+  @apply bg-primary/80 dark:bg-darkmode-primary/80;
+}
+
+/* Assistant message */
+.assistant-message {
+  @apply flex items-start gap-3;
+}
+
+.assistant-message .message-bubble {
+  @apply bg-light dark:bg-darkmode-light;
+}
+
+/* Message content prose styling */
+.message-content .prose {
+  @apply text-sm;
+}
+
+.message-content .prose p {
+  @apply my-2 first:mt-0 last:mb-0;
+}
+
+.message-content .prose ul,
+.message-content .prose ol {
+  @apply my-2 pl-4;
+}
+
+.message-content .prose li {
+  @apply my-1;
+}
+
+.message-content .prose code {
+  @apply bg-body/50 dark:bg-darkmode-body/50 px-1.5 py-0.5 rounded text-xs;
+}
+
+.message-content .prose pre {
+  @apply bg-body/50 dark:bg-darkmode-body/50 p-3 rounded-lg overflow-x-auto;
+}
+
+.message-content .prose pre code {
+  @apply bg-transparent p-0;
+}
+
+.message-content .prose strong {
+  @apply font-semibold text-text-dark dark:text-darkmode-text-dark;
+}
+
+.message-content .prose em {
+  @apply italic;
+}
+
+.message-content .prose blockquote {
+  @apply border-l-4 border-primary dark:border-darkmode-primary pl-4 italic;
+}
+
+/* Typing Indicator */
+.typing-indicator {
+  @apply flex items-center gap-1;
+}
+
+.typing-indicator span {
+  @apply w-2 h-2 rounded-full bg-text/40 dark:bg-darkmode-text/40;
+  animation: typingBounce 1.4s ease-in-out infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typingBounce {
+  0%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-0.5rem);
+  }
+}
+
+/* Chat Status Indicator */
+.chat-status {
+  @apply transition-all duration-200;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Chat Input */
+.chat-input-container textarea {
+  @apply transition-all duration-200;
+  max-height: 120px;
+  overflow-y: auto;
+  resize: none;
+}
+
+.chat-input-container textarea:focus {
+  @apply ring-2;
+}
+
+/* Custom scrollbar for textarea - matches theme */
+.chat-input-container textarea::-webkit-scrollbar {
+  @apply w-2;
+}
+
+.chat-input-container textarea::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.chat-input-container textarea::-webkit-scrollbar-thumb {
+  @apply bg-border dark:bg-darkmode-border rounded-full;
+}
+
+.chat-input-container textarea::-webkit-scrollbar-thumb:hover {
+  @apply bg-text/30 dark:bg-darkmode-text/30;
+}
+
+/* Send Button - hidden on desktop (Enter key sends) */
+.send-button {
+  display: none;
+}
+
+/* Button hover effects */
+.chat-header button,
+.chat-input-container button {
+  @apply transition-colors duration-200;
+}
+
+/* Message Avatar */
+.message-avatar {
+  @apply transition-transform duration-200;
+}
+
+.message:hover .message-avatar {
+  @apply scale-110;
+}
+
+/* Error state styles */
+.chat-error {
+  @apply bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800;
+  @apply text-red-800 dark:text-red-200 px-4 py-3 rounded-lg;
+}
+
+/* Success state styles */
+.chat-success {
+  @apply bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800;
+  @apply text-green-800 dark:text-green-200 px-4 py-3 rounded-lg;
+}
+
+/* Info state styles */
+.chat-info {
+  @apply bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800;
+  @apply text-blue-800 dark:text-blue-200 px-4 py-3 rounded-lg;
+}

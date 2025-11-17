@@ -56,3 +56,46 @@
 
 <!-- cookie consent -->
 {{ partialCached "announcement-script.html" . }}
+
+
+<!-- AI Chat Scripts -->
+<!-- Load marked.js for markdown rendering (CDN) -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<!-- AI Chat modules -->
+{{ $aiChatScripts := slice }}
+{{ $aiChatScripts = $aiChatScripts | append (resources.Get "js/prompt-api-detector.js") }}
+{{ $aiChatScripts = $aiChatScripts | append (resources.Get "js/chat-session.js") }}
+{{ $aiChatScripts = $aiChatScripts | append (resources.Get "js/chat-handler.js") }}
+{{ $aiChatScripts = $aiChatScripts | append (resources.Get "js/chat-ui.js") }}
+{{ $aiChatScripts = $aiChatScripts | resources.Concat "js/ai-chat.js" }}
+
+{{ if hugo.IsProduction }}
+  {{ $aiChatScripts = $aiChatScripts | minify | fingerprint }}
+{{ end }}
+
+<script
+  crossorigin="anonymous"
+  {{ if hugo.IsProduction }}
+    integrity="{{ $aiChatScripts.Data.Integrity }}"
+  {{ end }}
+  src="{{ $aiChatScripts.RelPermalink }}"></script>
+
+<!-- Initialize AI Chat -->
+<script>
+  // Initialize AI Chat when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAIChat);
+  } else {
+    initAIChat();
+  }
+
+  async function initAIChat() {
+    try {
+      // Initialize Chat UI
+      await window.ChatUI?.init();
+    } catch (error) {
+      console.error('Failed to initialize AI chat:', error);
+    }
+  }
+</script>

@@ -40,9 +40,15 @@
     {{ partial "components/calendar-modal" . }}
 
 
-    <main>
-      {{ block "main" . }}{{ end }}
-    </main>
+    <!-- Chat Layout Wrapper -->
+    <div id="chat-layout-wrapper" class="chat-layout-wrapper">
+      <main id="main-content">
+        {{ block "main" . }}{{ end }}
+      </main>
+
+      <!-- AI Chat Panel (loaded dynamically) -->
+      {{ partial "ai-chat-panel.html" . }}
+    </div>
 
     <!-- footer -->
     {{ partial "essentials/footer.html" . }}

@@ -117,16 +117,29 @@
           <button
             aria-label="search"
             class="border-border text-text-dark hover:text-primary
-            dark:border-darkmode-border mr-5 inline-block border-r pr-5
-            text-xl dark:text-white cursor-pointer dark:hover:text-darkmode-primary
-            {{ if not (or site.Params.navigation_button.enable site.Params.theme_switcher) }}
-              lg:border-r-0 lg:pr-0
-            {{ end }}"
+            inline-block pr-5
+            text-xl dark:text-white cursor-pointer dark:hover:text-darkmode-primary"
             data-target="search-modal">
             <i class="fa-solid fa-search"></i>
           </button>
         {{ end }}
       {{ end }}
+
+      <!-- AI Chat Toggle Button -->
+      <button
+        id="ai-chat-toggle"
+        aria-label="AI Assistant"
+        class="border-border text-text-dark hover:text-primary
+        inline-block pr-5
+        text-xl dark:text-white cursor-pointer dark:hover:text-darkmode-primary
+        hidden transition-colors duration-200
+        {{ if not (or site.Params.navigation_button.enable site.Params.theme_switcher) }}
+          lg:border-r-0 lg:pr-0
+        {{ end }}"
+        data-chat-state="closed"
+        title="AI Assistant">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+      </button>
 
       {{ partial "components/language-switcher" (dict "Context" . "Class" "mr-5 pl-2 py-1 dark:bg-darkmode-light rounded") }}
       {{ partial "components/theme-switcher" (dict "Class" "mr-5") }}

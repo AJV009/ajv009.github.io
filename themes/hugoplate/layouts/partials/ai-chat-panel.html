@@ -1,0 +1,105 @@
+<!-- AI Chat Panel -->
+<aside
+  id="ai-chat-panel"
+  class="ai-chat-panel hidden"
+  data-chat-state="closed"
+  aria-label="AI Assistant Chat">
+
+  <!-- Chat Container -->
+  <div class="chat-container flex flex-col h-full">
+
+    <!-- Chat Header -->
+    <div class="chat-header flex items-center justify-between border-b border-border dark:border-darkmode-border bg-light dark:bg-darkmode-light px-6 py-4">
+      <button
+        id="chat-header-close"
+        class="chat-header-button flex items-center gap-3 cursor-pointer"
+        title="Close/hide Chatwindow"
+        aria-label="Close chat">
+        <span class="chat-header-icon relative text-xl text-primary dark:text-darkmode-primary">
+          <i class="fa-solid fa-wand-magic-sparkles wand-icon transition-opacity"></i>
+          <i class="fa-solid fa-arrow-right arrow-icon transition-opacity"></i>
+        </span>
+        <h3 class="text-lg font-semibold text-text-dark dark:text-darkmode-text-dark">Daisy</h3>
+      </button>
+
+      <div class="flex items-center gap-2">
+        <!-- Clear Chat Button -->
+        <button
+          id="clear-chat-btn"
+          class="p-2 rounded hover:bg-body dark:hover:bg-darkmode-body transition-colors"
+          aria-label="Clear conversation"
+          title="Clear conversation">
+          <svg class="w-4 h-4 text-text dark:text-darkmode-text" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+          </svg>
+        </button>
+
+        <!-- Close Chat Button (mobile fallback) -->
+        <button
+          id="close-chat-btn"
+          class="p-2 rounded hover:bg-body dark:hover:bg-darkmode-body transition-colors lg:hidden"
+          aria-label="Close chat"
+          title="Close chat">
+          <svg class="w-4 h-4 text-text dark:text-darkmode-text" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Chat Messages Container -->
+    <div
+      id="chat-messages"
+      class="chat-messages flex-1 overflow-y-auto px-6 py-4 space-y-4">
+
+      <!-- Empty State Message -->
+      <div class="chat-empty-state">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        <h3>This is an on-device AI experience</h3>
+        <p>Feel free to explore and even suggest changes as needed</p>
+        <p class="attribution">Thanks to Chrome's Prompt AI API for making this possible.</p>
+        <p class="tagline">It's Fast and Free</p>
+      </div>
+
+    </div>
+
+    <!-- Status/Loading Indicator -->
+    <div
+      id="chat-status"
+      class="chat-status hidden px-6 py-2 bg-body dark:bg-darkmode-body border-t border-border dark:border-darkmode-border">
+      <div class="flex items-center gap-2 text-sm text-text dark:text-darkmode-text">
+        <div class="loading-spinner w-4 h-4 border-2 border-primary dark:border-darkmode-primary border-t-transparent rounded-full animate-spin"></div>
+        <span id="chat-status-text">AI is thinking...</span>
+      </div>
+    </div>
+
+    <!-- Chat Input Container -->
+    <div class="chat-input-container border-t border-border dark:border-darkmode-border bg-body dark:bg-darkmode-body px-6 py-4">
+      <form id="chat-form" class="flex gap-2">
+        <textarea
+          id="chat-input"
+          class="flex-1 resize-none rounded-lg border border-border dark:border-darkmode-border bg-body dark:bg-darkmode-body px-4 py-3 text-text dark:text-darkmode-text placeholder:text-text/50 dark:placeholder:text-darkmode-text/50 focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-darkmode-primary"
+          placeholder="Type your message..."
+          rows="1"
+          maxlength="2000"
+          aria-label="Chat message input"></textarea>
+
+        <button
+          type="submit"
+          id="send-message-btn"
+          class="send-button flex-shrink-0 px-6 py-3 rounded-lg bg-primary dark:bg-darkmode-primary text-white hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+          aria-label="Send message">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+          </svg>
+        </button>
+      </form>
+
+      <!-- Character Counter (optional) -->
+      <div class="text-xs text-text/50 dark:text-darkmode-text/50 mt-2 text-right">
+        <span id="char-counter">0</span> / 2000
+      </div>
+    </div>
+
+  </div>
+</aside>
