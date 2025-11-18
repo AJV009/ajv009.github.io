@@ -38,23 +38,39 @@ const ChatSessionManager = {
         return false;
       }
 
-      // Create session with initial system prompt
-      this.session = await window.LanguageModel.create({
-        initialPrompts: [
-          {
-            role: 'system',
-            content: `You are a helpful AI assistant integrated into a personal portfolio website.
+      // Try to restore previous conversation from sessionStorage first
+      const savedMessages = this.getSavedMessages();
+
+      // Build initialPrompts array with system prompt + previous messages
+      const initialPrompts = [
+        {
+          role: 'system',
+          content: `You are a helpful AI assistant integrated into a personal portfolio website.
 You can help visitors learn more about the site owner, answer questions, and have friendly conversations.
 Be concise, helpful, and engaging. Format responses using markdown when appropriate.`
+        }
+      ];
+
+      // Add previous messages to initialPrompts if they exist (for session restoration)
+      if (savedMessages && savedMessages.length > 0) {
+        savedMessages.forEach(msg => {
+          if (msg.role === 'user' || msg.role === 'assistant') {
+            initialPrompts.push({
+              role: msg.role,
+              content: msg.content
+            });
           }
-        ]
+        });
+        // Restore messages to current state
+        this.messages = savedMessages;
+      }
+
+      // Create session with initial prompts (system + previous conversation)
+      this.session = await window.LanguageModel.create({
+        initialPrompts: initialPrompts
       });
 
       this.isInitialized = true;
-
-      // Try to restore previous conversation from sessionStorage
-      this.restoreConversation();
-
       return true;
 
     } catch (error) {
@@ -93,12 +109,9 @@ Be concise, helpful, and engaging. Format responses using markdown when appropri
         timestamp: Date.now()
       });
 
-      // Build conversation context
-      const conversationContext = this.buildConversationContext();
-      const prompt = `${conversationContext}\n\nUser: ${userMessage}`;
-
-      // Stream the response
-      const stream = this.session.promptStreaming(prompt);
+      // Stream the response - just pass the new user message
+      // The session maintains context internally!
+      const stream = this.session.promptStreaming(userMessage);
       let fullResponse = '';
 
       for await (const chunk of stream) {
@@ -132,28 +145,6 @@ Be concise, helpful, and engaging. Format responses using markdown when appropri
   },
 
   /**
-   * Build conversation context string from message history
-   * @returns {string}
-   */
-  buildConversationContext() {
-    if (this.messages.length === 0) {
-      return '';
-    }
-
-    // Include last 10 messages for context (to avoid token limits)
-    const recentMessages = this.messages.slice(-10);
-
-    return recentMessages.map(msg => {
-      if (msg.role === 'user') {
-        return `User: ${msg.content}`;
-      } else if (msg.role === 'assistant') {
-        return `Assistant: ${msg.content}`;
-      }
-      return '';
-    }).join('\n\n');
-  },
-
-  /**
    * Clear conversation history
    */
   clearConversation() {
@@ -173,16 +164,19 @@ Be concise, helpful, and engaging. Format responses using markdown when appropri
   },
 
   /**
-   * Restore conversation from sessionStorage
+   * Get saved messages from sessionStorage
+   * @returns {Array|null} - Saved messages or null if none
    */
-  restoreConversation() {
+  getSavedMessages() {
     try {
       const saved = sessionStorage.getItem('aiChatHistory');
       if (saved) {
-        this.messages = JSON.parse(saved);
+        return JSON.parse(saved);
       }
+      return null;
     } catch (error) {
-      console.error('Failed to restore conversation:', error);
+      console.error('Failed to get saved messages:', error);
+      return null;
     }
   },
 

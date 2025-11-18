@@ -175,6 +175,11 @@ const ChatUI = {
   },
 
   /**
+   * Message counter for unique IDs
+   */
+  messageCounter: 0,
+
+  /**
    * Cleanup resources
    */
   cleanup() {
@@ -183,6 +188,206 @@ const ChatUI = {
       this.footerObserver.disconnect();
       this.footerObserver = null;
     }
+  },
+
+  /**
+   * Add a message to the UI
+   * @param {string} role - 'user' or 'assistant'
+   * @param {string} content - Message content
+   * @returns {string} Message element ID
+   */
+  addMessage(role, content) {
+    const messageId = `msg-${this.messageCounter++}`;
+    const messagesContainer = document.getElementById('chat-messages');
+    if (!messagesContainer) return messageId;
+
+    const messageEl = document.createElement('div');
+    messageEl.id = messageId;
+    messageEl.className = `message ${role}-message flex items-start gap-3`;
+
+    if (role === 'user') {
+      messageEl.classList.add('flex-row-reverse');
+    }
+
+    // Avatar
+    const avatarEl = document.createElement('div');
+    avatarEl.className = `message-avatar flex-shrink-0 w-8 h-8 rounded-full ${
+      role === 'user'
+        ? 'bg-primary/80 dark:bg-darkmode-primary/80'
+        : 'bg-primary dark:bg-darkmode-primary'
+    } flex items-center justify-center`;
+
+    const avatarIcon = role === 'user'
+      ? '<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>'
+      : '<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>';
+
+    avatarEl.innerHTML = avatarIcon;
+
+    // Content
+    const contentEl = document.createElement('div');
+    contentEl.className = 'message-content flex-1';
+
+    const bubbleEl = document.createElement('div');
+    bubbleEl.className = `message-bubble relative ${
+      role === 'user'
+        ? 'bg-primary dark:bg-darkmode-primary'
+        : 'bg-light dark:bg-darkmode-light'
+    } rounded-lg px-4 py-3 ${role === 'assistant' ? 'pb-8' : ''}`;
+
+    const textEl = document.createElement('div');
+    textEl.className = 'prose prose-sm dark:prose-invert max-w-none';
+
+    if (content) {
+      if (role === 'assistant') {
+        // Render markdown for assistant messages
+        textEl.innerHTML = window.marked ? window.marked.parse(content) : content;
+      } else {
+        // Plain text for user messages
+        textEl.innerHTML = `<p class="${
+          role === 'user' ? 'text-white' : 'text-text dark:text-darkmode-text'
+        }">${this.escapeHtml(content)}</p>`;
+      }
+    } else if (role === 'assistant') {
+      // Show typing indicator for empty assistant message
+      textEl.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+    }
+
+    bubbleEl.appendChild(textEl);
+
+    // Add speaker button for assistant messages
+    if (role === 'assistant' && content) {
+      const speakerBtn = document.createElement('button');
+      speakerBtn.className = 'message-speaker-btn absolute bottom-2 right-2 text-xs text-text/50 dark:text-darkmode-text/50 hover:text-primary dark:hover:text-darkmode-primary transition-colors';
+      speakerBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+      speakerBtn.title = 'Speak this message';
+      speakerBtn.onclick = (e) => {
+        e.stopPropagation();
+        if (window.ChatTTS) {
+          ChatTTS.speak(content, true); // Force speak
+        }
+      };
+      bubbleEl.appendChild(speakerBtn);
+    }
+
+    contentEl.appendChild(bubbleEl);
+
+    messageEl.appendChild(avatarEl);
+    messageEl.appendChild(contentEl);
+
+    messagesContainer.appendChild(messageEl);
+    this.scrollToBottom();
+
+    return messageId;
+  },
+
+  /**
+   * Update message content
+   * @param {string} messageId
+   * @param {string} content
+   */
+  updateMessage(messageId, content) {
+    const messageEl = document.getElementById(messageId);
+    if (!messageEl) return;
+
+    const textEl = messageEl.querySelector('.prose');
+    if (!textEl) return;
+
+    // Render markdown
+    textEl.innerHTML = window.marked ? window.marked.parse(content) : content;
+
+    // Add/update speaker button for assistant message
+    const bubbleEl = messageEl.querySelector('.message-bubble');
+    if (bubbleEl && messageEl.classList.contains('assistant-message') && content) {
+      let speakerBtn = bubbleEl.querySelector('.message-speaker-btn');
+
+      if (!speakerBtn) {
+        speakerBtn = document.createElement('button');
+        speakerBtn.className = 'message-speaker-btn absolute bottom-2 right-2 text-xs text-text/50 dark:text-darkmode-text/50 hover:text-primary dark:hover:text-darkmode-primary transition-colors';
+        speakerBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+        speakerBtn.title = 'Speak this message';
+        speakerBtn.onclick = (e) => {
+          e.stopPropagation();
+          if (window.ChatTTS) {
+            ChatTTS.speak(content, true); // Force speak
+          }
+        };
+        bubbleEl.appendChild(speakerBtn);
+      } else {
+        // Update onclick with new content
+        speakerBtn.onclick = (e) => {
+          e.stopPropagation();
+          if (window.ChatTTS) {
+            ChatTTS.speak(content, true); // Force speak
+          }
+        };
+      }
+    }
+
+    this.scrollToBottom();
+  },
+
+  /**
+   * Remove a message
+   * @param {string} messageId
+   */
+  removeMessage(messageId) {
+    const messageEl = document.getElementById(messageId);
+    if (messageEl) {
+      messageEl.remove();
+    }
+  },
+
+  /**
+   * Restore messages from session manager
+   * @param {Array} messages - Array of message objects
+   */
+  restoreMessages(messages) {
+    const messagesContainer = document.getElementById('chat-messages');
+    if (!messagesContainer) return;
+
+    // Clear current messages (keep empty state)
+    const existingMessages = messagesContainer.querySelectorAll('.message');
+    existingMessages.forEach(msg => msg.remove());
+
+    // Add restored messages
+    messages.forEach(msg => {
+      if (msg.role === 'user' || msg.role === 'assistant') {
+        this.addMessage(msg.role, msg.content);
+      }
+    });
+  },
+
+  /**
+   * Clear all messages from UI
+   */
+  clearMessages() {
+    const messagesContainer = document.getElementById('chat-messages');
+    if (!messagesContainer) return;
+
+    // Clear UI (empty state will show automatically)
+    const messages = messagesContainer.querySelectorAll('.message');
+    messages.forEach(msg => msg.remove());
+  },
+
+  /**
+   * Scroll to bottom of messages
+   */
+  scrollToBottom() {
+    const messagesContainer = document.getElementById('chat-messages');
+    if (!messagesContainer) return;
+
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  },
+
+  /**
+   * Escape HTML to prevent XSS
+   * @param {string} text
+   * @returns {string}
+   */
+  escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
   },
 
   /**

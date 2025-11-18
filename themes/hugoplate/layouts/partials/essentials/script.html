@@ -66,8 +66,10 @@
 {{ $aiChatScripts := slice }}
 {{ $aiChatScripts = $aiChatScripts | append (resources.Get "js/prompt-api-detector.js") }}
 {{ $aiChatScripts = $aiChatScripts | append (resources.Get "js/chat-session.js") }}
-{{ $aiChatScripts = $aiChatScripts | append (resources.Get "js/chat-handler.js") }}
+{{ $aiChatScripts = $aiChatScripts | append (resources.Get "js/chat-tts.js") }}
+{{ $aiChatScripts = $aiChatScripts | append (resources.Get "js/chat-stt.js") }}
 {{ $aiChatScripts = $aiChatScripts | append (resources.Get "js/chat-ui.js") }}
+{{ $aiChatScripts = $aiChatScripts | append (resources.Get "js/chat-handler.js") }}
 {{ $aiChatScripts = $aiChatScripts | resources.Concat "js/ai-chat.js" }}
 
 {{ if hugo.IsProduction }}
