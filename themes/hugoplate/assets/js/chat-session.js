@@ -1,13 +1,16 @@
 /**
  * Chat Session Manager
- * Manages the Prompt API session lifecycle and conversation state
+ * Manages the active Prompt API session lifecycle and conversation state
  */
 
 const ChatSessionManager = {
   // Session instance
   session: null,
 
-  // Conversation history
+  // Current session ID (from ChatSessionStorage)
+  currentSessionId: null,
+
+  // Conversation history (in-memory cache, synced with storage)
   messages: [],
 
   // Session state
@@ -17,13 +20,10 @@ const ChatSessionManager = {
 
   /**
    * Initialize the chat session
+   * @param {string|null} sessionId - Optional session ID to load
    * @returns {Promise<boolean>} Success status
    */
-  async initialize() {
-    if (this.isInitialized && this.session) {
-      return true;
-    }
-
+  async initialize(sessionId = null) {
     try {
       // Check if LanguageModel API is available
       if (!window.LanguageModel) {
@@ -38,8 +38,30 @@ const ChatSessionManager = {
         return false;
       }
 
-      // Try to restore previous conversation from sessionStorage first
-      const savedMessages = this.getSavedMessages();
+      // Determine which session to load
+      let targetSessionId = sessionId;
+
+      if (!targetSessionId) {
+        // Try to get current session from storage
+        targetSessionId = window.ChatSessionStorage?.getCurrentSessionId();
+      }
+
+      // If no session exists, create a new one
+      if (!targetSessionId || !window.ChatSessionStorage?.getSession(targetSessionId)) {
+        if (window.ChatSessionStorage) {
+          targetSessionId = window.ChatSessionStorage.createSession();
+          window.ChatSessionStorage.setCurrentSessionId(targetSessionId);
+        } else {
+          console.error('ChatSessionStorage not available');
+          return false;
+        }
+      }
+
+      this.currentSessionId = targetSessionId;
+
+      // Load messages from storage
+      const sessionData = window.ChatSessionStorage.getSession(targetSessionId);
+      const savedMessages = sessionData ? sessionData.messages : [];
 
       // Build initialPrompts array with system prompt + previous messages
       const initialPrompts = [
@@ -61,9 +83,10 @@ Be concise, helpful, and engaging. Format responses using markdown when appropri
             });
           }
         });
-        // Restore messages to current state
-        this.messages = savedMessages;
       }
+
+      // Store messages in memory
+      this.messages = savedMessages;
 
       // Create session with initial prompts (system + previous conversation)
       this.session = await window.LanguageModel.create({
@@ -103,11 +126,17 @@ Be concise, helpful, and engaging. Format responses using markdown when appropri
 
     try {
       // Add user message to history
-      this.messages.push({
+      const userMsg = {
         role: 'user',
         content: userMessage,
         timestamp: Date.now()
-      });
+      };
+      this.messages.push(userMsg);
+
+      // Save user message to storage
+      if (this.currentSessionId && window.ChatSessionStorage) {
+        window.ChatSessionStorage.addMessage(this.currentSessionId, userMsg);
+      }
 
       // Stream the response - just pass the new user message
       // The session maintains context internally!
@@ -125,14 +154,24 @@ Be concise, helpful, and engaging. Format responses using markdown when appropri
       }
 
       // Add assistant response to history
-      this.messages.push({
+      const assistantMsg = {
         role: 'assistant',
         content: fullResponse,
         timestamp: Date.now()
-      });
+      };
+      this.messages.push(assistantMsg);
 
-      // Save conversation to sessionStorage
-      this.saveConversation();
+      // Save assistant message to storage
+      if (this.currentSessionId && window.ChatSessionStorage) {
+        window.ChatSessionStorage.addMessage(this.currentSessionId, assistantMsg);
+
+        // Check if title needs update (after every 2 turns)
+        if (window.ChatSessionStorage.needsTitleUpdate(this.currentSessionId)) {
+          // Trigger title update asynchronously (don't wait for it)
+          window.ChatSessionStorage.updateSessionTitle(this.currentSessionId)
+            .catch(error => console.error('Failed to update session title:', error));
+        }
+      }
 
       onComplete?.(fullResponse);
 
@@ -145,38 +184,73 @@ Be concise, helpful, and engaging. Format responses using markdown when appropri
   },
 
   /**
-   * Clear conversation history
+   * Clear current conversation (creates a new session)
    */
   clearConversation() {
-    this.messages = [];
-    sessionStorage.removeItem('aiChatHistory');
-  },
-
-  /**
-   * Save conversation to sessionStorage
-   */
-  saveConversation() {
-    try {
-      sessionStorage.setItem('aiChatHistory', JSON.stringify(this.messages));
-    } catch (error) {
-      console.error('Failed to save conversation:', error);
-    }
-  },
-
-  /**
-   * Get saved messages from sessionStorage
-   * @returns {Array|null} - Saved messages or null if none
-   */
-  getSavedMessages() {
-    try {
-      const saved = sessionStorage.getItem('aiChatHistory');
-      if (saved) {
-        return JSON.parse(saved);
+    // Destroy current Prompt API session
+    if (this.session) {
+      try {
+        this.session.destroy();
+      } catch (error) {
+        console.error('Error destroying session:', error);
       }
-      return null;
-    } catch (error) {
-      console.error('Failed to get saved messages:', error);
-      return null;
+    }
+
+    // Clear in-memory messages
+    this.messages = [];
+
+    // Create a new session in storage
+    if (window.ChatSessionStorage) {
+      const newSessionId = window.ChatSessionStorage.createSession();
+      window.ChatSessionStorage.setCurrentSessionId(newSessionId);
+      this.currentSessionId = newSessionId;
+    }
+
+    // Reset state
+    this.session = null;
+    this.isInitialized = false;
+  },
+
+  /**
+   * Switch to a different session
+   * @param {string} sessionId - Session ID to load
+   * @returns {Promise<boolean>} Success status
+   */
+  async switchSession(sessionId) {
+    // Destroy current session
+    this.destroy();
+
+    // Initialize with new session ID
+    return await this.initialize(sessionId);
+  },
+
+  /**
+   * Delete current session and switch to a new one
+   */
+  async deleteCurrentSession() {
+    if (!this.currentSessionId) return;
+
+    // Delete from storage
+    if (window.ChatSessionStorage) {
+      window.ChatSessionStorage.deleteSession(this.currentSessionId);
+    }
+
+    // Clear and create new session
+    this.clearConversation();
+  },
+
+  /**
+   * Remove last messages from current session (for cancel operation)
+   */
+  removeLastMessages() {
+    if (!this.currentSessionId || !window.ChatSessionStorage) return;
+
+    // Remove from storage
+    window.ChatSessionStorage.removeLastMessages(this.currentSessionId);
+
+    // Remove from in-memory cache
+    if (this.messages.length >= 2) {
+      this.messages.splice(-2, 2);
     }
   },
 

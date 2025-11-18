@@ -65,6 +65,7 @@
 <!-- AI Chat modules -->
 {{ $aiChatScripts := slice }}
 {{ $aiChatScripts = $aiChatScripts | append (resources.Get "js/prompt-api-detector.js") }}
+{{ $aiChatScripts = $aiChatScripts | append (resources.Get "js/chat-session-storage.js") }}
 {{ $aiChatScripts = $aiChatScripts | append (resources.Get "js/chat-session.js") }}
 {{ $aiChatScripts = $aiChatScripts | append (resources.Get "js/chat-tts.js") }}
 {{ $aiChatScripts = $aiChatScripts | append (resources.Get "js/chat-stt.js") }}

@@ -99,6 +99,11 @@ const ChatHandler = {
       window.ChatUI?.closeChat();
     });
 
+    // History button to toggle session list
+    document.getElementById('history-btn')?.addEventListener('click', () => {
+      window.ChatUI?.toggleSessionList();
+    });
+
     // Close chat (mobile fallback)
     this.elements.closeButton?.addEventListener('click', () => {
       window.ChatUI?.closeChat();
@@ -145,6 +150,11 @@ const ChatHandler = {
 
     if (!message || !window.ChatSessionManager) {
       return;
+    }
+
+    // Switch to active chat view if in session list
+    if (window.ChatUI && window.ChatUI.viewState === 'session-list') {
+      window.ChatUI.showActiveChat();
     }
 
     // Store current message for potential cancel
@@ -209,6 +219,9 @@ const ChatHandler = {
         this.setMicButtonToRecord(); // Restore mic button
         this.elements.chatInput.focus();
 
+        // Update bin icon state (enable it now that we have messages)
+        this.updateBinIconState();
+
         // Speak the complete message if TTS is enabled
         if (window.ChatTTS && fullResponse) {
           ChatTTS.speak(fullResponse);
@@ -235,16 +248,30 @@ const ChatHandler = {
   },
 
   /**
-   * Clear conversation
+   * Clear conversation (creates new session)
    */
   clearConversation() {
-    // Clear from session manager
+    // Create new session via session manager (this clears and creates new)
     window.ChatSessionManager?.clearConversation();
 
     // Clear UI
     if (window.ChatUI) {
       ChatUI.clearMessages();
     }
+
+    // If in session list view, refresh it
+    if (window.ChatUI && window.ChatUI.viewState === 'session-list') {
+      window.ChatUI.renderSessionList();
+    } else {
+      // Otherwise switch to active chat view
+      window.ChatUI?.showActiveChat();
+    }
+
+    // Update bin icon state (will be grayed out for empty chat)
+    this.updateBinIconState();
+
+    // Focus input
+    this.elements.chatInput?.focus();
   },
 
   /**
@@ -436,6 +463,121 @@ const ChatHandler = {
   },
 
   /**
+   * Update bin icon state based on current session
+   * Gray out if chat is empty, enable if there are messages
+   */
+  updateBinIconState() {
+    if (!this.elements.clearButton) return;
+
+    // Don't change state if in session list view (already handled by showSessionList)
+    if (window.ChatUI && window.ChatUI.viewState === 'session-list') {
+      return;
+    }
+
+    // Check if current session has messages
+    const hasMessages = window.ChatSessionManager?.messages?.length > 0;
+
+    if (hasMessages) {
+      // Enable bin icon
+      this.elements.clearButton.disabled = false;
+      this.elements.clearButton.classList.remove('opacity-50', 'cursor-not-allowed');
+    } else {
+      // Gray out bin icon
+      this.elements.clearButton.disabled = true;
+      this.elements.clearButton.classList.add('opacity-50', 'cursor-not-allowed');
+    }
+  },
+
+  /**
+   * Create a new session
+   */
+  async createNewSession() {
+    // Clear current session
+    if (window.ChatSessionManager) {
+      window.ChatSessionManager.clearConversation();
+    }
+
+    // Switch to active chat view
+    if (window.ChatUI) {
+      window.ChatUI.clearMessages();
+      window.ChatUI.showActiveChat();
+    }
+
+    // Update bin icon state (will be grayed out for empty chat)
+    this.updateBinIconState();
+
+    // Focus input
+    this.elements.chatInput?.focus();
+  },
+
+  /**
+   * Load an existing session
+   * @param {string} sessionId
+   */
+  async loadSession(sessionId) {
+    if (!window.ChatSessionManager || !sessionId) return;
+
+    // Switch to the session
+    const success = await window.ChatSessionManager.switchSession(sessionId);
+
+    if (success) {
+      // Switch to active chat view
+      if (window.ChatUI) {
+        window.ChatUI.showActiveChat();
+      }
+
+      // Update bin icon state based on loaded session
+      this.updateBinIconState();
+
+      // Focus input
+      this.elements.chatInput?.focus();
+    } else {
+      this.showError('Failed to load session');
+    }
+  },
+
+  /**
+   * Delete a session
+   * @param {string} sessionId
+   */
+  deleteSession(sessionId) {
+    if (!window.ChatSessionStorage || !sessionId) return;
+
+    // Check if this is the current session
+    const isCurrentSession = sessionId === window.ChatSessionManager?.currentSessionId;
+
+    // Delete from storage
+    const success = window.ChatSessionStorage.deleteSession(sessionId);
+
+    if (success) {
+      // If we deleted the current session, create a new one
+      if (isCurrentSession && window.ChatSessionManager) {
+        window.ChatSessionManager.clearConversation();
+
+        if (window.ChatUI) {
+          window.ChatUI.clearMessages();
+        }
+      }
+
+      // Check if there are still meaningful sessions left (2+ messages)
+      const sessions = window.ChatSessionStorage.getSessionsSorted() || [];
+      const meaningfulSessions = sessions.filter(s => s.messages && s.messages.length >= 2);
+
+      if (window.ChatUI) {
+        if (meaningfulSessions.length < 1) {
+          // No meaningful sessions left, switch to empty view
+          window.ChatUI.showActiveChat();
+        } else if (window.ChatUI.viewState === 'session-list') {
+          // Still have sessions, refresh the listing
+          window.ChatUI.renderSessionList();
+        }
+      }
+    } else {
+      this.showError('Failed to delete session');
+    }
+  },
+
+  /**
    * Cancel the current AI response
    */
   cancelResponse() {
@@ -443,6 +585,9 @@ const ChatHandler = {
 
     // Stop the session
     window.ChatSessionManager?.stopCurrentResponse();
+
+    // Remove last messages from storage (user + partial assistant)
+    window.ChatSessionManager?.removeLastMessages();
 
     if (window.ChatUI) {
       // Remove partial assistant message
@@ -475,6 +620,9 @@ const ChatHandler = {
     this.setPlaceholder('Type your message...');
     this.setMicButtonToRecord();
     this.elements.chatInput.focus();
+
+    // Update bin icon state (might be empty again after cancel)
+    this.updateBinIconState();
 
     // Stop any ongoing speech
     if (window.ChatTTS) {

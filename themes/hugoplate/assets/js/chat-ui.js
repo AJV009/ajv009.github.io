@@ -16,6 +16,7 @@ const ChatUI = {
   isOpen: false,
   isAvailable: false,
   footerObserver: null,
+  viewState: 'session-list', // 'session-list' or 'chat-active'
 
   /**
    * Initialize the chat UI
@@ -127,10 +128,8 @@ const ChatUI = {
     // Save state
     this.saveState();
 
-    // Focus input
-    setTimeout(() => {
-      document.getElementById('chat-input')?.focus();
-    }, 300);
+    // Show session list only if 2+ sessions exist, otherwise show normal view
+    this.showSessionList();
   },
 
   /**
@@ -172,6 +171,227 @@ const ChatUI = {
     } catch (error) {
       console.error('Failed to restore chat state:', error);
     }
+  },
+
+  /**
+   * Show session list view (if any session has 2+ messages)
+   */
+  showSessionList() {
+    // Filter sessions that have at least 2 messages (1 complete turn)
+    const sessions = window.ChatSessionStorage?.getSessionsSorted() || [];
+    const meaningfulSessions = sessions.filter(s => s.messages && s.messages.length >= 2);
+
+    // Show listing if there's at least 1 meaningful session
+    if (meaningfulSessions.length < 1) {
+      // No meaningful sessions yet, show active chat view
+      this.showActiveChat();
+      return;
+    }
+
+    this.viewState = 'session-list';
+    this.renderSessionList();
+
+    // Gray out the bin (clear) button
+    const clearButton = document.getElementById('clear-chat-btn');
+    if (clearButton) {
+      clearButton.disabled = true;
+      clearButton.classList.add('opacity-50', 'cursor-not-allowed');
+    }
+
+    // Update history button to active state
+    const historyButton = document.getElementById('history-btn');
+    if (historyButton) {
+      historyButton.classList.add('text-primary', 'dark:text-darkmode-primary');
+    }
+  },
+
+  /**
+   * Show active chat view
+   */
+  showActiveChat() {
+    this.viewState = 'chat-active';
+
+    // Enable the bin (clear) button
+    const clearButton = document.getElementById('clear-chat-btn');
+    if (clearButton) {
+      clearButton.disabled = false;
+      clearButton.classList.remove('opacity-50', 'cursor-not-allowed');
+    }
+
+    // Remove active state from history button
+    const historyButton = document.getElementById('history-btn');
+    if (historyButton) {
+      historyButton.classList.remove('text-primary', 'dark:text-darkmode-primary');
+    }
+
+    // IMPORTANT: Clear the entire messages container first
+    // This removes session list HTML if switching from listing view
+    const messagesContainer = document.getElementById('chat-messages');
+    if (messagesContainer) {
+      // Remove session list container if it exists
+      const sessionListContainer = document.getElementById('session-list-container');
+      if (sessionListContainer) {
+        sessionListContainer.remove();
+      }
+    }
+
+    // Render current session messages if any, otherwise clear to show empty state
+    if (window.ChatSessionManager?.currentSessionId && window.ChatSessionStorage) {
+      const sessionData = window.ChatSessionStorage.getSession(
+        window.ChatSessionManager.currentSessionId
+      );
+      if (sessionData && sessionData.messages.length > 0) {
+        this.restoreMessages(sessionData.messages);
+      } else {
+        // No messages, clear to show empty state
+        this.clearMessages();
+      }
+    } else {
+      // No session, clear to show empty state
+      this.clearMessages();
+    }
+
+    // Update bin icon state based on current session
+    if (window.ChatHandler) {
+      window.ChatHandler.updateBinIconState();
+    }
+  },
+
+  /**
+   * Toggle between session list and active chat
+   */
+  toggleSessionList() {
+    if (this.viewState === 'session-list') {
+      this.showActiveChat();
+    } else {
+      this.showSessionList();
+    }
+  },
+
+  /**
+   * Render session list in the messages container
+   * Note: Only shows sessions with at least 2 messages (1 complete turn)
+   */
+  renderSessionList() {
+    const messagesContainer = document.getElementById('chat-messages');
+    if (!messagesContainer) return;
+
+    // Clear messages container
+    messagesContainer.innerHTML = '';
+
+    // Get sessions from storage and filter to meaningful ones (2+ messages)
+    const sessions = window.ChatSessionStorage?.getSessionsSorted() || [];
+    const meaningfulSessions = sessions.filter(s => s.messages && s.messages.length >= 2);
+
+    // Create session list container
+    const sessionListEl = document.createElement('div');
+    sessionListEl.className = 'session-list p-4 space-y-2';
+    sessionListEl.id = 'session-list-container';
+
+    // Render sessions directly (no header, no "New Chat" button)
+    const sessionsEl = document.createElement('div');
+    sessionsEl.className = 'sessions-container space-y-2';
+
+    meaningfulSessions.forEach(session => {
+      const sessionEl = document.createElement('div');
+      sessionEl.className = 'session-item group relative bg-light dark:bg-darkmode-light rounded-lg p-3 hover:bg-primary/10 dark:hover:bg-darkmode-primary/10 transition-colors cursor-pointer';
+      sessionEl.dataset.sessionId = session.id;
+
+      // Highlight current session
+      if (session.id === window.ChatSessionManager?.currentSessionId) {
+        sessionEl.classList.add('ring-2', 'ring-primary', 'dark:ring-darkmode-primary');
+      }
+
+      const updatedDate = new Date(session.updatedAt);
+      const formattedDate = this.formatSessionDate(updatedDate);
+
+      sessionEl.innerHTML = `
+        <div class="session-content pr-8">
+          <h6 class="session-title font-medium text-text dark:text-darkmode-text truncate mb-1">
+            ${this.escapeHtml(session.title)}
+          </h6>
+          <div class="session-meta flex items-center gap-3 text-xs text-text/60 dark:text-darkmode-text/60">
+            <span class="flex items-center gap-1">
+              <i class="fa-solid fa-clock"></i>
+              ${formattedDate}
+            </span>
+            <span class="flex items-center gap-1">
+              <i class="fa-solid fa-message"></i>
+              ${session.messages.length}
+            </span>
+          </div>
+        </div>
+        <button
+          class="session-delete-btn absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:text-red-500 dark:hover:text-red-400"
+          data-session-id="${session.id}"
+          title="Delete conversation">
+          <i class="fa-solid fa-trash-can"></i>
+        </button>
+      `;
+
+      sessionsEl.appendChild(sessionEl);
+    });
+
+    sessionListEl.appendChild(sessionsEl);
+    messagesContainer.appendChild(sessionListEl);
+
+    // Setup event listeners for session list
+    this.setupSessionListListeners();
+  },
+
+  /**
+   * Format session date for display
+   * @param {Date} date
+   * @returns {string}
+   */
+  formatSessionDate(date) {
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffDays < 7) return `${diffDays}d ago`;
+
+    return date.toLocaleDateString();
+  },
+
+  /**
+   * Setup event listeners for session list
+   */
+  setupSessionListListeners() {
+    const sessionList = document.getElementById('session-list-container');
+
+    // Session selection (event delegation)
+    sessionList?.addEventListener('click', (e) => {
+      // Find clicked session item
+      const sessionItem = e.target.closest('.session-item');
+      if (!sessionItem) return;
+
+      // Ignore if delete button was clicked
+      if (e.target.closest('.session-delete-btn')) return;
+
+      const sessionId = sessionItem.dataset.sessionId;
+      if (sessionId && window.ChatHandler) {
+        window.ChatHandler.loadSession(sessionId);
+      }
+    });
+
+    // Session deletion (event delegation)
+    sessionList?.addEventListener('click', (e) => {
+      const deleteBtn = e.target.closest('.session-delete-btn');
+      if (!deleteBtn) return;
+
+      e.stopPropagation();
+
+      const sessionId = deleteBtn.dataset.sessionId;
+      if (sessionId && window.ChatHandler) {
+        window.ChatHandler.deleteSession(sessionId);
+      }
+    });
   },
 
   /**
@@ -367,6 +587,32 @@ const ChatUI = {
     // Clear UI (empty state will show automatically)
     const messages = messagesContainer.querySelectorAll('.message');
     messages.forEach(msg => msg.remove());
+
+    // Ensure empty state exists (in case it was removed by renderSessionList)
+    this.ensureEmptyState();
+  },
+
+  /**
+   * Ensure the empty state HTML exists in the messages container
+   */
+  ensureEmptyState() {
+    const messagesContainer = document.getElementById('chat-messages');
+    if (!messagesContainer) return;
+
+    // Check if empty state already exists
+    let emptyState = messagesContainer.querySelector('.chat-empty-state');
+
+    // If it doesn't exist, create it
+    if (!emptyState) {
+      emptyState = document.createElement('div');
+      emptyState.className = 'chat-empty-state';
+      emptyState.innerHTML = `
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        <h3>Hi! I am Daisy, how can I help you?</h3>
+        <p class="tagline">I am a Fast, Free, Private and Personalised on-device GenAI chat experience powered by Prompt AI API.</p>
+      `;
+      messagesContainer.appendChild(emptyState);
+    }
   },
 
   /**
