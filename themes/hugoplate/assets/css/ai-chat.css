@@ -334,9 +334,24 @@
   font-size: 1rem;
 }
 
+/* Hover effect - only when NOT recording */
+.stt-button:not(.recording):hover {
+  @apply text-primary dark:text-darkmode-primary;
+}
+
+/* Recording state */
 .stt-button.recording {
   @apply text-red-500 dark:text-red-400;
   animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Canceling state (during AI response) */
+.stt-button.canceling {
+  @apply text-red-500 dark:text-red-400;
+}
+
+.stt-button.canceling:hover {
+  @apply text-red-600 dark:text-red-500;
 }
 
 @keyframes pulse {

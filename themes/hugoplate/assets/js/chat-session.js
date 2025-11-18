@@ -13,6 +13,7 @@ const ChatSessionManager = {
   // Session state
   isInitialized: false,
   isProcessing: false,
+  shouldStopStreaming: false,
 
   /**
    * Initialize the chat session
@@ -82,6 +83,7 @@ Be concise, helpful, and engaging. Format responses using markdown when appropri
     }
 
     this.isProcessing = true;
+    this.shouldStopStreaming = false;
 
     try {
       // Add user message to history
@@ -100,6 +102,11 @@ Be concise, helpful, and engaging. Format responses using markdown when appropri
       let fullResponse = '';
 
       for await (const chunk of stream) {
+        // Check if streaming should be stopped
+        if (this.shouldStopStreaming) {
+          break;
+        }
+
         fullResponse += chunk;
         onChunk?.(chunk, fullResponse);
       }
@@ -185,6 +192,14 @@ Be concise, helpful, and engaging. Format responses using markdown when appropri
    */
   getMessages() {
     return [...this.messages];
+  },
+
+  /**
+   * Stop the current streaming response
+   */
+  stopCurrentResponse() {
+    this.shouldStopStreaming = true;
+    this.isProcessing = false;
   },
 
   /**

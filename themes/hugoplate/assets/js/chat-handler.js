@@ -33,6 +33,11 @@ const ChatHandler = {
   speechQueue: [],
   isSpeaking: false,
 
+  // Active response tracking
+  isProcessingResponse: false,
+  currentUserMessage: '',
+  currentAssistantMessageId: null,
+
   /**
    * Initialize the chat handler
    */
@@ -94,9 +99,13 @@ const ChatHandler = {
       window.ChatUI?.closeChat();
     });
 
-    // Speech-to-text button
+    // Speech-to-text button (or cancel during response)
     this.elements.sttButton?.addEventListener('click', () => {
-      this.toggleSpeechRecognition();
+      if (this.isProcessingResponse) {
+        this.cancelResponse();
+      } else {
+        this.toggleSpeechRecognition();
+      }
     });
 
     // Text-to-speech button
@@ -123,22 +132,31 @@ const ChatHandler = {
       return;
     }
 
+    // Store current message for potential cancel
+    this.currentUserMessage = message;
+    this.isProcessingResponse = true;
+
+    // Transform mic button to cancel
+    this.setMicButtonToCancel();
+
+    // Disable input while processing
+    this.setInputEnabled(false);
+
     // Check if session is initialized
     if (!window.ChatSessionManager.isInitialized) {
-      this.showStatus('Initializing AI session...', 'info');
+      this.setPlaceholder('Initializing AI session...');
 
       const initialized = await window.ChatSessionManager.initialize();
       if (!initialized) {
         this.showError('Failed to initialize AI session. Please try again.');
+        this.setInputEnabled(true);
+        this.setPlaceholder('Type your message...');
         return;
       }
-
-      this.hideStatus();
     }
 
-    // Disable input while processing
-    this.setInputEnabled(false);
-    this.showStatus('AI is thinking...');
+    // Update placeholder
+    this.setPlaceholder('Daisy is thinking...');
 
     // Clear input
     this.elements.chatInput.value = '';
@@ -149,7 +167,7 @@ const ChatHandler = {
     this.addMessageToUI('user', message);
 
     // Create placeholder for assistant response
-    const assistantMsgId = this.addMessageToUI('assistant', '');
+    this.currentAssistantMessageId = this.addMessageToUI('assistant', '');
     let fullResponse = '';
 
     // Send message and handle streaming response
@@ -158,12 +176,17 @@ const ChatHandler = {
       // onChunk - update UI with each chunk
       (chunk, accumulated) => {
         fullResponse = accumulated;
-        this.updateMessage(assistantMsgId, fullResponse);
+        this.updateMessage(this.currentAssistantMessageId, fullResponse);
       },
       // onComplete
       () => {
-        this.hideStatus();
+        this.isProcessingResponse = false;
+        this.currentUserMessage = '';
+        this.currentAssistantMessageId = null;
+
         this.setInputEnabled(true);
+        this.setPlaceholder('Type your message...');
+        this.setMicButtonToRecord(); // Restore mic button
         this.elements.chatInput.focus();
 
         // Speak the complete message if TTS is enabled
@@ -175,8 +198,15 @@ const ChatHandler = {
       (error) => {
         console.error('Error sending message:', error);
         this.showError('Failed to send message. Please try again.');
+
+        this.isProcessingResponse = false;
         this.setInputEnabled(true);
-        this.removeMessage(assistantMsgId);
+        this.setPlaceholder('Type your message...');
+        this.setMicButtonToRecord(); // Restore mic button
+        this.removeMessage(this.currentAssistantMessageId);
+
+        this.currentUserMessage = '';
+        this.currentAssistantMessageId = null;
       }
     );
   },
@@ -251,7 +281,7 @@ const ChatHandler = {
       speakerBtn.title = 'Speak this message';
       speakerBtn.onclick = (e) => {
         e.stopPropagation();
-        this.speakText(content);
+        this.speakText(content, true); // Force speak
       };
       bubbleEl.appendChild(speakerBtn);
     }
@@ -294,14 +324,14 @@ const ChatHandler = {
         speakerBtn.title = 'Speak this message';
         speakerBtn.onclick = (e) => {
           e.stopPropagation();
-          this.speakText(content);
+          this.speakText(content, true); // Force speak
         };
         bubbleEl.appendChild(speakerBtn);
       } else {
         // Update onclick with new content
         speakerBtn.onclick = (e) => {
           e.stopPropagation();
-          this.speakText(content);
+          this.speakText(content, true); // Force speak
         };
       }
     }
@@ -404,6 +434,16 @@ const ChatHandler = {
     }
     if (this.elements.sendButton) {
       this.elements.sendButton.disabled = !enabled;
+    }
+  },
+
+  /**
+   * Set textarea placeholder
+   * @param {string} text
+   */
+  setPlaceholder(text) {
+    if (this.elements.chatInput) {
+      this.elements.chatInput.placeholder = text;
     }
   },
 
@@ -579,6 +619,14 @@ const ChatHandler = {
         clearTimeout(this.silenceTimer);
         this.silenceTimer = null;
       }
+
+      // Auto-send the message if there's text
+      setTimeout(() => {
+        const text = this.elements.chatInput?.value.trim();
+        if (text) {
+          this.handleSendMessage();
+        }
+      }, 100); // Small delay to ensure final transcript is captured
     } catch (error) {
       console.error('Failed to stop recording:', error);
     }
@@ -686,9 +734,10 @@ const ChatHandler = {
   /**
    * Speak text with male voice
    * @param {string} text
+   * @param {boolean} force - Force speak even if TTS is disabled
    */
-  speakText(text) {
-    if (!this.isTTSEnabled || !text.trim()) return;
+  speakText(text, force = false) {
+    if ((!this.isTTSEnabled && !force) || !text.trim()) return;
 
     // Check browser support
     if (!window.speechSynthesis) return;
@@ -726,6 +775,80 @@ const ChatHandler = {
     if (window.speechSynthesis) {
       window.speechSynthesis.cancel();
     }
+  },
+
+  /**
+   * Transform mic button to cancel icon
+   */
+  setMicButtonToCancel() {
+    if (!this.elements.sttButton) return;
+
+    const icon = this.elements.sttButton.querySelector('i');
+    if (icon) {
+      icon.classList.remove('fa-microphone');
+      icon.classList.add('fa-xmark');
+    }
+    this.elements.sttButton.title = 'Cancel response';
+    this.elements.sttButton.setAttribute('aria-label', 'Cancel response');
+    this.elements.sttButton.classList.add('canceling');
+  },
+
+  /**
+   * Transform cancel button back to mic
+   */
+  setMicButtonToRecord() {
+    if (!this.elements.sttButton) return;
+
+    const icon = this.elements.sttButton.querySelector('i');
+    if (icon) {
+      icon.classList.remove('fa-xmark');
+      icon.classList.add('fa-microphone');
+    }
+    this.elements.sttButton.title = 'Voice input';
+    this.elements.sttButton.setAttribute('aria-label', 'Start voice input');
+    this.elements.sttButton.classList.remove('canceling');
+  },
+
+  /**
+   * Cancel the current AI response
+   */
+  cancelResponse() {
+    if (!this.isProcessingResponse) return;
+
+    // Stop the session
+    window.ChatSessionManager?.stopCurrentResponse();
+
+    // Remove partial assistant message
+    if (this.currentAssistantMessageId) {
+      this.removeMessage(this.currentAssistantMessageId);
+    }
+
+    // Remove the user message from UI (last user message)
+    const lastUserMessage = this.elements.messagesContainer?.querySelector('.user-message:last-of-type');
+    if (lastUserMessage) {
+      lastUserMessage.remove();
+    }
+
+    // Restore user message to textarea
+    if (this.currentUserMessage) {
+      this.elements.chatInput.value = this.currentUserMessage;
+      this.updateCharCounter();
+      this.autoResizeTextarea(this.elements.chatInput);
+    }
+
+    // Reset state
+    this.isProcessingResponse = false;
+    this.currentUserMessage = '';
+    this.currentAssistantMessageId = null;
+
+    // Re-enable input
+    this.setInputEnabled(true);
+    this.setPlaceholder('Type your message...');
+    this.setMicButtonToRecord();
+    this.elements.chatInput.focus();
+
+    // Stop any ongoing speech
+    this.stopSpeaking();
   }
 };
 
