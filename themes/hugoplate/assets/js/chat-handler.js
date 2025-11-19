@@ -104,6 +104,11 @@ const ChatHandler = {
       window.ChatUI?.toggleSessionList();
     });
 
+    // New chat button to start a fresh conversation
+    document.getElementById('new-chat-btn')?.addEventListener('click', () => {
+      this.createNewSession();
+    });
+
     // Close chat (mobile fallback)
     this.elements.closeButton?.addEventListener('click', () => {
       window.ChatUI?.closeChat();
@@ -152,9 +157,21 @@ const ChatHandler = {
       return;
     }
 
-    // Switch to active chat view if in session list
+    // If in session list view, create a new session first
     if (window.ChatUI && window.ChatUI.viewState === 'session-list') {
+      // Create new session
+      window.ChatSessionManager?.clearConversation();
+
+      // Clear UI to show empty state
+      if (window.ChatUI) {
+        window.ChatUI.clearMessages();
+      }
+
+      // Switch to active chat view
       window.ChatUI.showActiveChat();
+
+      // Update bin icon state
+      this.updateBinIconState();
     }
 
     // Store current message for potential cancel
@@ -197,6 +214,22 @@ const ChatHandler = {
     }
 
     let fullResponse = '';
+
+    // Extract viewport context if available
+    let pageContext = null;
+    if (window.ChatViewportContext) {
+      try {
+        const viewportText = window.ChatViewportContext.getViewportText();
+        // Only use context if we got meaningful text (>100 chars)
+        if (viewportText && viewportText.length > 100) {
+          pageContext = window.ChatViewportContext.formatContext(viewportText);
+          console.log('[RAG] Using viewport context, length:', viewportText.length);
+        }
+      } catch (error) {
+        console.warn('Failed to extract viewport context:', error);
+        // Continue without context - graceful degradation
+      }
+    }
 
     // Send message and handle streaming response
     await window.ChatSessionManager.sendMessage(
@@ -243,7 +276,9 @@ const ChatHandler = {
 
         this.currentUserMessage = '';
         this.currentAssistantMessageId = null;
-      }
+      },
+      // Pass page context (5th parameter)
+      pageContext
     );
   },
 
@@ -266,6 +301,28 @@ const ChatHandler = {
       // Otherwise switch to active chat view
       window.ChatUI?.showActiveChat();
     }
+
+    // Update bin icon state (will be grayed out for empty chat)
+    this.updateBinIconState();
+
+    // Focus input
+    this.elements.chatInput?.focus();
+  },
+
+  /**
+   * Create a new session and show welcome screen
+   */
+  createNewSession() {
+    // Create new session via session manager (this clears and creates new)
+    window.ChatSessionManager?.clearConversation();
+
+    // Clear UI to show empty state
+    if (window.ChatUI) {
+      ChatUI.clearMessages();
+    }
+
+    // Switch to active chat view (show welcome screen)
+    window.ChatUI?.showActiveChat();
 
     // Update bin icon state (will be grayed out for empty chat)
     this.updateBinIconState();

@@ -67,9 +67,13 @@ const ChatSessionManager = {
       const initialPrompts = [
         {
           role: 'system',
-          content: `You are a helpful AI assistant integrated into a personal portfolio website.
-You can help visitors learn more about the site owner, answer questions, and have friendly conversations.
-Be concise, helpful, and engaging. Format responses using markdown when appropriate.`
+          content: `You are Daisy, a helpful AI assistant for Alphons' personal website.
+
+You help visitors understand content on the site, answer questions about blog posts, projects, and other site content.
+
+When provided with page context (visible content from the current page), use it to give accurate, relevant answers based on what the user is viewing. Always be friendly, concise, and helpful.
+
+Format responses using markdown when appropriate.`
         }
       ];
 
@@ -109,8 +113,9 @@ Be concise, helpful, and engaging. Format responses using markdown when appropri
    * @param {Function} onChunk - Callback for each response chunk
    * @param {Function} onComplete - Callback when response is complete
    * @param {Function} onError - Callback for errors
+   * @param {string|null} pageContext - Optional page context to enhance the prompt
    */
-  async sendMessage(userMessage, onChunk, onComplete, onError) {
+  async sendMessage(userMessage, onChunk, onComplete, onError, pageContext = null) {
     if (!this.isInitialized || !this.session) {
       onError?.(new Error('Session not initialized'));
       return;
@@ -138,9 +143,15 @@ Be concise, helpful, and engaging. Format responses using markdown when appropri
         window.ChatSessionStorage.addMessage(this.currentSessionId, userMsg);
       }
 
-      // Stream the response - just pass the new user message
-      // The session maintains context internally!
-      const stream = this.session.promptStreaming(userMessage);
+      // Build enhanced prompt with page context if provided
+      let promptToSend = userMessage;
+      if (pageContext) {
+        promptToSend = `${pageContext}\n${userMessage}`;
+      }
+
+      // Stream the response - pass enhanced prompt with context
+      // The session maintains conversation context internally!
+      const stream = this.session.promptStreaming(promptToSend);
       let fullResponse = '';
 
       for await (const chunk of stream) {
