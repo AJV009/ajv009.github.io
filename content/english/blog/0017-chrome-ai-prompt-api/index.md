@@ -9,6 +9,9 @@ categories: ["AI", "Development"]
 author: "Alphons Jaimon"
 ai_assistance: true
 tags: ["Chrome AI", "Prompt API", "RAG", "Query Routing", "On-device AI", "Gemini Nano", "FastAPI", "Hybrid Architecture", "LLM", "Web Standards"]
+series_id: "chrome-ai-api"
+series_name: "Exploring Web AI API"
+series_order: 1
 draft: false
 ---
 
