@@ -130,6 +130,72 @@ I designed a little system that classifies user queries into three categories an
 
 ![Query Router Diagram](assets/query_router_diagram.png)
 
+{{< sub-section title="Term relevancy to Adaptive RAG" >}}
+
+The three-tier routing strategy I've implemented somewhat aligns with the internet version of what the broader AI community now calls **Adaptive RAG**. After I build this demo, I realized the pattern wasn't unique-it's part of a larger-longer list of context-aware retrieval systems.
+
+After the initial implementation, I did some research on adaptive RAG patterns, and it turns out our approach hits several key scenarios that are becoming industry standards:
+
+#### Common Adaptive RAG Scenarios
+
+**1. Query-Based Routing**
+The most fundamental pattern-analyzing queries and routing to different strategies:
+- **No retrieval** when the LLM already knows the answer (our "followup" category)
+- **Single-shot RAG** for straightforward queries (our "context" category)
+- **Iterative RAG** for complex, multi-step queries
+- **Web search** for queries outside the knowledge base (our "complex" category using cloud API)
+
+**2. Multi-Source Routing**
+Acting as a smart router that chooses the best retrieval tool:
+- Vector databases for semantic search (our FAISS implementation)
+- SQL databases for structured data
+- Knowledge graphs for relational queries
+- Live web search for current information
+- External APIs and sources
+
+**3. Agentic Decision-Making**
+Using autonomous agents that:
+- Evaluate retrieval quality in real-time
+- Decide whether to rephrase queries
+- Switch sources mid-retrieval
+- Stop when context is sufficient
+- Self-correct and refine results
+
+**4. Self-Reflective RAG (Self-RAG)**
+Systems that dynamically:
+- Decide **when** to retrieve (not always necessary)
+- Evaluate **relevance** of retrieved data
+- **Critique** their own outputs
+- Trigger re-retrieval if quality is low
+
+**5. Corrective RAG**
+Adaptive systems that:
+- Verify accuracy of retrieved documents
+- Filter out irrelevant results
+- Request additional retrieval when quality is low
+- Fallback to alternative sources
+
+**6. Query Intent Classification**
+Routing based on query type (exactly what our router does):
+- Technical queries → documentation/code repos
+- Factual queries → knowledge bases
+- Comparative queries → multi-document retrieval
+- Procedural queries → step-by-step guides
+
+#### How Our Implementation Fits
+
+Our hybrid RAG router implements **#1 (Query-Based Routing)** and **#6 (Query Intent Classification)** explicitly, using Chrome's Prompt API as the classification layer. The good part is that we get:
+- **High cost reduction** by keeping simple queries on-device
+- **Privacy preservation** for follow-up conversations
+- **Sub-second latency** for non-complex queries
+- **Seamless escalation** to powerful cloud models when needed
+
+The key insight across all these patterns: **Adaptive RAG moves from static "always retrieve the same way" approaches to dynamic decision-making where the system evaluates each query's characteristics and adapts its strategy accordingly.**
+
+This isn't just about cost savings (though that's significant). It's about building smarter systems that understand when to use expensive resources and when simpler approaches suffice-much like how humans naturally decide when to "look something up" versus answering from memory.
+
+{{< /sub-section >}}
+
 ## Implementation Deep Dive
 
 Am not gonna document the whole backend code, its a simple RAG not that fancy or anything, in fact its too basic. but you can visit [(Github) Chrome AI Demo](https://github.com/AJV009/chrome_ai_demo)

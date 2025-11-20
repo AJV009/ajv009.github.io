@@ -636,7 +636,7 @@ Whether you're building a simple chatbot or a sophisticated RAG system, these pr
 
 In the end, trust is the foundation of AI adoption, and guardrails are the foundation of trust.
 
-By implementing these patterns, you're not just creating technical boundaries—you're building the confidence that transforms AI from an interesting experiment into an indispensable tool.
+By implementing these patterns, you're not just creating technical boundaries-you're building the confidence that transforms AI from an interesting experiment into an indispensable tool.
 
 ---
 
