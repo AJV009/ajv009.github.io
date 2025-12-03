@@ -1,0 +1,466 @@
+# LLM Routing Techniques: A Comprehensive Guide
+
+> Last Updated: November 2025  
+> A complete taxonomy of routing methods for optimizing cost, latency, and quality in multi-LLM systems.
+
+---
+
+## Table of Contents
+
+1. [Overview](#overview)
+2. [Pre-Generation Routing](#pre-generation-routing)
+   - [Rule-Based Routing](#rule-based-routing)
+   - [Classifier-Based Routing](#classifier-based-routing)
+   - [Semantic Routing](#semantic-routing)
+   - [Preference Data Routing](#preference-data-routing)
+   - [Uncertainty-Based Routing](#uncertainty-based-routing)
+   - [Bandit & Reinforcement Learning](#bandit--reinforcement-learning)
+3. [Post-Generation Routing (Cascading)](#post-generation-routing-cascading)
+   - [Sequential Cascading](#sequential-cascading)
+   - [Multi-Choice Cascading](#multi-choice-cascading)
+   - [Cascade Routing (Hybrid)](#cascade-routing-hybrid)
+4. [Speculative Routing](#speculative-routing)
+5. [Adapter & LoRA Routing](#adapter--lora-routing)
+6. [Multi-Round & Agentic Routing](#multi-round--agentic-routing)
+7. [Production Systems & Platforms](#production-systems--platforms)
+8. [Comparison Matrix](#comparison-matrix)
+9. [Implementation Considerations](#implementation-considerations)
+
+---
+
+## Overview
+
+LLM routing dynamically selects which model (or model configuration) handles each query. The goal is to optimize across three dimensions:
+
+| Dimension | Trade-off |
+|-----------|-----------|
+| **Quality** | Larger models = better responses, but higher cost |
+| **Cost** | Smaller models = cheaper, but potentially lower quality |
+| **Latency** | Complex routing adds overhead; simpler = faster |
+
+### Key Insight
+> "If each model answers 20% of queries correctly in different areas, routing questions to the right model achieves 100% accuracy." — Martian
+
+---
+
+## Pre-Generation Routing
+
+Methods that decide which model to use **before** generating any response.
+
+### Rule-Based Routing
+
+**Description**: Simple conditional logic (if/else, regex, keyword matching) to route queries.
+
+**Example Pattern**:
+```
+IF query contains "code" → route to code-specialized model
+IF query length < 50 chars → route to small model
+IF user is premium tier → route to largest model
+```
+
+**Pros**: Fast, no ML overhead, predictable  
+**Cons**: Limited to surface-level patterns, doesn't understand semantic complexity
+
+**Best For**: Simple use cases with clear query categories
+
+---
+
+### Classifier-Based Routing
+
+#### BERT/Transformer Classifiers
+
+**Description**: Train a lightweight classifier (BERT, DistilBERT, etc.) to predict which model will perform best.
+
+**Implementations**:
+- **RouteLLM BERT Classifier** — Trained on preference data from Chatbot Arena
+- **ModernBERT (vLLM Semantic Router)** — Classifies query intent and complexity
+
+**Source**: [RouteLLM (LMSYS)](https://lmsys.org/blog/2024-07-01-routellm/)
+
+#### LLM-as-Router
+
+**Description**: Use an LLM itself to classify and route queries via prompt-based function calling.
+
+**Trade-offs**: 
+- More sophisticated understanding than BERT
+- Adds latency and cost for the routing call itself
+- Can be fine-tuned for specific routing tasks
+
+**Source**: [AWS Multi-LLM Routing](https://aws.amazon.com/blogs/machine-learning/multi-llm-routing-strategies-for-generative-ai-applications-on-aws/)
+
+#### Causal LLM Classifier
+
+**Description**: Fine-tune a causal LLM specifically for routing decisions.
+
+**Source**: [RouteLLM Paper](https://arxiv.org/abs/2406.18665)
+
+---
+
+### Semantic Routing
+
+**Description**: Uses embeddings and vector similarity to match queries to appropriate models based on semantic meaning.
+
+#### Embedding-Based Routing
+
+**How it works**:
+1. Embed the user query using an embedding model
+2. Compare against reference prompts representing different task categories
+3. Route to the model associated with the closest match
+
+**Key Implementations**:
+
+| System | Description | Source |
+|--------|-------------|--------|
+| **vLLM Semantic Router** | ModernBERT classifier + Rust/Candle engine, Kubernetes-native | [vLLM Blog](https://blog.vllm.ai/2025/09/11/semantic-router.html) |
+| **Red Hat LLM Semantic Router** | Envoy ExtProc integration, hybrid Rust+Go architecture | [Red Hat Developer](https://developers.redhat.com/articles/2025/05/20/llm-semantic-router-intelligent-request-routing) |
+| **Aurelio Labs Semantic Router** | Vector-space decision making for tool-use decisions | [GitHub](https://github.com/aurelio-labs/semantic-router) |
+
+**Additional Features** (vLLM Semantic Router):
+- **Semantic Caching**: Returns cached responses for semantically similar queries
+- **PII Detection**: Prevents sensitive data from reaching public models
+- **Jailbreak Detection**: Flags non-compliant requests before inference
+- **Auto System Prompt Injection**: Adds domain-specific prompts based on classification
+
+**Source**: [GitHub - vLLM Semantic Router](https://github.com/vllm-project/semantic-router)
+
+---
+
+### Preference Data Routing
+
+**Description**: Train routers using human preference data that captures which model performs better on specific query types.
+
+#### Matrix Factorization Router
+
+**How it works**: 
+- Inspired by recommendation systems
+- Learns a scoring function δ(M, q) for model M and query q
+- Projects query embeddings to match model capability representations
+
+**Performance**: Achieved 95% of GPT-4 performance using only 14% of GPT-4 calls (75% cost reduction)
+
+**Source**: [RouteLLM (LMSYS)](https://lmsys.org/blog/2024-07-01-routellm/)
+
+#### Similarity-Weighted (SW) Ranking
+
+**How it works**:
+- Performs "weighted Elo calculation" based on similarity
+- Compares new queries to historical prompts using embeddings
+- Weights model selection by how similar the query is to past examples
+
+**Source**: [RouteLLM GitHub](https://github.com/lm-sys/RouteLLM)
+
+#### Tag-Enhanced Query Routing (MixLLM)
+
+**How it works**:
+1. Uses InsTag model to generate fine-grained tags for queries
+2. Clusters tags into coarse-grained domains
+3. Fine-tunes BERT encoder with intra-domain similarity objectives
+4. Routes based on domain-specific embeddings
+
+**Additional Feature**: Dynamic Feedback Score using contextual bandits for binary user feedback
+
+**Source**: [MixLLM Paper](https://www.researchgate.net/publication/390484427_MixLLM_Dynamic_Routing_in_Mixed_Large_Language_Models)
+
+---
+
+### Uncertainty-Based Routing
+
+**Description**: Route based on model confidence/uncertainty rather than query characteristics.
+
+#### Confidence-Driven Router
+
+**How it works**:
+- Small model generates response with confidence score
+- If confidence < threshold, escalate to larger model
+- Uses LLM-as-a-Judge to simulate human rating preferences
+
+**Source**: [OpenReview - Confidence-Driven LLM Router](https://openreview.net/forum?id=DJpEIwKJt7)
+
+#### CP-Router (Conformal Prediction)
+
+**How it works**:
+- Uses Conformal Prediction to estimate uncertainty
+- Low uncertainty queries → LLM (fast path)
+- High uncertainty queries → LRM (reasoning path)
+- Training-free and model-agnostic
+
+**Key Innovation**: Prediction set size from CP serves as natural uncertainty proxy
+
+**Source**: [CP-Router Paper](https://arxiv.org/abs/2505.19970)
+
+#### Semantic Agreement Cascades
+
+**How it works**:
+1. Ensemble of small models generates responses
+2. Semantic similarity metrics assess agreement among outputs
+3. High agreement → return ensemble response
+4. Low agreement → defer to larger model
+
+**Source**: [arXiv - Semantic Agreement Cascades](https://arxiv.org/html/2509.21837v2)
+
+---
+
+### Bandit & Reinforcement Learning
+
+#### PILOT (Contextual Bandit Routing)
+
+**How it works**:
+- Models routing as contextual bandit problem
+- Learns shared embedding space for queries and LLMs
+- Balances exploration/exploitation for adaptive routing
+- Handles budget constraints via multi-choice knapsack formulation
+
+**Source**: [arXiv - Adaptive LLM Routing under Budget Constraints](https://arxiv.org/abs/2508.21141)
+
+#### MetaLLM
+
+**Description**: Single bandit approach that learns quality-cost trade-offs over time.
+
+**Limitation**: Dependency between arms can limit scalability when adding/removing LLMs.
+
+---
+
+## Post-Generation Routing (Cascading)
+
+Methods that generate responses and then decide whether to accept or escalate.
+
+### Sequential Cascading
+
+**Description**: Models are called in sequence from smallest to largest until acceptable response is obtained.
+
+#### FrugalGPT
+
+**Strategies**:
+1. **Prompt Adaptation**: Optimize prompts for cheaper models
+2. **LLM Approximation**: Use smaller models to approximate larger ones
+3. **LLM Cascade**: Sequential calling with deferral rules
+
+**Source**: [IBM Research - LLM Routing](https://research.ibm.com/blog/LLM-routers)
+
+#### Logit-Based Deferral
+
+**How it works**:
+- Use generated token logits as features for deferral decisions
+- Higher logits indicate confidence; lower logits trigger escalation
+- Quantile logits mitigate length bias and token uncertainty
+
+**Source**: [LLM Cascade with Multi-Objective Consideration](https://arxiv.org/html/2410.08014v1)
+
+---
+
+### Multi-Choice Cascading
+
+**Description**: Instead of fixed sequence, route to any available model based on evaluation of initial response.
+
+**Source**: [Extended Survey on LLM Routing](https://arxiv.org/html/2502.00409v2)
+
+---
+
+### Cascade Routing (Hybrid)
+
+**Description**: Combines adaptability of routing with cost-efficiency of cascading.
+
+**How it works**:
+- Doesn't commit to single model (like pure routing)
+- Doesn't require sequential execution (like pure cascading)
+- Dynamically adjusts cascade path based on query characteristics
+
+**Performance**: Outperforms both routing and cascading alone across settings
+
+**Source**: [OpenReview - Unified Approach to Routing and Cascading](https://openreview.net/forum?id=rgDwRdMwoS)
+
+---
+
+## Speculative Routing
+
+**Description**: Combines speculative decoding with routing for optimized inference.
+
+### SpecRouter
+
+**How it works**:
+1. **Adaptive Model Chain Scheduling**: Selects optimal sequence of draft and verifier models
+2. **Multi-Level Collaborative Verification**: Intermediate models validate speculative tokens
+3. **Synchronized State Management**: Efficient KV cache handling across heterogeneous models
+
+**Source**: [arXiv - SpecRouter](https://arxiv.org/abs/2505.07680)
+
+### Speculative Cascades (Google)
+
+**How it works**:
+- Combines speculative decoding with standard cascades
+- Small drafter predicts tokens; larger model verifies in parallel
+- Sometimes defers to smaller LLM for efficiency
+
+**Performance**: Better cost-quality trade-offs than either technique alone
+
+**Source**: [Google Research Blog](https://research.google/blog/speculative-cascades-a-hybrid-approach-for-smarter-faster-llm-inference/)
+
+### TaskSpec
+
+**How it works**:
+1. Clusters user queries into downstream task categories
+2. Fine-tunes heterogeneous draft models for each task
+3. Lightweight classifier routes to appropriate draft model
+
+**Source**: [ICPP 2025 - TaskSpec](https://arxiv.org/pdf/2505.08600)
+
+---
+
+## Adapter & LoRA Routing
+
+**Description**: Dynamic selection among multiple LoRA adapters for the same base model.
+
+### SEQR (Secure Efficient QR-based LoRA Routing)
+
+**How it works**:
+- Unsupervised routing via activation norm maximization
+- Uses mathematical decomposition of LoRA matrices
+- Routes using smaller matrices, reducing computational cost
+- Privacy-preserving (no data leakage)
+
+**Source**: [arXiv - SEQR](https://arxiv.org/abs/2509.18093)
+
+### LoRA-Switch
+
+**How it works**:
+- Token-wise routing (vs layer-wise or block-wise)
+- Pre-merges activated adapters before each token's decoding
+- Custom CUDA kernel fuses merging operations
+
+**Performance**: 2.4x latency reduction vs existing dynamic adapters
+
+**Source**: [arXiv - LoRA-Switch](https://arxiv.org/abs/2405.17741)
+
+### LD-MoLE (Learnable Dynamic Mixture of LoRA Experts)
+
+**How it works**:
+- MLP-based router predicts expert allocation
+- Differentiable Sparsegen formulation
+- Adaptive, stable expert selection
+
+**Source**: [arXiv - LD-MoLE](https://arxiv.org/html/2509.25684)
+
+### Production Systems
+
+| System | Description |
+|--------|-------------|
+| **NVIDIA NIM** | Dynamic LoRA loading with mixed-batch inference |
+| **vLLM** | LoRAResolver plugins for local/remote adapter loading |
+
+**Source**: [NVIDIA Blog](https://developer.nvidia.com/blog/seamlessly-deploying-a-swarm-of-lora-adapters-with-nvidia-nim/), [vLLM Docs](https://docs.vllm.ai/en/stable/features/lora/)
+
+---
+
+## Multi-Round & Agentic Routing
+
+### Router-R1
+
+**Description**: Multi-round routing with interleaved reasoning and model selection.
+
+**How it works**:
+- Policy LLM acts as coordinator
+- Dynamically selects candidate LLMs across multiple rounds
+- Uses RL (PPO, GRPO) for optimization
+- Obtains auxiliary information from specialized models during reasoning
+
+**Key Innovation**: Handles multi-hop QA where single-shot routing fails
+
+**Source**: [arXiv - Router-R1](https://arxiv.org/pdf/2506.09033)
+
+### Adaptive-RAG
+
+**Description**: Routes to different RAG strategies based on query complexity.
+
+**Levels**:
+- Low complexity → No retrieval
+- Moderate complexity → Single-step RAG
+- High complexity → Multi-step RAG
+
+**Source**: [Extended Survey](https://arxiv.org/html/2502.00409v2)
+
+---
+
+## Production Systems & Platforms
+
+### Commercial Routing Services
+
+| Platform | Key Features |
+|----------|--------------|
+| **Amazon Bedrock Intelligent Prompt Routing** | Fully managed, up to 30% cost reduction within model families |
+| **Martian** | Routes to 100s of models, feedback-based improvement |
+| **OpenRouter** | Unified gateway with Not Diamond routing |
+| **Unify AI** | Multi-LLM routing with cost optimization |
+
+### Open Source Frameworks
+
+| Framework | Key Features | Source |
+|-----------|--------------|--------|
+| **RouteLLM** | 4 pre-trained routers, OpenAI-compatible, 85% cost reduction | [GitHub](https://github.com/lm-sys/RouteLLM) |
+| **vLLM Semantic Router** | Kubernetes-native, semantic caching, PII detection | [GitHub](https://github.com/vllm-project/semantic-router) |
+| **Aurelio Semantic Router** | Fast vector-space routing for tool selection | [GitHub](https://github.com/aurelio-labs/semantic-router) |
+| **LiteLLM** | Unified gateway with fallbacks and analytics | [Docs](https://docs.litellm.ai/) |
+
+---
+
+## Comparison Matrix
+
+| Method | Training Required | Latency Overhead | Cost Savings | Best Use Case |
+|--------|-------------------|------------------|--------------|---------------|
+| Rule-Based | None | Minimal | Low-Medium | Simple categorization |
+| BERT Classifier | Medium | Low (~10ms) | High (40-75%) | General routing |
+| Semantic Router | Low | Low-Medium | Medium-High | Dynamic categories |
+| Matrix Factorization | High | Low | Very High (75%+) | Human preference data available |
+| Uncertainty-Based | Low-Medium | Medium | High | Quality-critical apps |
+| Cascading | None | High | Medium | Simple queries common |
+| Speculative | Medium | Very Low | High | Latency-sensitive |
+| LoRA Routing | High | Low | N/A (same base) | Multi-task serving |
+
+---
+
+## Implementation Considerations
+
+### Router Selection Criteria
+
+1. **Do you have preference data?** → Matrix Factorization / SW Ranking
+2. **Need real-time decisions?** → Semantic Router / BERT Classifier
+3. **Budget constraints?** → Bandit-based (PILOT)
+4. **Quality-critical?** → Uncertainty-based / Cascading
+5. **Latency-sensitive?** → Speculative routing
+6. **Multi-task on single base?** → LoRA Routing
+
+### Common Pitfalls
+
+> "Many routing approaches converge to trivial policies that simply send most queries to the single best-performing model, rather than adapting to prompt-level variation." — LLMRank Paper
+
+**Avoid by**:
+- Using per-prompt features, not just aggregate rankings
+- Evaluating on diverse benchmarks
+- Monitoring routing distribution in production
+
+### Key Metrics
+
+- **Cost Per Token (CPT)**: Cost to achieve X% of best model's performance
+- **Token Reduction Ratio (TRR)**: Tokens saved vs always using large model
+- **Token Utility**: (Accuracy - Baseline) / (1 - TRR)
+- **Oracle Performance**: Upper bound with perfect routing
+
+---
+
+## References
+
+1. RouteLLM: Learning to Route LLMs with Preference Data — [LMSYS](https://lmsys.org/blog/2024-07-01-routellm/)
+2. vLLM Semantic Router — [vLLM Blog](https://blog.vllm.ai/2025/09/11/semantic-router.html)
+3. Multi-LLM Routing Strategies for AWS — [AWS Blog](https://aws.amazon.com/blogs/machine-learning/multi-llm-routing-strategies-for-generative-ai-applications-on-aws/)
+4. CP-Router: Uncertainty-Aware Routing — [arXiv](https://arxiv.org/abs/2505.19970)
+5. SpecRouter: Adaptive Speculative Decoding — [arXiv](https://arxiv.org/abs/2505.07680)
+6. Speculative Cascades — [Google Research](https://research.google/blog/speculative-cascades-a-hybrid-approach-for-smarter-faster-llm-inference/)
+7. Router-R1: Multi-Round Routing — [arXiv](https://arxiv.org/pdf/2506.09033)
+8. LoRA-Switch — [arXiv](https://arxiv.org/abs/2405.17741)
+9. Extended Survey on LLM Routing — [arXiv](https://arxiv.org/html/2502.00409v2)
+10. LLMRank: Feature-Driven Routing — [arXiv](https://arxiv.org/html/2510.01234v1)
+11. IBM Research on LLM Routing — [IBM Blog](https://research.ibm.com/blog/LLM-routers)
+12. MixLLM: Dynamic Routing — [ResearchGate](https://www.researchgate.net/publication/390484427_MixLLM_Dynamic_Routing_in_Mixed_Large_Language_Models)
+
+---
+
+*This document is a living reference. The LLM routing landscape evolves rapidly — verify techniques against current implementations.*

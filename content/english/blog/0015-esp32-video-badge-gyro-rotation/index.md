@@ -9,7 +9,7 @@ author: "Alphons Jaimon"
 ai_assistance: true
 tags: ["ESP32", "ESP32-S3", "MJPEG", "Video Playback", "IMU", "Gyroscope", "Arduino", "Embedded Video", "FFmpeg", "PSRAM"]
 series_id: "esp32-oaisys25-badge"
-series_name: "Project 'Tiny Haze' - An ESP32 powered Digital Badge"
+series_name: "Project 'Tiny Daisy' - An ESP32 powered Digital Badge"
 series_order: 1
 draft: false
 ---
