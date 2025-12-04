@@ -4,7 +4,7 @@ meta_title: "Audio Embeddings for Intent Matching on ESP32-S3"
 description: "When Speech-to-Text models were too big for our 8MB PSRAM, we pivoted to a clever alternative: contrastive learning to match spoken audio directly to pre-embedded intents. Here's how we trained that system."
 date: 2025-12-02T00:00:00Z
 image: "assets/cover.png"
-categories: ["Hardware", "Embedded Systems", "AI", "GenAI", "Machine Learning"]
+categories: ["Embedded", "GenAI", "ML"]
 author: "Alphons Jaimon"
 ai_assistance: true
 tags: ["ESP32", "ESP32-S3", "Audio Embeddings", "Contrastive Learning", "YAMNet", "Intent Classification", "TinyML", "SIMD"]
@@ -24,7 +24,7 @@ This is the story of how a dead end led to something over-engineered and interes
 
 I had this beautiful mental model of how voice interaction would work. User says "Hey Daisy," badge starts recording, audio gets transcribed to text, text gets processed by the LLM, response gets spoken back. Just like every smart speaker you've ever used.
 
-The problem? Smart speakers have cloud backends. We have 8MB of PSRAM. (Its a hard requirement I kept on myself to NOT use any external and run total local)
+The problem? Smart speakers have cloud backends. We have 8MB of PSRAM. (Its a hard requirement I kept on myself to NOT use any external service and run everything locally. Whats the fun in just calling API services, I found running everything on this tiny thing a very nice challenge.)
 
 Let me share a rough math:
 
@@ -38,15 +38,15 @@ Let me share a rough math:
 
 Our constraint: 8MB PSRAM total. I simply couldn't find an STT model that would fit. (Maybe I should have trained one, it did not cross my mind at the moment to train a STT model from scratch, the tiniest model looked quite large so I didn't wanna even try I guess)
 
-I spent an embarrassing amount of time looking for The Magical Tiny STT Model that surely existed somewhere. Claude Code helped me search through every Tiny repository, every quantization paper, every pruning technique. The answer was always the same: speech recognition requires representing the acoustic space of human language, and that space is fundamentally large. What a bummer!
+I spent an embarrassing amount of time looking for The Magical Tiny STT Model that surely existed somewhere. I searched through every Tiny repository, every quantization paper, every pruning technique. The answer was always the same: speech recognition requires representing the acoustic space of human language, and that space is fundamentally large. What a bummer!
 
 The architecture I'd been planning assumed STT would work. Without it, how would the LLM know what the user asked? The obvious fallback was push-button interaction with a text interface. Type your question, get a response. But that defeats the entire point of a voice-activated badge. Conference attendees shouldn't need to pull out their phones to interact with a novelty item.
 
-I was staring at my dataset - 2,008 questions about myself that the LLM was trained to answer - when the insight hit me.
+I was staring at my dataset - 2,008 questions about myself that the LLM was trained to answer - when the idea hit me.
 
 ## Intent Similarity
 
-So hold your beers, think, I have 2k known questions. Why do I need to transcribe the audio at all?
+So hold your beers and think, I have 2k known questions. Why do I need to transcribe the audio at all?
 
 Think about it. Speech-to-Text is general-purpose - it can transcribe anything you say into text. But I don't need "anything." I need to figure out which of my 2k questions the user just asked. This isn't transcription. This is classification. Or more precisely, it's similarity matching.
 
@@ -55,7 +55,7 @@ The idea:
 2. Record user's spoken question
 3. Generate an audio embedding from the recording
 4. Find the closest text embedding using cosine similarity
-5. Pass that matched question to the LLM, easy peasy!
+5. Pass that matched question to the LLM, easy peasy! (If not close enough, I can make llm say I don't know or something generic like that)
 
 We're trading flexibility for efficiency. A traditional STT system could transcribe "Tell me about your favorite debugging story from 2019" even if that exact phrase isn't in our database. Our approach can only match to known and similar questions, if I had time I would have even built a online self-retraining flow that would update the model based on similarity score. (I honestly did sketch that up as well in my figjam board)
 
@@ -67,7 +67,7 @@ The system has two branches that need to produce compatible embeddings:
 
 **Text Branch (runs once during training):** Question Text → MPNet (768-dim) → Projection Layer → 256-dim embedding
 
-The magic is that both branches output vectors in the same 256-dimensional space. If the audio and text represent the same question, their embeddings should be close together. If they're different questions, the embeddings should be far apart. This is contrastive learning. (I could have stored the text separate and not embedded them at all but my first version from Claude included it and I was running out of ideas and time so just went ahead with it, whatever)
+The idea here is that both branches output vectors in the same 256-dimensional space. If the audio and text represent the same question, their embeddings should be close together. If they're different questions, the embeddings should be far apart. This is contrastive learning. (I could have stored the text separate and not embedded them at all but my first version from Claude included it and I was running out of ideas and time so just went ahead with it, whatever)
 
 {{< sub-section title="Repos and related code" icon="fa-code-branch" >}}
 1. Embedding Dataset creation: https://github.com/AJV009/esp32-s3-lcd-2-badge/tree/main/workbench/tests/audio_embedding_dataset_ipynb 
@@ -76,7 +76,7 @@ The magic is that both branches output vectors in the same 256-dimensional space
 
 ## Contrastive Learning Primer
 
-Contrastive learning is one of those techniques that sounds complicated but has a beautifully simple core idea: learn to tell what goes together and what doesn't. In our case, we have audio-text pairs. The audio of someone saying "What's your favorite programming language?" should match the text "What's your favorite programming language?" but NOT match the text "Where did you go to school?"
+Contrastive learning is one of those techniques that sounds complicated but has a super simple core idea: learn to tell what goes together and what doesn't. In our case, we have audio-text pairs. The audio of someone saying "What's your favorite programming language?" should match the text "What's your favorite programming language?" and be close to "Which languages you program in?" but NOT match the text "Where did you go to school?"
 
 The loss function that makes this work is called InfoNCE (Noise-Contrastive Estimation). Here's the intuition:
 
@@ -115,7 +115,7 @@ Same questions cluster together regardless of modality. Different questions stay
 
 ### The Bucketed Batch Sampling
 
-Here's where things got interesting. I implemented the contrastive training pipeline, ran it for 300 epochs, and got... 4% accuracy. Four percent. On a classification task with 10 classes. Random guessing would give 10%.
+Here's where things got interesting. I implemented the contrastive training pipeline, ran it for 300 or so epochs, and got... 4% accuracy. Four percent. While on a classification task with 10 classes. Random guessing would give 10%.
 
 What went wrong?
 
@@ -130,7 +130,7 @@ All three are semantically identical. But in contrastive learning, they're treat
 
 The model learns a trivial solution: "these three audios sound similar to each other, so they must be negative examples for each other's text." It never learns that they should ALL match the same semantic intent.
 
-### The Solution: Semantic Clustering
+#### Semantic Clustering
 
 The fix required preprocessing our 2k questions. I used MPNet embeddings to cluster semantically similar questions:
 
@@ -162,7 +162,7 @@ print(f"2,008 questions → {len(buckets)} semantic buckets")
 # Output: 2,008 questions → 1,698 semantic buckets
 ```
 
-Result: 1,698 semantic buckets. Questions like "What's your favorite language?" and "Which language do you like most?" end up in the same bucket.
+Result: 1,698 semantic buckets. Questions like "What's your favorite language?" and "Which language do you like most?" end up in the same bucket. (1.6K is still bad to be honest, it should be around 100-200 or so at MAX, maybe even less if you really think about it)
 
 Now the critical change: **each training batch contains at most ONE sample from each bucket**.
 
@@ -201,7 +201,9 @@ Now when the model sees a batch, every sample is semantically distinct. The nega
 
 The diagonal similarity jumped from 0.577 to 0.844. More importantly, incorrect pairs went from 0.177 (still somewhat similar) to -0.002 (completely orthogonal).
 
-## Multi-GPU Dataset Generation
+## Some Data quirks and stuff
+
+### Multi-GPU Dataset Generation
 
 Another fun little thing I did. Training a contrastive model needs data. Lots of data. And not just any data - diverse audio variations of each question.
 
@@ -211,11 +213,11 @@ The math:
 - 2 augmentation variants each
 - **Total: 32,128 audio samples**
 
-Generating 32k audio clips with a neural TTS model is not fast. XTTS-v2, the model I chose for realistic voice synthesis, takes about 10-30 seconds per clip on a GPU. That's... days on a single GPU.
+Generating 32k audio clips with a neural TTS model is not fast. XTTS-v2, the model I chose for realistic voice synthesis, takes about 5-30 seconds (I did not benchmark it as such) per clip on a GPU. That's... days on a single GPU.
 
 SO if you have been following my current preferred way to get a quick GPU thats Vast.ai. I put in some credits and rent a quick stack of cheap GPUs, they have things like jupyter lab and syncthing already installed and setup.
 
-Just for the generation purpose I rented 12x RTX 4070 SUPER single instance. The total dataset generation took approximately 1-2 hours and cost under $5.
+Just for the generation purpose I rented 12x RTX 4070 SUPER single instance. The total dataset generation took approximately 1-2 hours and cost under $3.
 
 The architecture was straightforward:
 1. Split the 2k questions into 12 chunks (167 questions each)
@@ -223,7 +225,7 @@ The architecture was straightforward:
 3. Workers save checkpoints to handle preemption
 4. Final step: collect and merge all audio files
 
-## XTTS-v2 Voice Cloning
+### XTTS-v2 Voice Cloning
 
 XTTS-v2 is remarkable for voice cloning. You give it a 6-second reference sample and it can synthesize new speech in that voice. I downloaded 8 TED talk speaker samples for maximum diversity:
 
@@ -236,9 +238,11 @@ XTTS-v2 is remarkable for voice cloning. You give it a 6-second reference sample
 - Stephen Hawking (Male, British synthesized)
 - Stephen Wolfram (Male, British accent)
 
+(Same as what we used for the wake-word detection model)
+
 The diversity here is intentional. The model needs to generalize across genders, accents, and speaking styles. If it only ever hears American male voices during training, it'll fail on everyone else.
 
-## Audio Augmentation
+### Audio Augmentation
 
 Raw TTS output is too clean. Real conference audio will have background noise, people speaking at different speeds, maybe some acoustic weirdness from the venue. Augmentation bridges this gap. I used the `audiomentations` library with these transforms:
 
@@ -253,11 +257,13 @@ This doubles the dataset to 32k samples while adding crucial variation.
 - **Time stretch**: People speak at different speeds (0.9x to 1.1x)
 - **Pitch shift**: Voices naturally vary by ±2 semitones
 
-I deliberately avoided heavy augmentations like room reverb or extreme distortion. The goal is realism, not stress-testing. A conference badge doesn't need to understand speech through a wall. hehe
+I deliberately avoided heavy augmentations like room reverb or extreme distortion. The goal is realism (or just get it working), not stress-testing. A conference badge doesn't need to understand speech through a wall. hehe
 
-## ESP32-Optimized CNN Encoder
+## ESP-DSP for the win
 
-My first prototype used Google's YAMNet, a pre-trained audio classification model. It produces excellent 1024-dimensional embeddings and has been trained on millions of audio clips. And well it doesn't FIT! its super large at 15M I forgot about it and I trained one spending like around 5-6 hours on it. YAMNet would eat our entire budget twice, leaving nothing for the actual inference.
+### Tiny CNN Encoder
+
+My first prototype used Google's YAMNet, a pre-trained audio classification model. It produces excellent 1024-dimensional embeddings and has been trained on millions of audio clips. And well it doesn't FIT! its super large at 12-15mb I forgot about it and I trained one spending like around 5-6 hours on it. YAMNet would eat our entire memory budget twice, leaving nothing for the actual inference.
 
 The solution: train a tiny custom encoder from scratch. The final encoder is embarrassingly simple:
 
@@ -283,7 +289,7 @@ This fits comfortably in our memory budget with room to spare.
 
 The architecture follows a classic pattern: progressively increase channels while decreasing spatial dimensions. GlobalAveragePooling at the end collapses the spatial dimensions entirely, producing a fixed-size vector regardless of input length variations.
 
-## Mel-Spectrogram with ESP-DSP
+### Mel-Spectrograms
 
 The CNN encoder expects a mel-spectrogram as input. This is a 2D representation of audio that emphasizes frequency bands the human ear cares about.
 
@@ -371,7 +377,7 @@ for (int m = 0; m < AUDIO_MEL_BINS; m++) {
 }
 ```
 
-## SIMD Similarity Search
+### SIMD Similarity Search
 
 Once we have a 256-dimensional audio embedding, we need to find the closest text embedding from our database of 256 pre-computed question embeddings.
 

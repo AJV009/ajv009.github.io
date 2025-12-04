@@ -39,7 +39,7 @@ LLM routing dynamically selects which model (or model configuration) handles eac
 | **Latency** | Complex routing adds overhead; simpler = faster |
 
 ### Key Insight
-> "If each model answers 20% of queries correctly in different areas, routing questions to the right model achieves 100% accuracy." — Martian
+> "If each model answers 20% of queries correctly in different areas, routing questions to the right model achieves 100% accuracy." - Martian
 
 ---
 
@@ -72,8 +72,8 @@ IF user is premium tier → route to largest model
 **Description**: Train a lightweight classifier (BERT, DistilBERT, etc.) to predict which model will perform best.
 
 **Implementations**:
-- **RouteLLM BERT Classifier** — Trained on preference data from Chatbot Arena
-- **ModernBERT (vLLM Semantic Router)** — Classifies query intent and complexity
+- **RouteLLM BERT Classifier** - Trained on preference data from Chatbot Arena
+- **ModernBERT (vLLM Semantic Router)** - Classifies query intent and complexity
 
 **Source**: [RouteLLM (LMSYS)](https://lmsys.org/blog/2024-07-01-routellm/)
 
@@ -430,7 +430,7 @@ Methods that generate responses and then decide whether to accept or escalate.
 
 ### Common Pitfalls
 
-> "Many routing approaches converge to trivial policies that simply send most queries to the single best-performing model, rather than adapting to prompt-level variation." — LLMRank Paper
+> "Many routing approaches converge to trivial policies that simply send most queries to the single best-performing model, rather than adapting to prompt-level variation." - LLMRank Paper
 
 **Avoid by**:
 - Using per-prompt features, not just aggregate rankings
@@ -448,19 +448,19 @@ Methods that generate responses and then decide whether to accept or escalate.
 
 ## References
 
-1. RouteLLM: Learning to Route LLMs with Preference Data — [LMSYS](https://lmsys.org/blog/2024-07-01-routellm/)
-2. vLLM Semantic Router — [vLLM Blog](https://blog.vllm.ai/2025/09/11/semantic-router.html)
-3. Multi-LLM Routing Strategies for AWS — [AWS Blog](https://aws.amazon.com/blogs/machine-learning/multi-llm-routing-strategies-for-generative-ai-applications-on-aws/)
-4. CP-Router: Uncertainty-Aware Routing — [arXiv](https://arxiv.org/abs/2505.19970)
-5. SpecRouter: Adaptive Speculative Decoding — [arXiv](https://arxiv.org/abs/2505.07680)
-6. Speculative Cascades — [Google Research](https://research.google/blog/speculative-cascades-a-hybrid-approach-for-smarter-faster-llm-inference/)
-7. Router-R1: Multi-Round Routing — [arXiv](https://arxiv.org/pdf/2506.09033)
-8. LoRA-Switch — [arXiv](https://arxiv.org/abs/2405.17741)
-9. Extended Survey on LLM Routing — [arXiv](https://arxiv.org/html/2502.00409v2)
-10. LLMRank: Feature-Driven Routing — [arXiv](https://arxiv.org/html/2510.01234v1)
-11. IBM Research on LLM Routing — [IBM Blog](https://research.ibm.com/blog/LLM-routers)
-12. MixLLM: Dynamic Routing — [ResearchGate](https://www.researchgate.net/publication/390484427_MixLLM_Dynamic_Routing_in_Mixed_Large_Language_Models)
+1. RouteLLM: Learning to Route LLMs with Preference Data - [LMSYS](https://lmsys.org/blog/2024-07-01-routellm/)
+2. vLLM Semantic Router - [vLLM Blog](https://blog.vllm.ai/2025/09/11/semantic-router.html)
+3. Multi-LLM Routing Strategies for AWS - [AWS Blog](https://aws.amazon.com/blogs/machine-learning/multi-llm-routing-strategies-for-generative-ai-applications-on-aws/)
+4. CP-Router: Uncertainty-Aware Routing - [arXiv](https://arxiv.org/abs/2505.19970)
+5. SpecRouter: Adaptive Speculative Decoding - [arXiv](https://arxiv.org/abs/2505.07680)
+6. Speculative Cascades - [Google Research](https://research.google/blog/speculative-cascades-a-hybrid-approach-for-smarter-faster-llm-inference/)
+7. Router-R1: Multi-Round Routing - [arXiv](https://arxiv.org/pdf/2506.09033)
+8. LoRA-Switch - [arXiv](https://arxiv.org/abs/2405.17741)
+9. Extended Survey on LLM Routing - [arXiv](https://arxiv.org/html/2502.00409v2)
+10. LLMRank: Feature-Driven Routing - [arXiv](https://arxiv.org/html/2510.01234v1)
+11. IBM Research on LLM Routing - [IBM Blog](https://research.ibm.com/blog/LLM-routers)
+12. MixLLM: Dynamic Routing - [ResearchGate](https://www.researchgate.net/publication/390484427_MixLLM_Dynamic_Routing_in_Mixed_Large_Language_Models)
 
 ---
 
-*This document is a living reference. The LLM routing landscape evolves rapidly — verify techniques against current implementations.*
+*This document is a living reference. The LLM routing landscape evolves rapidly - verify techniques against current implementations.*

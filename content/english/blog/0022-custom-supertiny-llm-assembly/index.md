@@ -1,51 +1,200 @@
 ---
-title: "Fine-Tuned LLM with PIE Assembly - 100x Faster Matmul"
+title: "Fine-Tuned LLM with PIE Assembly, 6M, 5.56mb, 7tok/sec"
 meta_title: "ESP32-S3 PIE Vector Assembly for Quantized LLM Inference"
-description: "Taking our ESP32 LLM from prototype to production: Q8_0 quantization, inline PIE assembly achieving 16 int8 MACs per cycle, three-phase training, and SAM robotic TTS. This is where the badge gets its voice."
-date: 2025-12-02T00:00:00Z
-image: "assets/cover.jpg"
-categories: ["Hardware", "Embedded Systems", "LLM", "AI", "GenAI", "Assembly"]
+description: "Taking our ESP32 LLM from prototype to our badge: Q8_0 quantization, inline PIE assembly achieving 16 int8 MACs per cycle, three-phase training, and SAM robotic TTS. This is where the badge gets its voice."
+date: 2025-12-03T00:00:00Z
+image: "assets/cover.png"
+categories: ["Embedded", "LLM", "Assembly"]
 author: "Alphons Jaimon"
 ai_assistance: true
 tags: ["ESP32", "ESP32-S3", "LLM", "PIE", "SIMD", "Assembly", "Quantization", "Q8_0", "TinyML", "SAM", "TTS"]
 series_id: "esp32-oaisys25-badge"
 series_name: "Project 'Tiny Daisy' - An ESP32 powered Digital Badge"
 series_order: 5
-draft: true
+draft: false
 ---
 
-If you've been following this series, you'll know that back in Blog 2, we got a basic LLM running on the ESP32-S3. That was exciting - we had the Stories260K model generating children's stories at 25-30 tokens per second using ESP-DSP's float SIMD operations. It worked. It was cool. But it wasn't *production ready*.
+If you've been following this series, you'll know that back in our 2nd blog, we got a basic LLM running on the ESP32-S3. That was exciting - we had the Stories260K model generating children's stories at 25-30 tokens per second using ESP-DSP's float SIMD operations. It worked. It was cool. But it wasn't making any sense.
 
-This post is about what changed to make it production ready. And fair warning: this is the flagship post of the series. We're going deep into inline assembly, quantization theory, and training pipelines. Grab coffee.
+This post is about what changed to make it meaningful. And fair warning: this is the flagship post of the series. We're going deep into inline assembly, quantization theory, and training pipelines. Grab a BIG JUG of coffee.
 
-**Disclosure:** I relied heavily on Claude Code throughout this project. I won't pretend I wrote perfect PIE assembly from scratch - Claude helped me understand the instruction set, debug register issues, and optimize the loop structure. But I verified every line, tested it on hardware, and now I understand it well enough to explain it to you.
+{{< sub-section title="Investment Disclosure" icon="fa-info-circle" >}}
+I relied heavily on Claude Code throughout this project. I won't pretend I wrote perfect PIE assembly from scratch. Like I have always mentioned I am no expert in any of this, all of it is sort of new to me, am just passing through a phase where am exploring everything. So yeah am paying 100$ every month to Claude to help me understand the instruction set, debug register issues, and optimize the loop structure. But I verified whatever I could, even if I say am not an expert, I can read code very well, sometimes my assumptions in even new code is sometimes spot on. And well the whole experimented was guided by me not fully vibe coded or such, so i think me along with my friend Claude we can explain it to you now.
+{{< /sub-section >}}
 
-{{< sub-section title="What Changed Since Blog 2" icon="fa-refresh" >}}
-
-In Blog 2, we had:
+In the 2nd blog, we had:
 - Float32 inference using `dsps_dotprod_f32_aes3()` from ESP-DSP
 - Dual-core parallelization with FreeRTOS
 - Stories260K and Stories15M models
-- ~25-30 tok/s for tiny models, ~0.5 tok/s for larger ones
+- ~25-30 tok/s for tiny models, ~0.25 tok/s for larger ones
 
 Now we have:
 - Int8 quantized weights (Q8_0 format)
 - Custom PIE vector assembly for int8 dot products
-- Fine-tuned model on 2,008 Q&A pairs about a person
+- Fine-tuned model on 2K Q&A pairs about myself
 - Three-phase training pipeline
 - SAM robotic text-to-speech output
 
-The performance improvement? About 2-3x faster inference. But more importantly, we can now fit a 6MB model in PSRAM and have it *actually do something useful* - answer questions about a specific person with genuine factual accuracy.
+IT SOUNDS FUN NO?
 
-The key insight: ESP-DSP's SIMD is great for float operations, but the ESP32-S3 has a dedicated PIE (Processor Instruction Extension) vector unit with native int8 operations. If you're using int8 weights, you're leaving massive performance on the table by not using PIE.
+The performance improvement? About 2-3x faster inference. But more importantly, we can now fit a 6MB model in PSRAM and have it *actually do something useful* - answer questions about me with genuine factual accuracy. So ESP-DSP's SIMD is great for float operations, but the ESP32-S3 has a dedicated PIE (Processor Instruction Extension) vector unit with native int8 and int16 operations. If you're using int8/16 weights, you're leaving massive performance on the table by not using PIE.
 
+{{< sub-section title="Understanding SIMD, ESP-DSP, and PIE (For C++ Developers)" icon="fa-graduation-cap" >}}
+If you've only written plain C++ and never touched embedded systems or assembly, this section is for you. Let's build up from basics.
+
+**Starting Point: Plain C++ Loop**
+
+Let's say you want to compute a dot product (multiply corresponding elements and sum them):
+
+```cpp
+// Plain C++ - what you'd normally write
+float dot_product(float* a, float* b, int n) {
+    float sum = 0.0f;
+    for (int i = 0; i < n; i++) {
+        sum += a[i] * b[i];  // One multiply, one add per iteration
+    }
+    return sum;
+}
+```
+
+When the compiler turns this into machine code, each loop iteration becomes roughly:
+1. Load `a[i]` from memory
+2. Load `b[i]` from memory
+3. Multiply them
+4. Add to sum
+5. Increment `i`
+6. Check if `i < n`, jump back
+
+For 64 elements, that's 64 iterations, 64 multiplies, 64 adds. The CPU does one operation at a time.
+
+**What is SIMD?**
+
+SIMD stands for **Single Instruction, Multiple Data**. Instead of processing one number at a time, you process several at once. Think of it like having 4 hands instead of 1 - you can pick up 4 items simultaneously.
+
+```cpp
+// Conceptually what SIMD does (not real syntax)
+// Instead of: sum += a[0] * b[0];
+//             sum += a[1] * b[1];
+//             sum += a[2] * b[2];
+//             sum += a[3] * b[3];
+
+// SIMD does all 4 at once in a single instruction:
+// sum += (a[0]*b[0] + a[1]*b[1] + a[2]*b[2] + a[3]*b[3]);
+```
+
+With 4-wide SIMD, 64 elements take only 16 iterations instead of 64. That's a 4x speedup for free!
+
+**What is ESP-DSP?**
+
+ESP-DSP is Espressif's official library of optimized signal processing functions. It provides ready-to-use functions like:
+
+```cpp
+#include "dsps_dotprod.h"
+
+float result;
+// This single call replaces your entire loop
+dsps_dotprod_f32_aes3(a, b, &result, 64);
+```
+
+Under the hood, `dsps_dotprod_f32_aes3` uses **AES3** SIMD instructions (part of ESP32-S3's instruction set) to process 4 float32 values simultaneously. You get the speedup without writing any assembly yourself.
+
+**The Catch: 1D vs 2D Functions**
+
+ESP-DSP has int8 SIMD functions, but here's the problem: they're designed for **2D image processing**, not simple 1D vector operations.
+
+For 1D signal/vector dot products (`dsps_` prefix):
+- `dsps_dotprod_f32_aes3` - float32 (what we used in blog 2)
+- `dsps_dotprod_s16_ae32` - int16
+- **No `dsps_dotprod_s8`** - no simple int8!
+
+For 2D image operations (`dspi_` prefix):
+- `dspi_dotprod_s8_aes3` - int8, but requires `image2d_t` structures
+
+The `dspi_dotprod_s8_aes3` function exists and uses PIE SIMD, but it's designed for CNN-style 2D convolutions. It expects `image2d_t` structures with stride/step parameters for traversing 2D images. We could technically wrap our 1D matmul by treating it as a height=1 image, but that adds overhead and complexity.
+
+**So what is PIE?**
+
+PIE (Processor Instruction Extension) is a vector coprocessor on the ESP32-S3 with native int8 and int16 operations. It has:
+- 128-bit vector registers (can hold 16 int8 values at once)
+- Special multiply-accumulate instructions for neural network inference
+- A 40-bit accumulator to prevent overflow during long sums
+
+The `dspi_` functions internally use PIE instructions. But for our simple 1D matrix multiplication, writing direct PIE assembly is cleaner than wrapping everything in 2D image structures.
+
+**Why Write Assembly Instead of Letting the Compiler Do It?**
+
+You might think: "Can't the compiler turn my C++ into optimal assembly automatically?"
+
+Sometimes, yes. But often, no. Here's why:
+
+1. **The compiler doesn't know about PIE**: Standard C++ compilers don't automatically use PIE instructions. They don't know these special instructions exist.
+
+2. **Memory alignment**: PIE requires data to be 16-byte aligned. The compiler won't automatically arrange this.
+
+3. **Register allocation**: PIE has special registers (q0-q7, accx). The compiler manages general-purpose registers, not these.
+
+4. **Instruction scheduling**: We know the exact sequence of loads and multiplies that maximizes throughput. The compiler would have to guess.
+
+**Inline Assembly: Mixing C++ and Assembly**
+
+Here's what "inline assembly" looks like - assembly code embedded directly in your C++ file:
+
+```cpp
+int32_t dot_product_pie(int8_t* a, int8_t* b, int n) {
+    int32_t result;
+
+    asm volatile(
+        // Clear the accumulator
+        "wur.accx_0 %[zero]\n"
+        "wur.accx_1 %[zero]\n"
+
+        // Hardware loop - process 16 int8s at a time
+        "loopnez %[count], end_loop\n"
+            "ee.vld.128.ip q0, %[pa], 16\n"   // Load 16 bytes from a
+            "ee.vld.128.ip q1, %[pb], 16\n"   // Load 16 bytes from b
+            "ee.vmulas.s8.accx q0, q1\n"      // Multiply all 16 pairs, accumulate
+        "end_loop:\n"
+
+        // Read result from accumulator
+        "rur.accx_0 %[res]\n"
+
+        : [res] "=r" (result), [pa] "+r" (a), [pb] "+r" (b)
+        : [count] "r" (n / 16), [zero] "r" (0)
+        : "memory"
+    );
+
+    return result;
+}
+```
+
+That `asm volatile(...)` block contains raw PIE assembly instructions. The weird `%[name]` syntax connects C++ variables to assembly registers.
+
+**The Speedup: Numbers**
+
+| Approach | Operations per iteration | Iterations for 64 elements |
+|----------|-------------------------|---------------------------|
+| Plain C++ loop | 1 multiply + 1 add | 64 |
+| ESP-DSP (float SIMD) | 4 multiplies + 4 adds | 16 |
+| PIE (int8 SIMD) | 16 multiplies + 16 adds | 4 |
+
+PIE processes 16 int8 values per instruction. For a dot product of 64 elements, that's just 4 loop iterations. Combined with the accumulator that handles all the additions automatically, it's dramatically faster than anything the C++ compiler would generate on its own.
+
+That's why we write assembly for the hot paths (the inner loops that run millions of times per token) while keeping everything else in readable C++ (there could be optimized compilers for this which maybe can detect these things and write better assembly.)
 {{< /sub-section >}}
 
-{{< sub-section title="Q8_0 Quantization Deep Dive" icon="fa-compress" >}}
+## Math and Assembly ahead
+(I barely understand all this BS, but the pressure with not understanding enough is much better than being ignorant and dumb.)
+
+{{< sub-section title="Related Code and Repo" icon="fa-code-branch" >}}
+1. The scaled training notebook https://github.com/AJV009/esp32-s3-lcd-2-badge/tree/main/workbench/tests/llm_qa_scaled_training 
+2. Running the fine-tuned llm on ESP32 https://github.com/AJV009/esp32-s3-lcd-2-badge/tree/main/workbench/working_protos/05_llm_finetuned 
+{{< /sub-section >}}
+
+### int8 Quantization
 
 Before we dive into assembly, let's understand what Q8_0 quantization actually is. If you're familiar with LLM quantization, feel free to skip ahead. If not, this is crucial context.
 
-**The Problem:** Float32 weights are 4 bytes each. A 6M parameter model needs 24MB just for weights. The ESP32-S3 has 8MB of PSRAM. See the issue?
+**The Problem:** Float32 (fp32/f32) weights are 4 bytes each. A 6M parameter model needs 24MB just for weights. The ESP32-S3 has 8MB of PSRAM. See the issue?
 
 **The Solution:** Store weights as 8-bit integers with a floating-point scale factor per group of elements.
 
@@ -57,13 +206,15 @@ Here's how Q8_0 works:
 4. **Quantize**: `q[i] = round(x[i] / scale)` - each float becomes an int8
 5. **Store**: Save the 64 int8 values plus one float32 scale factor
 
-The math is beautiful in its simplicity:
+The math simple:
 ```
 Original: [0.5, -0.3, 0.8, ...] (64 floats = 256 bytes)
 Quantized: [63, -38, 101, ...] + scale=0.00787 (64 bytes + 4 bytes = 68 bytes)
 ```
 
 That's 3.8x compression right there. And the best part? During inference, we can do integer dot products (fast!) and only multiply by the scale factors at the end (one multiply per group, not per element).
+
+(I mentioned about literally cutting down the floats to int, thats something i did, it sort of works, but later when I tried to get the exact way karpathy quants worked claude corrected it to using scaling and all, so I apologize for half baked information back in the OAISYS Show n Tell event in Pune)
 
 Here's the quantization function from `/home/alphons/project/OAISYS25/badge/local_llm_badge/src/ml/llm_core.cpp`:
 
@@ -104,17 +255,11 @@ void quantize(QuantizedTensor *qx, float* x, int n) {
 }
 ```
 
-Notice the loop unrolling - we process 4 elements at a time. This isn't for SIMD (we're using scalar float ops here), it's for instruction pipelining. The CPU can overlap the fabsf() calls and comparisons when we unroll like this.
+Notice the loop unrolling - we process 4 elements at a time. This isn't for SIMD (we're using scalar float ops here), it's for instruction pipelining. The CPU can overlap the fabsf() calls and comparisons when we unroll like this. The `+ 0.5f - (gx[i] < 0)` trick is rounding to nearest: add 0.5 for positive numbers, subtract 0.5 for negative (by subtracting 1 when negative). Clean and branchless. During export, we track the maximum quantization error per layer. For our 6M model, the worst-case error was about 0.002 - essentially imperceptible after the softmax in attention.
 
-The `+ 0.5f - (gx[i] < 0)` trick is rounding to nearest: add 0.5 for positive numbers, subtract 0.5 for negative (by subtracting 1 when negative). Clean and branchless.
+### PIE Vector Unit Assembly
 
-**Quantization Error**: During export, we track the maximum quantization error per layer. For our 6M model, the worst-case error was about 0.002 - essentially imperceptible after the softmax in attention.
-
-{{< /sub-section >}}
-
-{{< sub-section title="PIE Vector Unit Assembly - The Main Event" icon="fa-microchip" >}}
-
-Okay, here's where it gets fun. And by fun, I mean "I spent three days debugging register allocation issues."
+Okay, here's where it gets fun. And by fun, I mean Claude figured out so many issues, I just watched in amazement thinking "damn these are issue?". Haha yeah, things like you need to get your memory map right when writing assembly inside your cpp code. Like thats crazy thinking about writing ASM inside your CPP. (I never thought I had to do this after my college, anyways here we are...)
 
 The ESP32-S3 has a PIE (Processor Instruction Extension) vector unit. This is NOT the same as the AES3 instructions that ESP-DSP uses for float SIMD. PIE is a separate coprocessor with dedicated instructions for int8/int16 vector operations.
 
@@ -131,112 +276,7 @@ Let me break down what we have to work with:
 - `rur.accx_0 %[result]`: Read low 32 bits of accumulator
 - `loopnez %[count], label`: Hardware zero-overhead loop
 
-**Why 40-bit Accumulator?**
-
-Here's the thing that wasn't obvious to me at first. When you multiply two int8 values, the result can be up to 127 * 127 = 16,129 (or -128 * 127 = -16,256 for signed). That fits in 16 bits.
-
-But `ee.vmulas.s8.accx` does 16 of these multiplications and sums them ALL into the accumulator. That's up to 16 * 16,129 = 258,064 per instruction. And we're looping!
-
-For a group size of 64 elements processed in chunks of 16, we do 4 iterations. Worst case accumulation: 4 * 258,064 = 1,032,256. That DOES fit in 32 bits (max ~2.1 billion). But if our vectors were longer, we'd overflow.
-
-The 40-bit accumulator gives us headroom for vectors up to about 65,536 elements before we need to worry about overflow. Plenty for our use case.
-
-Here's the star of the show - the inline assembly dot product:
-
-```cpp
-static inline int32_t dotprod_s8_simd(const int8_t* a, const int8_t* b, int len) {
-    int32_t result;
-    int chunks = len >> 4;  // len / 16
-
-    asm volatile(
-        // Clear 40-bit accumulator
-        "wur.accx_0 %[zero]\n"        // Write 0 to low 32 bits
-        "wur.accx_1 %[zero]\n"        // Write 0 to high 8 bits
-
-        // Hardware loop: zero overhead, processes 16 int8 pairs per iteration
-        "loopnez %[chunks], 1f\n"
-
-        "ee.vld.128.ip q0, %[a], 16\n"    // Load 16 bytes from a[], a += 16
-        "ee.vld.128.ip q1, %[b], 16\n"    // Load 16 bytes from b[], b += 16
-        "ee.vmulas.s8.accx q0, q1\n"      // accx += sum(q0[i] * q1[i]) for i=0..15
-
-        "1:\n"
-        // Read low 32 bits of accumulator (result fits in 32 bits for our group sizes)
-        "rur.accx_0 %[result]\n"
-
-        : [result] "=r" (result), [a] "+r" (a), [b] "+r" (b)
-        : [chunks] "r" (chunks), [zero] "r" (0)
-        : "memory"
-    );
-
-    return result;
-}
-```
-
-Let me walk through this line by line because this is THE critical path of our entire LLM inference.
-
-**Line 1-2: Clear Accumulator**
-```asm
-"wur.accx_0 %[zero]\n"
-"wur.accx_1 %[zero]\n"
-```
-Before we start accumulating, we zero out the 40-bit accumulator. `accx_0` is the lower 32 bits, `accx_1` is the upper 8 bits. We write `%[zero]` which is mapped to the C variable containing 0.
-
-**Line 3: Hardware Loop**
-```asm
-"loopnez %[chunks], 1f\n"
-```
-This is the magic. `loopnez` sets up a hardware loop that runs `%[chunks]` times, jumping back from label `1:` with ZERO overhead. No branch prediction, no pipeline stalls, no loop counter decrement. The loop counter is handled entirely in hardware.
-
-For a 64-element vector, chunks = 64/16 = 4, so we loop 4 times.
-
-**Line 4-5: Load Vectors**
-```asm
-"ee.vld.128.ip q0, %[a], 16\n"
-"ee.vld.128.ip q1, %[b], 16\n"
-```
-Load 128 bits (16 bytes = 16 int8 values) from pointer a into vector register q0, then auto-increment a by 16. Same for b into q1.
-
-The `.ip` suffix means "immediate post-increment". The pointer updates happen automatically, so we don't need separate add instructions.
-
-**Line 6: Multiply-Accumulate**
-```asm
-"ee.vmulas.s8.accx q0, q1\n"
-```
-This is where the magic happens. This single instruction:
-1. Multiplies all 16 int8 pairs: q0[0]*q1[0], q0[1]*q1[1], ..., q0[15]*q1[15]
-2. Sums all 16 products
-3. Adds the sum to the 40-bit accumulator
-
-16 multiply-accumulate operations in ONE CYCLE. That's the power of SIMD.
-
-**Line 7: Loop End Label**
-```asm
-"1:\n"
-```
-This is where `loopnez` jumps back to until the count reaches zero.
-
-**Line 8: Extract Result**
-```asm
-"rur.accx_0 %[result]\n"
-```
-Read the lower 32 bits of the accumulator into our result variable. For our group sizes, the result always fits in 32 bits.
-
-**The Constraint Block:**
-```cpp
-: [result] "=r" (result), [a] "+r" (a), [b] "+r" (b)
-: [chunks] "r" (chunks), [zero] "r" (0)
-: "memory"
-```
-This tells the compiler:
-- `result` is an output-only register (`=r`)
-- `a` and `b` are both input and output (they get modified by the load-increment) (`+r`)
-- `chunks` and `zero` are input-only registers (`r`)
-- `"memory"` tells the compiler we're reading memory, so don't reorder around this
-
-{{< /sub-section >}}
-
-{{< sub-section title="Using PIE in Matrix Multiplication" icon="fa-th" >}}
+#### PIE in Matrix Multiplication
 
 The dot product is nice, but matrix multiplication is where we spend most of our time. Every attention layer, every FFN layer, every projection - it's all matmuls.
 
@@ -282,9 +322,7 @@ That's 200,704 * 4 * 16 = 12.8 million multiply-accumulates per matmul. And our 
 
 **Memory Alignment**: Notice in the allocation code we use `heap_caps_aligned_alloc(16, ...)` for the quantized buffers. PIE's vector loads require 16-byte alignment or you get undefined behavior (usually a crash with a cryptic backtrace).
 
-{{< /sub-section >}}
-
-{{< sub-section title="Other SIMD Optimizations" icon="fa-bolt" >}}
+### Other SIMD Optimizations
 
 PIE assembly handles our int8 matmuls, but we still have float operations throughout the model. For those, we use ESP-DSP's AES3 SIMD instructions.
 
@@ -304,7 +342,7 @@ void rmsnorm(float* o, float* x, float* weight, int size) {
 }
 ```
 
-The beauty here is that `dsps_dotprod_f32_aes3` computes x dot x (sum of squares) in one SIMD call. Then we use vectorized scalar multiply and element-wise multiply for the normalization.
+The idea here is that `dsps_dotprod_f32_aes3` computes x dot x (sum of squares) in one SIMD call. Then we use vectorized scalar multiply and element-wise multiply for the normalization.
 
 **Softmax with Numerical Stability:**
 ```cpp
@@ -350,24 +388,20 @@ for (int i = 0; i < hidden_dim; i += 4) {
 
 This is the SwiGLU activation (SiLU gated linear unit). We can't easily SIMD the sigmoid computation, but we can unroll to help the instruction pipeline overlap the independent calculations.
 
-{{< /sub-section >}}
-
-{{< sub-section title="Three-Phase Training Pipeline" icon="fa-graduation-cap" >}}
+## Three-Phase Training Pipeline
 
 Fast inference is useless if the model generates garbage. Our model needed to answer questions about a specific person accurately. This required a careful training pipeline.
 
-**Why Three Phases?**
+### Why Three Phases?
 
-The intuition comes from transfer learning: teach the model to speak English first, then teach it facts, then teach it the Q&A format. Each phase builds on the previous.
+The intuition comes from transfer learning: teach the model to speak English first, then teach it facts, then teach it the Q&A format. Each phase builds on the previous. The training notebook lives at `/home/alphons/project/OAISYS25/badge/workbench/tests/llm_qa_scaled_training/llm_qa_scaled_training.ipynb`.
 
-The training notebook lives at `/home/alphons/project/OAISYS25/badge/workbench/tests/llm_qa_scaled_training/llm_qa_scaled_training.ipynb`.
-
-**Phase 1: TinyStories (Language Structure)**
+### Phase 1: TinyStories (Language Structure)
 
 Dataset: 200,000 children's stories from the TinyStories dataset
 Steps: 20,000
 Final Loss: 1.5507
-Learning Rate: 3e-4
+Learning Rate: 3e-4 (Higher LR for learning general language patterns. We can afford to move weights around.)
 
 ```
 "Once upon a time, there was a little girl named Lucy. She had a big,
@@ -378,14 +412,14 @@ The model learns grammar, sentence structure, coherent narrative flow. It doesn'
 
 This is crucial. If you skip this phase and go straight to Q&A training, the model memorizes the Q&A pairs but produces incoherent responses when asked novel questions.
 
-**Phase 2: Profile Grounding (Factual Knowledge)**
+### Phase 2: Profile Grounding (Factual Knowledge)
 
-Dataset: GPT-4 generated prose paragraphs about the person + synthetic Q&A pairs
+Dataset: AI generated prose paragraphs about the person + synthetic Q&A pairs
 Steps: 10,000
 Final Loss: 0.0133 (very low!)
-Learning Rate: 1e-4
+Learning Rate: 1e-4 (Medium LR for adding factual knowledge. Don't destroy language skills.)
 
-Here's where it gets interesting. We use GPT-4 to:
+Here's where it gets interesting. We used some random GenAI models to:
 1. Extract prose paragraphs from the profile (50+ different phrasings)
 2. Generate 242 synthetic Q&A pairs across 7 categories
 
@@ -410,14 +444,14 @@ A: Yes he is proficient in Python
 
 The model now knows facts about the person, phrased in many different ways.
 
-**Phase 3: Q&A Memorization (Task-Specific)**
+### Phase 3: Q&A Memorization (Task-Specific)
 
 Dataset: 2,008 human-written Q&A pairs, repeated 50 times = 100,400 samples
 Steps: 12,000
-Final Loss: 0.2378
-Learning Rate: 5e-5
+Final Loss: 0.2378 
+Learning Rate: 5e-5 (Low LR for fine-grained memorization. Preserve everything, just add Q&A skills)
 
-This is pure memorization. We have 2,008 specific questions we want the model to answer correctly. By repeating them 50 times and shuffling, we hammer these into the model's weights.
+This is pure memorization. We have 2,008 specific questions we want the model to answer correctly. By repeating them multiple times and shuffling, we hammer these into the model's weights.
 
 Sample from the dataset:
 ```csv
@@ -428,14 +462,7 @@ Sample from the dataset:
 5,What languages does Alphons know,English Hindi Marathi Malayalam
 ```
 
-**Learning Rate Schedule:**
-
-Notice the learning rates decrease: 3e-4 -> 1e-4 -> 5e-5. This is intentional:
-- Phase 1: Higher LR for learning general language patterns (we can afford to move weights around)
-- Phase 2: Medium LR for adding factual knowledge (don't destroy language skills)
-- Phase 3: Low LR for fine-grained memorization (preserve everything, just add Q&A skills)
-
-**Training Results:**
+### Training Results
 
 The final 6M model achieves:
 - Stories loss: 1.55 (can still write coherent sentences)
@@ -457,13 +484,9 @@ Q: Does Alphons know Python?
 A: Yes for AI ML work
 ```
 
-It works! The model gives accurate, concise answers.
+It works! The model gives accurate, concise answers. Scoff me all you want, yeah I made it memorize facts about it. I mean it was going to go into my conference badge and was supposed to be tiny at less than 6MB to run, what was I supposed to do.
 
-{{< /sub-section >}}
-
-{{< sub-section title="Model Scaling Options" icon="fa-expand" >}}
-
-Not everyone needs a 6M parameter model. We trained several sizes:
+Now not everyone needs a 6M parameter model. We trained several sizes:
 
 | Size | Parameters | Int8 Size | Memory Footprint | Speed |
 |------|------------|-----------|-----------------|-------|
@@ -480,20 +503,11 @@ All models use 8 attention heads with grouped-query attention (4 KV heads) to re
 
 **Vocabulary Size**: We train custom SentencePiece tokenizers with 512 or 1024 tokens. Smaller vocab = more tokens per response, but better handling of rare words. 1024 tokens works well for our Q&A domain.
 
-For the badge, we use the 6M model because:
-1. It fits in PSRAM (barely - about 6.5MB total with buffers)
-2. Quality matters more than speed for Q&A (we only generate once per interaction)
-3. The user is waiting anyway while we load the model
+For the badge, we use the 6M model because: It fits in PSRAM (barely - about 6.5MB total with buffers) Quality matters more than speed for Q&A (we only generate once per interaction) The user is waiting anyway while we load the model
 
-{{< /sub-section >}}
+## SAM TTS Integration
 
-{{< sub-section title="SAM TTS Integration" icon="fa-volume-up" >}}
-
-With the LLM generating text responses, we need the badge to actually speak. Enter SAM - Software Automatic Mouth.
-
-SAM is a speech synthesizer from 1982, originally for the Commodore 64. It's wonderfully robotic, requires no neural networks, and fits in about 10KB of code. Perfect for a conference badge.
-
-We use the ESP32-SAM library by pschatzmann. The integration is straightforward but requires a custom I2S output adapter since SAM's default output doesn't match our MAX98357A setup.
+With the LLM generating text responses, we need the badge to actually speak. Enter SAM - Software Automatic Mouth. Its is a speech synthesizer from 1982, originally for the Commodore 64. It's wonderfully robotic, requires no neural networks, and fits in about 10KB of code. Perfect for a conference badge. We use the ESP32-SAM library by pschatzmann. The integration is straightforward but requires a custom I2S output adapter since SAM's default output doesn't match our MAX98357A setup.
 
 From `/home/alphons/project/OAISYS25/badge/local_llm_badge/src/tts/robot_tts.cpp`:
 
@@ -550,25 +564,16 @@ void setVoice(Voice voice) {
 }
 ```
 
-The result is a classic 1980s computer voice - exactly what you want from a conference badge. It's deliberately inhuman, which makes it charming rather than unsettling (looking at you, uncanny valley TTS).
+The result is a classic 1980s computer voice - exactly what you want from a conference badge. It's deliberately inhuman, which makes it charming rather than unsettling (looking at you, uncanny valley TTS). I'll be honest: I didn't spend much time tuning SAM. It's a mature, well-documented library that just works. The whole TTS integration was maybe like 2-3 prompts including debugging I2S pin conflicts.
 
-I'll be honest: I didn't spend much time tuning SAM. It's a mature, well-documented library that just works. The whole TTS integration was maybe 2 hours including debugging I2S pin conflicts.
 
-{{< /sub-section >}}
-
-{{< sub-section title="Performance Results" icon="fa-tachometer" >}}
+## Performance Results
 
 Let's talk numbers.
 
 **Inference Speed:**
-- Before (float32, ESP-DSP SIMD): ~0.5 tok/s for 6M model
-- After (int8, PIE assembly): ~0.8-1.2 tok/s
-
-That's about 2x improvement. Not the 100x the title promises? Well, the 100x is comparing our PIE assembly to naive scalar C code for int8 dot products. Against already-optimized float SIMD, we see 2x - still significant when you're waiting for the badge to respond.
-
-**Model Load Time:**
-- From SD card to PSRAM: ~3-5 seconds
-- Includes reading 6MB, dequantizing embeddings, allocating buffers
+- Before (float32, ESP-DSP SIMD): ~2-4 tok/s for 6M model
+- After (int8, PIE assembly): ~7 tok/s
 
 **Memory Usage (6M model):**
 - Raw model weights: ~6 MB
@@ -577,58 +582,21 @@ That's about 2x improvement. Not the 100x the title promises? Well, the 100x is 
 - Activation buffers: ~0.2 MB
 - Total: ~7 MB (fits in 8 MB PSRAM with room to spare)
 
-**Example Outputs:**
-
-```
-User: "What is your name?"
-Badge: "Alphons Jaimon" (0.8 seconds generation)
-
-User: "What is your email?"
-Badge: "chat@ajv009.com" (0.6 seconds)
-
-User: "Tell me about your work"
-Badge: "GenAI Engineer at Etherwise building AI applications" (1.8 seconds)
-```
-
-The responses are concise because we trained on short answers. For a conference badge, this is ideal - you want quick responses, not essays.
-
-{{< /sub-section >}}
-
-{{< sub-section title="Lessons Learned" icon="fa-lightbulb" >}}
+## Lessons Learned
 
 This was the most technically challenging part of the badge project. Some hard-won lessons:
 
-**1. Assembly is hard but worth it for hot loops**
+**1. Assembly is hard but worth it for hot loops** I still don't get every line of it as is. Register clobbering, alignment issues, accumulator overflow - every bug was subtle and hard to diagnose, but even Claude code doing guess works, now thats what I call absolutely beautiful AI assistance. And the payoff was real. For the inner loop of matmul (which we execute millions of times per token), 2x speedup is huge. Don't optimize everything with assembly - just the hot paths.
 
-I went through maybe 15 iterations of the PIE assembly before it worked correctly. Register clobbering, alignment issues, accumulator overflow - every bug was subtle and hard to diagnose.
+**2. Quantization quality depends on training data** We initially tried to take a pre-trained model and quantize it. The results were bad - the model would hallucinate, forget facts, and generally misbehave. Training from scratch with quantization-aware training would be better, but we compromised: train in float32, then quantize carefully. The three-phase approach helps because each phase can recover from any drift introduced by quantization.
 
-But the payoff is real. For the inner loop of matmul (which we execute millions of times per token), 2x speedup is huge. Don't optimize everything with assembly - just the hot paths.
+**3. Three-phase training is more stable than end-to-end** Phased training with decreasing learning rates is slower but much more predictable. Each phase has clear success criteria (loss thresholds), and you can checkpoint between phases for recovery.
 
-**2. Quantization quality depends on training data**
+**4. Memory alignment is not optional** The ESP32-S3 PIE instructions REQUIRE 16-byte aligned pointers. The code will crash with no helpful error message if you pass unaligned pointers. Always use `heap_caps_aligned_alloc(16, size, MALLOC_CAP_SPIRAM)` for anything that touches PIE. Don't trust regular malloc, even if the addresses happen to be aligned on your test runs.
 
-We initially tried to take a pre-trained model and quantize it. The results were bad - the model would hallucinate, forget facts, and generally misbehave.
+**5. Claude Code is genuinely helpful for assembly** I used Claude extensively for this work. It helped me understand PIE instruction semantics, suggested the loopnez zero-overhead loop, and caught several register allocation bugs. I verified everything on hardware, but yeah it was fun trying to do something I normally wouldn't have been able to, or maybe it would have taken me weeks to get this up properly (well that would have paid off as well, I would have ended up being a genius by then.)
 
-Training from scratch with quantization-aware training would be better, but we compromised: train in float32, then quantize carefully. The three-phase approach helps because each phase can recover from any drift introduced by quantization.
-
-**3. Three-phase training is more stable than end-to-end**
-
-Our first approach was to train on all data mixed together. The model would learn Q&A format but forget how to write coherent sentences. Or it would write beautifully but not answer questions accurately.
-
-Phased training with decreasing learning rates is slower but much more predictable. Each phase has clear success criteria (loss thresholds), and you can checkpoint between phases for recovery.
-
-**4. Memory alignment is not optional**
-
-The ESP32-S3 PIE instructions REQUIRE 16-byte aligned pointers. The code will crash with no helpful error message if you pass unaligned pointers.
-
-Always use `heap_caps_aligned_alloc(16, size, MALLOC_CAP_SPIRAM)` for anything that touches PIE. Don't trust regular malloc, even if the addresses happen to be aligned on your test runs.
-
-**5. Claude Code is genuinely helpful for assembly**
-
-I used Claude extensively for this work. It helped me understand PIE instruction semantics, suggested the loopnez zero-overhead loop, and caught several register allocation bugs. I verified everything on hardware, but having an AI pair programmer for assembly is legitimately useful.
-
-{{< /sub-section >}}
-
-{{< sub-section title="What's Next" icon="fa-road" >}}
+## What's Next
 
 With LLM inference and TTS working, the badge can now:
 1. Detect a wake word (Blog 3/4)
@@ -639,15 +607,5 @@ With LLM inference and TTS working, the badge can now:
 
 The next post (Blog 6) will cover the integration of all these components and the final polish - sleep modes, error handling, and the complete user experience.
 
-The code for this post lives primarily in:
-- `/home/alphons/project/OAISYS25/badge/local_llm_badge/src/ml/llm_core.cpp` - PIE assembly and quantization
-- `/home/alphons/project/OAISYS25/badge/local_llm_badge/src/ml/llm_inference.cpp` - Token generation loop
-- `/home/alphons/project/OAISYS25/badge/local_llm_badge/src/ml/sampler.cpp` - Top-p nucleus sampling
-- `/home/alphons/project/OAISYS25/badge/local_llm_badge/src/tts/robot_tts.cpp` - SAM integration
-- `/home/alphons/project/OAISYS25/badge/workbench/tests/llm_qa_scaled_training/` - Training pipeline
+If you're building something similar and get stuck on PIE assembly, (DON'T) feel free to reach out. It's a niche topic and I'm (NOT) happy to help. (at times its super confusing on me already) Until next time - keep building weird things. (Use Claude Code to debug and understand stuff. And yeah am kidding, feel free to reach out if you needed to understand some specific aspect of the project.)
 
-If you're building something similar and get stuck on PIE assembly, feel free to reach out. It's a niche topic and I'm happy to help.
-
-Until next time - keep building weird things.
-
-{{< /sub-section >}}

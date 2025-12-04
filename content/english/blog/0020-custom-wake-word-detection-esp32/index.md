@@ -4,7 +4,7 @@ meta_title: "Custom Wake Word 'Hey Daisy' from scratch for ESP32-S3 with MicroWa
 description: "How we trained a custom 'Hey Daisy' wake word detector using confusable negatives, synthetic voice generation, and deployed it on ESP32-S3 with EdgeNeuron TFLite."
 date: 2025-12-01T00:00:00Z
 image: "assets/cover.png"
-categories: ["Hardware", "Embedded Systems", "AI", "GenAI"]
+categories: ["Embedded", "GenAI"]
 author: "Alphons Jaimon"
 ai_assistance: true
 tags: ["ESP32", "ESP32-S3", "Wake Word", "TFLite", "EdgeNeuron", "MicroWakeWord", "Speech Recognition", "TinyML"]
