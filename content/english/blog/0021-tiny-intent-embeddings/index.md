@@ -70,8 +70,8 @@ The system has two branches that need to produce compatible embeddings:
 The idea here is that both branches output vectors in the same 256-dimensional space. If the audio and text represent the same question, their embeddings should be close together. If they're different questions, the embeddings should be far apart. This is contrastive learning. (I could have stored the text separate and not embedded them at all but my first version from Claude included it and I was running out of ideas and time so just went ahead with it, whatever)
 
 {{< sub-section title="Repos and related code" icon="fa-code-branch" >}}
-1. Embedding Dataset creation: https://github.com/AJV009/esp32-s3-lcd-2-badge/tree/main/workbench/tests/audio_embedding_dataset_ipynb 
-2. XTTS generation https://github.com/AJV009/esp32-s3-lcd-2-badge/tree/main/workbench/tests/audio_semantic_xtts_ipynb
+1. Embedding Dataset creation: https://github.com/AJV009/oaisys25-tiny-daisy/tree/main/workbench/tests/audio_embedding_dataset_ipynb 
+2. XTTS generation https://github.com/AJV009/oaisys25-tiny-daisy/tree/main/workbench/tests/audio_semantic_xtts_ipynb
 {{< /sub-section >}}
 
 ## Contrastive Learning Primer

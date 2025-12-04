@@ -378,5 +378,5 @@ python3 $ESPTOOL --chip esp32s3 --port /dev/ttyUSB0 --baud 460800 \
 Just drop your `output.mjpeg` file in the `data/` folder and run the script. The FFat partition mounts automatically on boot, and the video is ready to play.
 
 {{< sub-section title="Git Sources" icon="fa-wrench" >}}
-You can find my experiments here https://github.com/AJV009/esp32-s3-lcd-2-badge/tree/main/workbench/working_protos/00_video_loop_btn_pause_gyro_rotate <br> Do note that its just experiments at the moment, this repo will eventually grow as my updated plan for the badge is something very different. This is just 1 of around 5-6 blogs in this series alone.
+You can find my experiments here https://github.com/AJV009/oaisys25-tiny-daisy/tree/main/workbench/working_protos/00_video_loop_btn_pause_gyro_rotate <br> Do note that its just experiments at the moment, this repo will eventually grow as my updated plan for the badge is something very different. This is just 1 of around 5-6 blogs in this series alone.
 {{< /sub-section >}}

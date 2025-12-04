@@ -17,9 +17,9 @@ draft: false
 In the [first blog of this series](/blog/0015-esp32-video-badge-gyro-rotation), we got MJPEG video playing on our ESP32-S3 badge with gyroscope-based rotation. Then in the [second blog](/blog/0018-decontructing-llama2-c-and-exp32-llm), we dove deep into running a tiny LLM on the same chip. Next is developing an interface to interact with it. Since its a badge I didn't want buttons and stuff that people would have to press to input into the LLM, therefore introducing a little wake word "Hey Daisy" to capture the audio and then make it text and then feed it to the LLM. But this blog we are only going to focus on the wake word part. We custom trained one for this project.
 
 {{< sub-section title="Repos and related code" icon="fa-code-branch" >}}
-1. First pre-trained test (not "Hey Daisy") https://github.com/AJV009/esp32-s3-lcd-2-badge/tree/main/workbench/tests/wakeword_pretrained_test 
-2. Custom wake word training notebook https://github.com/AJV009/esp32-s3-lcd-2-badge/tree/main/workbench/tests/wakeword_training_ipynb_poc 
-3. Arduino sketch running the custom wake word https://github.com/AJV009/esp32-s3-lcd-2-badge/tree/main/workbench/working_protos/03_custom_wakeword
+1. First pre-trained test (not "Hey Daisy") https://github.com/AJV009/oaisys25-tiny-daisy/tree/main/workbench/tests/wakeword_pretrained_test 
+2. Custom wake word training notebook https://github.com/AJV009/oaisys25-tiny-daisy/tree/main/workbench/tests/wakeword_training_ipynb_poc 
+3. Arduino sketch running the custom wake word https://github.com/AJV009/oaisys25-tiny-daisy/tree/main/workbench/working_protos/03_custom_wakeword
 {{< /sub-section >}}
 
 {{< sub-section title="Heavy usage of AI assistance" icon="fa-robot" >}}

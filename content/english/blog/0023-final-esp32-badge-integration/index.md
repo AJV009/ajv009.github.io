@@ -44,7 +44,7 @@ Let me show you the math that kept me up at night:
 We're ~4MB over budget. And that's before accounting for any runtime buffers, the TFLite interpreter, or the Arduino framework overhead. Sounds stupid right? How do you ship something that can't fit? I mean thats engineering, you take on impossible sounding things and find a way.
 
 {{< sub-section title="Related Code and Repo" icon="fa-code-branch" >}}
-1. The complete Arduino sketch https://github.com/AJV009/esp32-s3-lcd-2-badge/tree/main/local_llm_badge
+1. The complete Arduino sketch https://github.com/AJV009/oaisys25-tiny-daisy/tree/main/local_llm_badge
 {{< /sub-section >}}
 
 ## Introducing a simple State Machine Architecture

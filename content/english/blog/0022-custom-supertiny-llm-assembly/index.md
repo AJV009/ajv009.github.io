@@ -186,8 +186,8 @@ That's why we write assembly for the hot paths (the inner loops that run million
 (I barely understand all this BS, but the pressure with not understanding enough is much better than being ignorant and dumb.)
 
 {{< sub-section title="Related Code and Repo" icon="fa-code-branch" >}}
-1. The scaled training notebook https://github.com/AJV009/esp32-s3-lcd-2-badge/tree/main/workbench/tests/llm_qa_scaled_training 
-2. Running the fine-tuned llm on ESP32 https://github.com/AJV009/esp32-s3-lcd-2-badge/tree/main/workbench/working_protos/05_llm_finetuned 
+1. The scaled training notebook https://github.com/AJV009/oaisys25-tiny-daisy/tree/main/workbench/tests/llm_qa_scaled_training 
+2. Running the fine-tuned llm on ESP32 https://github.com/AJV009/oaisys25-tiny-daisy/tree/main/workbench/working_protos/05_llm_finetuned 
 {{< /sub-section >}}
 
 ### int8 Quantization
