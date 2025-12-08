@@ -2,7 +2,7 @@
 title: "Hey, I am Alphons Jaimon!"
 meta_title: "About Alphons Jaimon - GenAI Engineer & Full Stack Developer"
 description: "Learn about Alphons Jaimon, a passionate GenAI Engineer exploring BioTech, AI, Quantum Computing, and Security. Co-founder of HugrLabs and GenAI Engineer at Etherwise."
-image: "/images/2020_alphons.png"
+image: "/images/2024_alphons.jpeg"
 draft: false
 ---
 

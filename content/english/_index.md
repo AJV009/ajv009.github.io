@@ -16,7 +16,7 @@ banner:
 # Features
 features:
   - title: "Personal Details"
-    image: "/images/2020_alphons.png"
+    image: "/images/2024_alphons.jpeg"
     content: "An Engineer with a passion for science, logic and tech."
     bulletpoints:
       - title: "**Email:** chat@ajv009.com"
