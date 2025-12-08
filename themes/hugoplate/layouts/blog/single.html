@@ -5,14 +5,7 @@
         <article class="lg:col-10">
           {{ $image:= .Params.image }}
           {{ if $image }}
-            <!-- Image container with ambient background effect - Fixed at half viewport height -->
-            <div class="blog-single-image-container w-full relative mb-4 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800" style="height: 50vh;">
-              <!-- Background: blurred stretched image for ambient effect -->
-              {{ partial "image" (dict "Src" $image "Context" .Page "Alt" (printf "%s background" .Title) "Class" "blog-single-ambient-bg" "Size" "800x600") }}
-
-              <!-- Foreground: fitted image respecting aspect ratio -->
-              {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "blog-single-fitted-image") }}
-            </div>
+            {{ partial "components/ambient-image" (dict "Src" $image "Alt" .Title "Context" .Page "Height" "50vh" "Class" "mb-4") }}
             {{ with .Params.image_credits }}
               <div class="text-right mb-4">
                 <span class="image-credits">
@@ -102,35 +95,8 @@
     </div>
   </section>
 
-  <!-- add custom styles for image credits and blog single image -->
+  <!-- add custom styles for image credits and content -->
   <style>
-    /* Blog single page image container */
-    .blog-single-image-container {
-      position: relative;
-    }
-
-    /* Ambient background image - blurred and stretched */
-    .blog-single-ambient-bg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: blur(8px);
-      transform: scale(1.1);
-      z-index: 1;
-    }
-
-    /* Fitted foreground image - respects aspect ratio */
-    .blog-single-fitted-image {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain !important;
-      z-index: 2;
-    }
-
     /* Fix long URLs breaking layout - allow wrapping at slashes */
     .content a {
       word-break: break-word;

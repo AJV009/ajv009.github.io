@@ -1,0 +1,61 @@
+{{/*
+  Ambient Image Component
+
+  A reusable image component with a blurred background ambient effect.
+  The image is displayed with its original aspect ratio on top of a
+  blurred, stretched version of itself.
+
+  Parameters:
+  - Src: (required) Image source path
+  - Alt: (required) Alt text for accessibility
+  - Context: (required) Page context for image processing
+  - Height: (optional) Container height, default "50vh"
+  - Class: (optional) Additional classes for the container
+  - Size: (optional) Image size for processing, default "800x600"
+*/}}
+
+{{ $src := .Src }}
+{{ $alt := .Alt }}
+{{ $context := .Context }}
+{{ $height := .Height | default "50vh" }}
+{{ $class := .Class | default "" }}
+{{ $size := .Size | default "800x600" }}
+
+{{ if $src }}
+<div class="ambient-image-container w-full relative rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800 {{ $class }}" style="height: {{ $height }};">
+  <!-- Background: blurred stretched image for ambient effect -->
+  {{ partial "image" (dict "Src" $src "Context" $context "Alt" (printf "%s background" $alt) "Class" "ambient-image-bg" "Size" $size) }}
+
+  <!-- Foreground: fitted image respecting aspect ratio -->
+  {{ partial "image" (dict "Src" $src "Context" $context "Alt" $alt "Class" "ambient-image-fg") }}
+</div>
+
+<style>
+  /* Ambient image container */
+  .ambient-image-container {
+    position: relative;
+  }
+
+  /* Ambient background image - blurred and stretched */
+  .ambient-image-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(8px);
+    transform: scale(1.1);
+    z-index: 1;
+  }
+
+  /* Fitted foreground image - respects aspect ratio */
+  .ambient-image-fg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain !important;
+    z-index: 2;
+  }
+</style>
+{{ end }}
