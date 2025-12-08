@@ -102,7 +102,7 @@ In a batch of B samples, there's exactly one correct text for each audio (the di
 
 Imagine a 256-dimensional space (impossible to visualize, but humor me). Before training, audio and text embeddings are scattered randomly. After training:
 
-```
+```markdown
 Before Training:           After Training:
 
   A1    T3                   A1≈T1
@@ -267,7 +267,7 @@ My first prototype used Google's YAMNet, a pre-trained audio classification mode
 
 The solution: train a tiny custom encoder from scratch. The final encoder is embarrassingly simple:
 
-```
+```markdown
 Input: (64, 96, 1) - mel-spectrogram
     ↓
 Conv2D(32, 3×3, ReLU) + MaxPool(2×2)  →  (32, 48, 32)

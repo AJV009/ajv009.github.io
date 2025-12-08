@@ -585,7 +585,7 @@ Component Updater → Optimization Guide → Model Executor → ChromeML Native 
 ```
 
 **Downloaded to:**
-```
+```cpp
 C:\Users\[USER]\AppData\Local\Google\Chrome Beta\User Data\
 OptGuideOnDeviceModel\[VERSION]\
 ├── weights.bin                    (4+ GB) - TFLite base model
@@ -707,7 +707,7 @@ struct ChromeMLAPI {
 ```
 
 **What prolly happens inside (proprietary `libchrome_ai.so`):**
-```
+```markdown
 1. Parse TFLite model from weights_file
 2. Initialize GPU/APU backend
 3. Allocate weight cache memory
@@ -721,7 +721,7 @@ struct ChromeMLAPI {
 
 ### 2.1 High-Level Overview
 
-```
+```markdown
 Feature Usage → Adaptation Loader → Model Compatibility Check → Session Creation
       ↓               ↓                      ↓                         ↓
   Summarizer    Fetch LoRA from      Check base model         Apply LoRA
@@ -899,7 +899,7 @@ void SessionAccessor::CreateInternal(
 #### Step 6: Native Library LoRA Application
 **What prolly happens inside `libchrome_ai.so` (proprietary):**
 
-```
+```markdown
 CreateSession(model, descriptor):
   1. Clone base model state
   2. IF descriptor.model_data != NULL:
@@ -921,7 +921,7 @@ CreateSession(model, descriptor):
 
 ### 3.1 Base Model Files
 
-```
+```markdown
 C:\Users\[USER]\AppData\Local\Google\Chrome Beta\User Data\
 OptGuideOnDeviceModel\[VERSION]\
 
@@ -959,7 +959,7 @@ OptGuideOnDeviceModel\[VERSION]\
 
 ### 3.2 LoRA Adaptation Files
 
-```
+```markdown
 C:\Users\[USER]\AppData\Local\Google\Chrome Beta\User Data\
 optimization_guide_model_store\62\A3BFD4A403A877EC\041D5A1E3FFA20FF\
 

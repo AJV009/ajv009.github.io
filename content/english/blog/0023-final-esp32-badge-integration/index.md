@@ -53,7 +53,7 @@ The answer, as it turns out, is that you don't need everything loaded at once. T
 
 This led me to design a state machine that explicitly manages which components are in memory at any given moment:
 
-```
+```markdown
                     ┌─────────────────┐
                     │      BOOT       │
                     └────────┬────────┘

@@ -47,7 +47,7 @@ At their core, Large Language Models are glorified pattern matching machines. Th
 **1. Token Embeddings**
 Every word (or sub-word) gets converted into a vector of numbers. Think of it as assigning each word a unique position in high-dimensional space where similar words cluster together.
 
-```
+```markdown
 "cat" → [0.2, -0.5, 0.8, ...]  (288 numbers for our model)
 "dog" → [0.3, -0.4, 0.7, ...]  (similar to cat!)
 "car" → [-0.9, 0.1, -0.3, ...] (far from cat)
@@ -88,7 +88,7 @@ These three components stack into **layers**. Our 260K model has 6 layers, while
 ### The Inference Loop
 
 Generating text is simple:
-```
+```markdown
 1. Start with prompt tokens
 2. For each position:
    - Run through all layers
@@ -109,7 +109,7 @@ Let's walk through what happens in memory when we generate text for our 15M mode
 **Input:** "Once upon a time" → Tokenizer → `[9038, 2501, 263, 931]` (4 tokens)
 
 **Token 0: "Once" (ID: 9038)**
-```
+```markdown
 1. Load token embedding: weights[9038 * 288] → x (288 floats = 1.1 KB)
    Formula: embedding_vector = weights[token_id × dim : (token_id + 1) × dim]
    Here: weights[9038 × 288 : 9039 × 288] gives us 288 floats representing "Once"
@@ -403,7 +403,7 @@ void loop() {
 The first version loads a 1.1MB model entirely into PSRAM:
 
 **Memory Layout:**
-```
+```markdown
 PSRAM (8 MB total):
 ├── Model weights: 1.1 MB
 ├── Token embeddings: ~320 KB
@@ -452,7 +452,7 @@ But what about larger models? A 15M parameter model is **58MB**-way beyond our 8
 Instead of loading the entire model, we stream it from SD card:
 
 **What Gets Loaded Once:**
-```
+```markdown
 PSRAM (persistent):
 ├── Token embeddings: ~7 MB (Some part of the embeddings are also streamed, it may sit theoretically but its not practical)
 ├── KV cache: ~2 MB (persistent across tokens)
@@ -462,7 +462,7 @@ PSRAM (persistent):
 ```
 
 **What Gets Streamed Per Token:**
-```
+```markdown
 For each of 8 layers:
   1. Seek to layer offset in SD file
   2. DMA read ~1.2 MB layer weights → layer_buffer
@@ -473,7 +473,7 @@ For each of 8 layers:
 **PSRAM Usage Breakdown:**
 
 *Before inference (model load):*
-```
+```markdown
 PSRAM (8 MB total):
 ├── Layer buffer: 2 MB (allocated, empty)
 ├── Activation buffers: ~500 KB (x, xb, q, k, v, hb, etc.)
@@ -485,7 +485,7 @@ Used: ~2.8 MB (35%)
 ```
 
 *During inference (processing token 50 of "Once upon a time..."):*
-```
+```markdown
 PSRAM (8 MB total):
 ├── Layer buffer: 2 MB (currently holds Layer 3 weights)
 ├── Activation buffers: ~500 KB (actively computing FFN)
@@ -548,7 +548,7 @@ v4sf* forward(Transformer* t, int token, int pos) {
 **Performance Reality Check:**
 
 *Bottleneck Analysis (estimated, unverified):*
-```
+```markdown
 Per token time: ~120,000 ms (yes, 2 minutes!)
 
 SD card reads (8 layers):     ~100,000 ms (83%)

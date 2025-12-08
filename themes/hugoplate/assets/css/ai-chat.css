@@ -3,16 +3,27 @@
  * Uses Tailwind v4 utilities and theme tokens
  */
 
-/* Chat Layout Wrapper - Grid system for content + chat split */
+/* Chat Layout Wrapper - Grid system for content + sidebars */
 .chat-layout-wrapper {
   @apply grid grid-cols-1;
   width: 100%;
 }
 
 /* Landscape orientation: show split layout */
-@media (orientation: landscape) {
+@media (orientation: landscape) and (min-width: 1024px) {
+  /* AI Chat enabled (right sidebar) - content shifts left */
   .chat-layout-wrapper.chat-enabled {
     @apply grid-cols-[70fr_30fr] gap-0;
+  }
+
+  /* ToC enabled (left sidebar) - when AI chat is NOT available */
+  .chat-layout-wrapper.toc-enabled:not(.chat-enabled) {
+    @apply grid-cols-[18fr_82fr] gap-0;
+  }
+
+  /* Both ToC and AI Chat enabled (rare case - both sidebars) */
+  .chat-layout-wrapper.toc-enabled.chat-enabled {
+    @apply grid-cols-[15fr_55fr_30fr] gap-0;
   }
 
   .ai-chat-panel[data-chat-state="open"] {
@@ -33,10 +44,14 @@
   }
 }
 
-/* Portrait orientation: hide chat panel */
-@media (orientation: portrait) {
+/* Portrait orientation: hide chat panel and toc sidebar */
+@media (orientation: portrait), (max-width: 1023px) {
   .ai-chat-panel {
     display: none;
+  }
+
+  .toc-sidebar-panel {
+    display: none !important;
   }
 }
 

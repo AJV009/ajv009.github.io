@@ -1,0 +1,71 @@
+<!-- ToC Sidebar Panel - Left side table of contents for desktop -->
+<!-- Only shown when AI chat is not supported/available -->
+{{ $toc := .TableOfContents }}
+
+{{ if $toc }}
+<aside
+  id="toc-sidebar-panel"
+  class="toc-sidebar-panel hidden"
+  data-toc-state="closed"
+  aria-label="Table of Contents Navigation">
+
+  <!-- ToC Container -->
+  <div class="toc-sidebar-container flex flex-col h-full">
+
+    <!-- ToC Header -->
+    <div class="toc-sidebar-header flex items-center justify-between border-b border-border dark:border-darkmode-border bg-light dark:bg-darkmode-light px-4 py-4">
+      <div class="flex items-center gap-3">
+        <span class="text-xl text-primary dark:text-darkmode-primary">
+          <i class="fa-solid fa-rectangle-list"></i>
+        </span>
+        <h3 class="text-lg font-semibold text-text-dark dark:text-darkmode-text-dark">Contents</h3>
+      </div>
+
+      <!-- Progress indicator -->
+      <div class="toc-progress-wrapper flex items-center gap-2">
+        <span id="toc-progress-text" class="text-xs text-text/60 dark:text-darkmode-text/60">0%</span>
+        <div class="toc-progress-bar w-12 h-1.5 bg-border dark:bg-darkmode-border rounded-full overflow-hidden">
+          <div id="toc-progress-fill" class="h-full bg-primary dark:bg-darkmode-primary rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ToC Content -->
+    <div
+      id="toc-sidebar-content"
+      class="toc-sidebar-content flex-1 overflow-y-auto px-4 py-4">
+
+      <nav id="toc-nav" class="toc-nav" aria-label="Table of contents">
+        {{ $toc | safeHTML }}
+      </nav>
+
+    </div>
+
+    <!-- ToC Footer - Jump to top/bottom -->
+    <div class="toc-sidebar-footer border-t border-border dark:border-darkmode-border bg-body dark:bg-darkmode-body px-4 py-3">
+      <div class="flex items-center justify-between">
+        <button
+          type="button"
+          id="toc-jump-top"
+          class="toc-jump-btn flex items-center gap-2 text-sm text-text/70 dark:text-darkmode-text/70 hover:text-primary dark:hover:text-darkmode-primary transition-colors"
+          title="Jump to top"
+          aria-label="Jump to top of article">
+          <i class="fa-solid fa-arrow-up"></i>
+          <span>Top</span>
+        </button>
+
+        <button
+          type="button"
+          id="toc-jump-bottom"
+          class="toc-jump-btn flex items-center gap-2 text-sm text-text/70 dark:text-darkmode-text/70 hover:text-primary dark:hover:text-darkmode-primary transition-colors"
+          title="Jump to bottom"
+          aria-label="Jump to bottom of article">
+          <span>End</span>
+          <i class="fa-solid fa-arrow-down"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</aside>
+{{ end }}

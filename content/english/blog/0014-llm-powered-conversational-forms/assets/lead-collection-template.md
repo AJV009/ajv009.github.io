@@ -438,7 +438,7 @@ OR better just use it with your existing OpenAI SDK setup or similar, its just a
 
 ### Response (Server-Sent Events)
 
-```
+```javascript
 data: {"choices":[{"delta":{"content":"Which"}}]}
 data: {"choices":[{"delta":{"content":" state"}}]}
 data: {"choices":[{"delta":{"content":" are"}}]}

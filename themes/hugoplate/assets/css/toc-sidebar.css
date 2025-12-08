@@ -1,0 +1,289 @@
+/**
+ * ToC Sidebar Styles
+ * Left-side sticky table of contents for blog posts
+ * Matches AI chat panel styling for consistency
+ */
+
+/* ToC Sidebar Panel - mirrors .ai-chat-panel structure */
+.toc-sidebar-panel {
+  @apply bg-body dark:bg-darkmode-body;
+}
+
+/* Closed state */
+.toc-sidebar-panel[data-toc-state="closed"] {
+  @apply hidden;
+}
+
+/* Open state - visible */
+.toc-sidebar-panel[data-toc-state="open"] {
+  @apply block;
+}
+
+/* Landscape orientation: sticky sidebar */
+@media (orientation: landscape) and (min-width: 1024px) {
+  .toc-sidebar-panel {
+    position: sticky;
+    top: var(--header-height, 0);
+    height: calc(100vh - var(--header-height, 0px));
+    overflow: hidden;
+    transition: height 0.3s ease-out;
+  }
+
+  .toc-sidebar-panel[data-toc-state="open"] {
+    @apply block;
+  }
+}
+
+/* Portrait/mobile: hide sidebar */
+@media (orientation: portrait), (max-width: 1023px) {
+  .toc-sidebar-panel {
+    display: none !important;
+  }
+}
+
+/* ToC Container */
+.toc-sidebar-container {
+  @apply flex flex-col h-full;
+}
+
+/* ToC Header - matches .chat-header */
+.toc-sidebar-header {
+  @apply flex-shrink-0;
+}
+
+/* ToC Content Area - matches .chat-messages */
+.toc-sidebar-content {
+  @apply scroll-smooth overflow-y-auto;
+  flex: 1 1 0%;
+  min-height: 0;
+}
+
+/* Custom scrollbar for ToC - matches chat */
+.toc-sidebar-content::-webkit-scrollbar {
+  @apply w-2;
+}
+
+.toc-sidebar-content::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.toc-sidebar-content::-webkit-scrollbar-thumb {
+  @apply bg-border dark:bg-darkmode-border rounded-full;
+}
+
+.toc-sidebar-content::-webkit-scrollbar-thumb:hover {
+  @apply bg-text/30 dark:bg-darkmode-text/30;
+}
+
+/* ToC Navigation Links - CSS Counter for numbering */
+/* Hugo's .TableOfContents outputs: <nav id="TableOfContents"><ol><li><a>...</a><ol>...</ol></li></ol></nav> */
+#TableOfContents {
+  counter-reset: toc-h2;
+}
+
+#TableOfContents > ol {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+/* Level 1 (h2) */
+#TableOfContents > ol > li {
+  counter-increment: toc-h2;
+  counter-reset: toc-h3;
+  margin-bottom: 0.5rem;
+}
+
+#TableOfContents > ol > li > a::before {
+  content: counter(toc-h2) ". ";
+  @apply font-semibold text-primary;
+  margin-right: 0.25rem;
+}
+
+.dark #TableOfContents > ol > li > a::before {
+  @apply text-darkmode-primary;
+}
+
+/* Level 2 (h3) */
+#TableOfContents > ol > li > ol {
+  list-style: none;
+  padding-left: 1rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+#TableOfContents > ol > li > ol > li {
+  counter-increment: toc-h3;
+  counter-reset: toc-h4;
+  margin-bottom: 0.125rem;
+}
+
+#TableOfContents > ol > li > ol > li > a::before {
+  content: counter(toc-h2) "." counter(toc-h3) " ";
+  @apply text-text/60;
+  margin-right: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.dark #TableOfContents > ol > li > ol > li > a::before {
+  @apply text-darkmode-text/60;
+}
+
+/* Level 3 (h4) */
+#TableOfContents > ol > li > ol > li > ol {
+  list-style: none;
+  padding-left: 1rem;
+  margin-top: 0.125rem;
+  margin-bottom: 0.125rem;
+}
+
+#TableOfContents > ol > li > ol > li > ol > li {
+  counter-increment: toc-h4;
+  counter-reset: toc-h5;
+  margin-bottom: 0.125rem;
+}
+
+#TableOfContents > ol > li > ol > li > ol > li > a::before {
+  content: counter(toc-h2) "." counter(toc-h3) "." counter(toc-h4) " ";
+  @apply text-text/50;
+  margin-right: 0.25rem;
+  font-size: 0.7rem;
+}
+
+.dark #TableOfContents > ol > li > ol > li > ol > li > a::before {
+  @apply text-darkmode-text/50;
+}
+
+/* Level 4 (h5) */
+#TableOfContents > ol > li > ol > li > ol > li > ol {
+  list-style: none;
+  padding-left: 1rem;
+  margin-top: 0.125rem;
+}
+
+#TableOfContents > ol > li > ol > li > ol > li > ol > li {
+  counter-increment: toc-h5;
+  margin-bottom: 0.125rem;
+}
+
+#TableOfContents > ol > li > ol > li > ol > li > ol > li > a::before {
+  content: counter(toc-h2) "." counter(toc-h3) "." counter(toc-h4) "." counter(toc-h5) " ";
+  @apply text-text/40;
+  margin-right: 0.25rem;
+  font-size: 0.65rem;
+}
+
+.dark #TableOfContents > ol > li > ol > li > ol > li > ol > li > a::before {
+  @apply text-darkmode-text/40;
+}
+
+/* Base link styles */
+.toc-nav a {
+  @apply block py-1.5 px-2 rounded text-sm transition-all duration-200;
+  @apply text-text dark:text-darkmode-text;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+}
+
+/* Nested links get progressively smaller */
+#TableOfContents > ol > li > ol a {
+  @apply text-xs py-1;
+}
+
+#TableOfContents > ol > li > ol > li > ol a {
+  font-size: 0.7rem;
+  @apply py-0.5;
+}
+
+#TableOfContents > ol > li > ol > li > ol > li > ol a {
+  font-size: 0.65rem;
+  @apply py-0.5;
+}
+
+/* Hover state */
+.toc-nav a:hover {
+  @apply text-primary dark:text-darkmode-primary;
+  @apply bg-light/50 dark:bg-darkmode-light/50;
+}
+
+/* Read state - sections user has scrolled past */
+.toc-nav a.toc-read {
+  @apply text-text/50 dark:text-darkmode-text/50 border-border dark:border-darkmode-border;
+}
+
+/* Currently reading state - active section */
+.toc-nav a.toc-active {
+  @apply text-primary dark:text-darkmode-primary font-medium;
+  @apply bg-primary/10 dark:bg-darkmode-primary/10;
+  @apply border-primary dark:border-darkmode-primary;
+}
+
+/* Unread state - sections below current (default) */
+.toc-nav a.toc-unread {
+  @apply text-text-dark dark:text-darkmode-text-dark;
+}
+
+/* Nested items slightly smaller */
+.toc-nav ul ul a {
+  @apply text-xs;
+  padding-left: 0.75rem;
+}
+
+/* Progress bar container */
+.toc-progress-wrapper {
+  @apply flex items-center gap-2;
+}
+
+.toc-progress-bar {
+  @apply bg-border dark:bg-darkmode-border;
+}
+
+/* Jump buttons */
+.toc-jump-btn {
+  @apply cursor-pointer;
+  background: none;
+  border: none;
+}
+
+.toc-jump-btn:hover i {
+  transform: translateY(-1px);
+}
+
+.toc-jump-btn:last-child:hover i {
+  transform: translateY(1px);
+}
+
+/* Footer */
+.toc-sidebar-footer {
+  @apply flex-shrink-0;
+}
+
+/* Animation for sidebar appearance */
+@keyframes tocSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.toc-sidebar-panel[data-toc-state="open"] {
+  animation: tocSlideIn 0.3s ease-out;
+}
+
+/* Smooth scroll highlight effect */
+.toc-nav a.toc-highlight {
+  animation: tocHighlight 0.6s ease-out;
+}
+
+@keyframes tocHighlight {
+  0% {
+    background-color: rgb(59 130 246 / 0.3);
+  }
+  100% {
+    background-color: transparent;
+  }
+}

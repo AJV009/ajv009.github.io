@@ -207,7 +207,7 @@ Here's how Q8_0 works:
 5. **Store**: Save the 64 int8 values plus one float32 scale factor
 
 The math simple:
-```
+```markdown
 Original: [0.5, -0.3, 0.8, ...] (64 floats = 256 bytes)
 Quantized: [63, -38, 101, ...] + scale=0.00787 (64 bytes + 4 bytes = 68 bytes)
 ```
@@ -403,7 +403,7 @@ Steps: 20,000
 Final Loss: 1.5507
 Learning Rate: 3e-4 (Higher LR for learning general language patterns. We can afford to move weights around.)
 
-```
+```markdown
 "Once upon a time, there was a little girl named Lucy. She had a big,
 red balloon. One day, she went to the park with her mom..."
 ```
@@ -426,7 +426,7 @@ Here's where it gets interesting. We used some random GenAI models to:
 Categories: contact info, current work, skills & expertise, work history, education, projects, personal interests.
 
 Sample prose:
-```
+```markdown
 "Alphons Jaimon embodies the spirit of 'Limitless Ideation,' channeling
 his passion from innovation through development to actualization in the
 tech realm. Currently serving as a GenAI Engineer at Etherwise since
@@ -434,7 +434,7 @@ August 2025, he architects and builds full GenAI applications..."
 ```
 
 Sample synthetic Q&A:
-```
+```markdown
 Q: What is Alphons email address
 A: chat@ajv009.com
 
@@ -470,7 +470,7 @@ The final 6M model achieves:
 - Q&A loss: 0.24 (good at the Q&A task)
 
 Test inference:
-```
+```markdown
 Q: What is the name?
 A: Alphons Jaimon
 

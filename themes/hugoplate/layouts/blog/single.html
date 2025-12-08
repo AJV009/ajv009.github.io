@@ -1,3 +1,9 @@
+{{ define "toc-sidebar" }}
+  {{ if .TableOfContents }}
+    {{ partial "toc-sidebar.html" . }}
+  {{ end }}
+{{ end }}
+
 {{ define "main" }}
   <section class="section pt-7">
     <div class="container">

@@ -42,6 +42,9 @@
 
     <!-- Chat Layout Wrapper -->
     <div id="chat-layout-wrapper" class="chat-layout-wrapper">
+      <!-- ToC Sidebar (left side, for pages with table of contents) -->
+      {{ block "toc-sidebar" . }}{{ end }}
+
       <main id="main-content">
         {{ block "main" . }}{{ end }}
       </main>

@@ -24,7 +24,7 @@ draft: true
 
 ### 1.1 High-Level Overview
 
-```
+```markdown
 Component Updater → Optimization Guide → Model Executor → ChromeML Native Library
        ↓                    ↓                  ↓                    ↓
    Download            Manage Files      Create Model        Parse TFLite
@@ -47,7 +47,7 @@ Component Updater → Optimization Guide → Model Executor → ChromeML Native 
 ```
 
 **Downloaded to:**
-```
+```markdown
 C:\Users\[USER]\AppData\Local\Google\Chrome Beta\User Data\
 OptGuideOnDeviceModel\[VERSION]\
 ├── weights.bin                    (4+ GB) - TFLite base model
@@ -169,7 +169,7 @@ struct ChromeMLAPI {
 ```
 
 **What happens inside (proprietary `libchrome_ai.so`):**
-```
+```markdown
 1. Parse TFLite model from weights_file
 2. Initialize GPU/APU backend
 3. Allocate weight cache memory
@@ -196,7 +196,7 @@ struct ChromeMLAPI {
 
 ### 2.1 High-Level Overview
 
-```
+```markdown
 Feature Usage → Adaptation Loader → Model Compatibility Check → Session Creation
       ↓               ↓                      ↓                         ↓
   Summarizer    Fetch LoRA from      Check base model         Apply LoRA
@@ -374,7 +374,7 @@ void SessionAccessor::CreateInternal(
 #### Step 6: Native Library LoRA Application
 **What happens inside `libchrome_ai.so` (proprietary):**
 
-```
+```markdown
 CreateSession(model, descriptor):
   1. Clone base model state
   2. IF descriptor.model_data != NULL:
@@ -398,7 +398,7 @@ CreateSession(model, descriptor):
 
 ### 3.1 Base Model Files
 
-```
+```markdown
 C:\Users\[USER]\AppData\Local\Google\Chrome Beta\User Data\
 OptGuideOnDeviceModel\[VERSION]\
 
@@ -436,7 +436,7 @@ OptGuideOnDeviceModel\[VERSION]\
 
 ### 3.2 LoRA Adaptation Files
 
-```
+```markdown
 C:\Users\[USER]\AppData\Local\Google\Chrome Beta\User Data\
 optimization_guide_model_store\62\A3BFD4A403A877EC\041D5A1E3FFA20FF\
 
@@ -693,7 +693,7 @@ std::unique_ptr<ChromeML> ChromeML::Create(
 
 ### 6.1 Base Model Loading Call Stack
 
-```
+```markdown
 1. Component Updater (browser process)
    ↓ Downloads model files
 
@@ -727,7 +727,7 @@ std::unique_ptr<ChromeML> ChromeML::Create(
 
 ### 6.2 LoRA Loading Call Stack
 
-```
+```markdown
 1. User calls ai.summarizer.create()
    JavaScript (web page)
    ↓ Mojo IPC to browser process
@@ -792,7 +792,7 @@ std::unique_ptr<ChromeML> ChromeML::Create(
 **Target:** Replace `adaptation_weights.bin` with custom file
 
 **Location:**
-```
+```markdown
 C:\Users\[USER]\AppData\Local\Google\Chrome Beta\User Data\
 optimization_guide_model_store\[TYPE]\[HASH]\[HASH]\
 adaptation_weights.bin  ← REPLACE THIS
@@ -960,7 +960,7 @@ extern "C" ChromeMLSession CreateSession(
 8. ✅ Multiple LoRAs can exist for different features
 
 ### Binary Format (Inferred):
-```
+```markdown
 adaptation_weights.bin structure:
   For each layer (16 layers):
     A_matrix: float32[hidden_dim][rank] = float32[2048][64]

@@ -194,7 +194,7 @@ embeddings("Hello")[:10]
 
 For example, when we input the test string "hello," we receive the following set of embeddings as output.
 
-```
+```python
 [-0.021849708631634712,
  -0.007138177752494812,
  -0.028344865888357162,

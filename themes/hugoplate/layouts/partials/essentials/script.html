@@ -85,6 +85,19 @@
   {{ end }}
   src="{{ $aiChatScripts.RelPermalink }}"></script>
 
+<!-- ToC Sidebar Script (for blog posts without AI chat) -->
+{{ $tocSidebarScript := resources.Get "js/toc-sidebar.js" }}
+{{ if hugo.IsProduction }}
+  {{ $tocSidebarScript = $tocSidebarScript | minify | fingerprint }}
+{{ end }}
+<script
+  defer
+  crossorigin="anonymous"
+  {{ if hugo.IsProduction }}
+    integrity="{{ $tocSidebarScript.Data.Integrity }}"
+  {{ end }}
+  src="{{ $tocSidebarScript.RelPermalink }}"></script>
+
 <!-- Initialize AI Chat -->
 <script>
   // Initialize AI Chat when DOM is ready
