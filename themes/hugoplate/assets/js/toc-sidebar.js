@@ -39,17 +39,17 @@ const TocSidebar = {
 
     if (!this.nav) return;
 
-    // Get all ToC links
-    this.links = Array.from(this.nav.querySelectorAll('a'));
+    // Get all ToC links (only anchor links with # hrefs, not series links)
+    this.links = Array.from(this.nav.querySelectorAll('a')).filter(link => {
+      const href = link.getAttribute('href');
+      return href && href.startsWith('#');
+    });
     if (this.links.length === 0) return;
 
     // Get corresponding headings from the article
     this.headings = this.links.map(link => {
       const href = link.getAttribute('href');
-      if (href && href.startsWith('#')) {
-        return document.getElementById(href.slice(1));
-      }
-      return null;
+      return document.getElementById(href.slice(1));
     }).filter(Boolean);
 
     if (this.headings.length === 0) return;

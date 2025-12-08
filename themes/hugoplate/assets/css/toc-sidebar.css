@@ -287,3 +287,140 @@
     background-color: transparent;
   }
 }
+
+/* ==========================================
+   Series Navigation Styles
+   ========================================== */
+
+.series-nav-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.series-nav-item {
+  margin-bottom: 0.5rem;
+}
+
+.series-nav-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Series part links - use !important to override .toc-nav a */
+.series-part-link,
+a.series-part-link {
+  @apply flex items-center py-1.5 px-2 rounded-lg transition-all duration-200;
+  @apply text-text dark:text-darkmode-text;
+  font-size: 0.8rem !important;
+  text-decoration: none;
+  border-left: none;
+}
+
+.series-part-link:hover,
+a.series-part-link:hover {
+  @apply bg-light/50 dark:bg-darkmode-light/50;
+  @apply text-primary dark:text-darkmode-primary;
+}
+
+/* Current part styling */
+.series-part-link.current {
+  @apply bg-primary/10 dark:bg-darkmode-primary/10;
+  @apply text-primary dark:text-darkmode-primary;
+  @apply border-l-2 border-primary dark:border-darkmode-primary;
+}
+
+/* Current part's nested ToC */
+.current-part-toc {
+  @apply ml-4 mt-2 pl-3;
+  @apply border-l border-border dark:border-darkmode-border;
+}
+
+/* Adjust ToC styles when nested inside series */
+.current-part-toc #TableOfContents {
+  counter-reset: toc-h2;
+}
+
+.current-part-toc #TableOfContents > ol {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.current-part-toc #TableOfContents > ol > li {
+  counter-increment: toc-h2;
+  counter-reset: toc-h3;
+  margin-bottom: 0.25rem;
+}
+
+.current-part-toc #TableOfContents > ol > li > a {
+  font-size: 0.75rem;
+  @apply py-1;
+}
+
+.current-part-toc #TableOfContents > ol > li > a::before {
+  content: counter(toc-h2) ". ";
+  @apply font-medium text-primary;
+  margin-right: 0.2rem;
+  font-size: 0.75rem;
+}
+
+.dark .current-part-toc #TableOfContents > ol > li > a::before {
+  @apply text-darkmode-primary;
+}
+
+/* Level 2 in series ToC */
+.current-part-toc #TableOfContents > ol > li > ol {
+  list-style: none;
+  padding-left: 0.75rem;
+  margin-top: 0.125rem;
+}
+
+.current-part-toc #TableOfContents > ol > li > ol > li {
+  counter-increment: toc-h3;
+  counter-reset: toc-h4;
+  margin-bottom: 0.125rem;
+}
+
+.current-part-toc #TableOfContents > ol > li > ol > li > a {
+  font-size: 0.7rem;
+  @apply py-0.5;
+}
+
+.current-part-toc #TableOfContents > ol > li > ol > li > a::before {
+  content: counter(toc-h2) "." counter(toc-h3) " ";
+  @apply text-text/50;
+  margin-right: 0.2rem;
+  font-size: 0.7rem;
+}
+
+.dark .current-part-toc #TableOfContents > ol > li > ol > li > a::before {
+  @apply text-darkmode-text/50;
+}
+
+/* Level 3 in series ToC */
+.current-part-toc #TableOfContents > ol > li > ol > li > ol {
+  list-style: none;
+  padding-left: 0.75rem;
+  margin-top: 0.125rem;
+}
+
+.current-part-toc #TableOfContents > ol > li > ol > li > ol > li {
+  counter-increment: toc-h4;
+  margin-bottom: 0.125rem;
+}
+
+.current-part-toc #TableOfContents > ol > li > ol > li > ol > li > a {
+  font-size: 0.65rem;
+  @apply py-0.5;
+}
+
+.current-part-toc #TableOfContents > ol > li > ol > li > ol > li > a::before {
+  content: counter(toc-h2) "." counter(toc-h3) "." counter(toc-h4) " ";
+  @apply text-text/40;
+  margin-right: 0.2rem;
+  font-size: 0.65rem;
+}
+
+.dark .current-part-toc #TableOfContents > ol > li > ol > li > ol > li > a::before {
+  @apply text-darkmode-text/40;
+}

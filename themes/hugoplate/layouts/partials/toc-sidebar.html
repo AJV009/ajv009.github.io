@@ -1,6 +1,24 @@
 <!-- ToC Sidebar Panel - Left side table of contents for desktop -->
 <!-- Only shown when AI chat is not supported/available -->
+{{ $currentPage := . }}
 {{ $toc := .TableOfContents }}
+{{ $seriesID := .Params.series_id }}
+
+{{/* Get series posts if this is part of a series */}}
+{{ $hasSeries := false }}
+{{ $seriesPosts := slice }}
+{{ $currentOrder := 0 }}
+
+{{ if $seriesID }}
+  {{ range where .Site.RegularPages "Params.series_id" $seriesID }}
+    {{ $seriesPosts = $seriesPosts | append . }}
+  {{ end }}
+  {{ $seriesPosts = sort $seriesPosts "Params.series_order" "asc" }}
+  {{ if gt (len $seriesPosts) 1 }}
+    {{ $hasSeries = true }}
+    {{ $currentOrder = .Params.series_order }}
+  {{ end }}
+{{ end }}
 
 {{ if $toc }}
 <aside
@@ -16,9 +34,15 @@
     <div class="toc-sidebar-header flex items-center justify-between border-b border-border dark:border-darkmode-border bg-light dark:bg-darkmode-light px-4 py-4">
       <div class="flex items-center gap-3">
         <span class="text-xl text-primary dark:text-darkmode-primary">
-          <i class="fa-solid fa-rectangle-list"></i>
+          {{ if $hasSeries }}
+            <i class="fa-solid fa-layer-group"></i>
+          {{ else }}
+            <i class="fa-solid fa-rectangle-list"></i>
+          {{ end }}
         </span>
-        <h3 class="text-lg font-semibold text-text-dark dark:text-darkmode-text-dark">Contents</h3>
+        <h3 class="text-lg font-semibold text-text-dark dark:text-darkmode-text-dark">
+          {{ if $hasSeries }}Series{{ else }}Contents{{ end }}
+        </h3>
       </div>
 
       <!-- Progress indicator -->
@@ -35,9 +59,40 @@
       id="toc-sidebar-content"
       class="toc-sidebar-content flex-1 overflow-y-auto px-4 py-4">
 
-      <nav id="toc-nav" class="toc-nav" aria-label="Table of contents">
-        {{ $toc | safeHTML }}
-      </nav>
+      {{ if $hasSeries }}
+        {{/* Series with ToC nested under current part */}}
+        <nav id="toc-nav" class="toc-nav" aria-label="Series and table of contents">
+          <ol class="series-nav-list">
+            {{ range $index, $post := $seriesPosts }}
+              {{ $isCurrent := eq $post.RelPermalink $currentPage.RelPermalink }}
+              <li class="series-nav-item {{ if $isCurrent }}current-part{{ end }}">
+                {{ if $isCurrent }}
+                  {{/* Current part - show as active with ToC nested below */}}
+                  <span class="series-part-link current">
+                    <i class="fa-solid fa-book-open mr-2 text-primary dark:text-darkmode-primary"></i>
+                    <span>Part {{ $post.Params.series_order }}: {{ $post.Title }}</span>
+                  </span>
+                  {{/* Nested ToC for current part */}}
+                  <div class="current-part-toc">
+                    {{ $toc | safeHTML }}
+                  </div>
+                {{ else }}
+                  {{/* Other parts - link to them */}}
+                  <a href="{{ $post.RelPermalink }}" class="series-part-link">
+                    <i class="fa-regular fa-file-lines mr-2"></i>
+                    <span>Part {{ $post.Params.series_order }}: {{ $post.Title }}</span>
+                  </a>
+                {{ end }}
+              </li>
+            {{ end }}
+          </ol>
+        </nav>
+      {{ else }}
+        {{/* No series - just show ToC */}}
+        <nav id="toc-nav" class="toc-nav" aria-label="Table of contents">
+          {{ $toc | safeHTML }}
+        </nav>
+      {{ end }}
 
     </div>
 
