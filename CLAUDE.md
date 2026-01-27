@@ -124,6 +124,10 @@ Pre-configured for multiple platforms:
 - **GitLab CI** (`.gitlab-ci.yml`) - GitLab deployments
 - **AWS Amplify** (`amplify.yml`) - AWS deployments
 
+## Personal Context
+
+If the user asks about their own experience, salary discussions, career details, or any other personal/professional information, refer to `content/english/_index.md` for context. This file is periodically updated by the user with their latest personal and professional details.
+
 ## Important Notes
 
 ### Before Making Changes
