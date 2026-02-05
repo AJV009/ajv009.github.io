@@ -1046,3 +1046,190 @@ a[class*="social"]:hover {
 .dark a[class*="social"]:hover {
   background-color: var(--accent-dark) !important;
 }
+
+/* ============================================
+   3D TILT CARD OVERRIDES
+   ============================================ */
+
+[data-tilt] {
+  will-change: transform, box-shadow;
+}
+
+/* Let JS handle all transform/shadow for tilt cards */
+[data-tilt]:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* ============================================
+   ANIMATED NAV LINK UNDERLINES
+   ============================================ */
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--accent-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  transform: scaleX(1);
+}
+
+.dark .nav-link::after {
+  background-color: var(--accent-dark);
+}
+
+/* Dropdown links don't need underline */
+.nav-dropdown-link::after {
+  display: none;
+}
+
+/* ============================================
+   FOOTER SOCIAL ICON BOUNCE
+   ============================================ */
+
+.social-icons li a {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.social-icons li a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dark .social-icons li a:hover {
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================
+   BLOG CARD IMAGE OVERLAY
+   ============================================ */
+
+.blog-image-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(var(--accent-primary-rgb), 0.2) 0%,
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.blog-card:hover .blog-image-container::after {
+  opacity: 1;
+}
+
+.dark .blog-image-container::after {
+  background: linear-gradient(
+    to top,
+    rgba(var(--accent-dark-rgb), 0.2) 0%,
+    transparent 50%
+  );
+}
+
+/* ============================================
+   TAG BADGE FILL ANIMATION
+   ============================================ */
+
+.badge-hover {
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+  transition: color 0.3s ease;
+}
+
+.badge-hover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--accent-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+  z-index: -1;
+  border-radius: inherit;
+}
+
+.badge-hover:hover::before {
+  transform: scaleX(1);
+}
+
+.badge-hover:hover {
+  color: white !important;
+  background-color: transparent !important;
+}
+
+.dark .badge-hover::before {
+  background-color: var(--accent-dark);
+}
+
+.dark .badge-hover:hover {
+  color: var(--color-darkmode-body, #1a1a2e) !important;
+}
+
+/* ============================================
+   COLLECTABLE CARD FLIP
+   ============================================ */
+
+.flip-card {
+  perspective: 1000px;
+  aspect-ratio: 4/3;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s ease;
+  transform-style: preserve-3d;
+}
+
+.flip-card.is-flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .flip-card-back {
+  background: rgba(10, 10, 10, 0.45);
+  border: 1px solid rgba(var(--accent-dark-rgb), 0.25);
+}

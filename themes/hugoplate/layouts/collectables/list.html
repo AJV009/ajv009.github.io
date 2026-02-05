@@ -19,38 +19,57 @@
         <!-- gallery grid -->
         <div class="collectables-gallery">
           {{ range .RegularPages }}
-            <div class="gallery-item">
-              <a href="{{ .Permalink }}" class="block group relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
-                {{ if .Params.image }}
-                  <!-- Image container with layered effect -->
-                  <div class="image-container w-full h-64 relative">
-                    <!-- Background: blurred stretched image for ambient effect -->
-                    {{ partial "image" (dict "Src" .Params.image "Context" .Page "Alt" (printf "%s background" .Title) "Class" "ambient-bg" "Size" "400x300") }}
+            <div class="gallery-item" data-tilt>
+              <div class="flip-card rounded-lg" tabindex="0" role="button" aria-label="Click to flip card">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <a href="{{ .Permalink }}" class="block group relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800 w-full h-full">
+                      {{ if .Params.image }}
+                        <!-- Image container with layered effect -->
+                        <div class="image-container w-full h-full relative">
+                          <!-- Background: blurred stretched image for ambient effect -->
+                          {{ partial "image" (dict "Src" .Params.image "Context" .Page "Alt" (printf "%s background" .Title) "Class" "ambient-bg" "Size" "400x300") }}
 
-                    <!-- Foreground: fitted image respecting aspect ratio -->
-                    {{ partial "image" (dict "Src" .Params.image "Context" .Page "Alt" .Title "Class" "fitted-image") }}
-                  </div>
-                {{ else }}
-                  <div class="w-full h-64 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-                    <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                    </svg>
-                  </div>
-                {{ end }}
+                          <!-- Foreground: fitted image respecting aspect ratio -->
+                          {{ partial "image" (dict "Src" .Params.image "Context" .Page "Alt" .Title "Class" "fitted-image") }}
+                        </div>
+                      {{ else }}
+                        <div class="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                          <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                          </svg>
+                        </div>
+                      {{ end }}
 
-                <!-- overlay with title and metadata -->
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 overlay-info">
-                  <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
-                    <h3 class="font-semibold text-lg mb-1 line-clamp-2 text-white">{{ .Title }}</h3>
-                    {{ if .Params.category }}
-                      <span class="inline-block px-2 py-1 bg-primary/80 text-xs rounded-full mb-2">{{ .Params.category }}</span>
+                      <!-- overlay with title and metadata -->
+                      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 overlay-info">
+                        <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
+                          <h3 class="font-semibold text-lg mb-1 line-clamp-2 text-white">{{ .Title }}</h3>
+                          {{ if .Params.category }}
+                            <span class="inline-block px-2 py-1 bg-primary/80 text-xs rounded-full mb-2">{{ .Params.category }}</span>
+                          {{ end }}
+                          {{ if .Description }}
+                            <p class="text-sm opacity-90 line-clamp-2">{{ .Description }}</p>
+                          {{ end }}
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="flip-card-back rounded-lg">
+                    <h3 class="font-semibold text-lg mb-2">{{ .Title }}</h3>
+                    {{ with .Params.manufacturer }}
+                      <p class="text-sm opacity-80 mb-1">{{ . }}</p>
                     {{ end }}
-                    {{ if .Description }}
-                      <p class="text-sm opacity-90 line-clamp-2">{{ .Description }}</p>
+                    {{ with .Params.category }}
+                      <span class="inline-block px-2 py-1 bg-primary/20 text-xs rounded-full mb-2">{{ . }}</span>
                     {{ end }}
+                    {{ with .Description }}
+                      <p class="text-sm opacity-70 mb-3 line-clamp-3">{{ . }}</p>
+                    {{ end }}
+                    <a href="{{ .Permalink }}" class="btn btn-sm btn-outline-primary mt-2">View Details</a>
                   </div>
                 </div>
-              </a>
+              </div>
             </div>
           {{ end }}
         </div>
@@ -94,11 +113,6 @@
 
     .gallery-item {
       break-inside: avoid;
-      transition: transform 0.2s ease-in-out;
-    }
-
-    .gallery-item:hover {
-      transform: translateY(-4px);
     }
 
     .line-clamp-2 {
