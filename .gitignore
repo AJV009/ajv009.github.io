@@ -18,3 +18,5 @@ yarn.lock
 prompt.txt
 TEMP_DATA/
 *.stackdump
+
+workbench/

@@ -18,8 +18,8 @@
       {{ if .RegularPages }}
         <!-- gallery grid -->
         <div class="collectables-gallery">
-          {{ range .RegularPages }}
-            <div class="gallery-item">
+          {{ range $index, $page := .RegularPages }}
+            <div class="gallery-item" data-animate="scale-in" data-animate-delay="{{ mul (mod $index 3) 100 }}">
               <a href="{{ .Permalink }}" class="block group relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
                 {{ if .Params.image }}
                   <!-- Image container with layered effect -->

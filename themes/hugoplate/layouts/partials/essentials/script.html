@@ -17,7 +17,8 @@
 {{ end }}
 
 
-<!-- main script -->
+<!-- scroll reveal + main script -->
+{{ $scripts = $scripts | append (resources.Get "js/scroll-reveal.js") }}
 {{ $scripts = $scripts | append (resources.Get "js/main.js") }}
 {{ $scripts = $scripts | resources.Concat "js/script.js" }}
 
