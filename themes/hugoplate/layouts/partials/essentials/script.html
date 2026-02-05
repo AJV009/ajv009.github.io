@@ -17,8 +17,8 @@
 {{ end }}
 
 
-<!-- scroll reveal + main script -->
-{{ $scripts = $scripts | append (resources.Get "js/scroll-reveal.js") }}
+<!-- particle network + main script -->
+{{ $scripts = $scripts | append (resources.Get "js/particle-network.js") }}
 {{ $scripts = $scripts | append (resources.Get "js/main.js") }}
 {{ $scripts = $scripts | resources.Concat "js/script.js" }}
 

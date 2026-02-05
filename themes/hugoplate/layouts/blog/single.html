@@ -11,9 +11,7 @@
         <article class="lg:col-10">
           {{ $image:= .Params.image }}
           {{ if $image }}
-            <div data-animate="fade-in">
             {{ partial "components/ambient-image" (dict "Src" $image "Alt" .Title "Context" .Page "Height" "50vh" "Class" "mb-4") }}
-            </div>
             {{ with .Params.image_credits }}
               <div class="text-right mb-4">
                 <span class="image-credits">
@@ -22,10 +20,10 @@
               </div>
             {{ end }}
           {{ end }}
-          <h1 class="h2 mb-4" data-animate="fade-up" data-animate-delay="100">
+          <h1 class="h2 mb-4">
             {{ .Title }}
           </h1>
-          <ul class="mb-4" data-animate="fade-up" data-animate-delay="200">
+          <ul class="mb-4">
             {{ $categories:= .Params.categories }}
             {{ if $categories }}
               <li class="mr-4 inline-block">
@@ -90,11 +88,11 @@
       {{ $related = $related | shuffle | first 3 }}
       {{ with $related }}
         <div class="pb-0">
-          <h2 class="h3 mt-6 mb-4" data-animate="fade-up">{{ T "related_posts" }}</h2>
+          <h2 class="h3 mt-6 mb-4">{{ T "related_posts" }}</h2>
           <div class="row">
-            {{ range $index, $related_post := . }}
-              <div class="lg:col-4 md:col-6 mb-14" data-animate="scale-in" data-animate-delay="{{ mul $index 100 }}">
-                {{ partial "components/blog-card" $related_post }}
+            {{ range . }}
+              <div class="lg:col-4 md:col-6 mb-14">
+                {{ partial "components/blog-card" . }}
               </div>
             {{ end }}
           </div>

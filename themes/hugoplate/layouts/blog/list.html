@@ -19,9 +19,9 @@
         <div class="lg:col-12">
           <div class="row" id="blog-posts-container">
             {{ $paginator:= .Paginate .RegularPages }}
-            {{ range $index, $page := $paginator.Pages }}
-              <div class="lg:col-4 md:col-6 mb-14" data-animate="scale-in" data-animate-delay="{{ mul (mod $index 3) 100 }}">
-                {{ partial "components/blog-card" $page }}
+            {{ range $paginator.Pages }}
+              <div class="lg:col-4 md:col-6 mb-14">
+                {{ partial "components/blog-card" . }}
               </div>
             {{ end }}
           </div>
@@ -137,11 +137,6 @@
           newCards.forEach(card => {
             container.appendChild(card.cloneNode(true));
           });
-
-          // Re-observe newly added cards for scroll animations
-          if (window.ScrollReveal) {
-            window.ScrollReveal.observeNew(container);
-          }
 
           // Update pagination for next iteration
           const newPagination = doc.querySelector('#pagination-wrapper');
