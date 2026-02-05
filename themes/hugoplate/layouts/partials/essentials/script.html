@@ -17,8 +17,9 @@
 {{ end }}
 
 
-<!-- particle network + micro-interactions + main script -->
+<!-- particle network + terminal mode + micro-interactions + main script -->
 {{ $scripts = $scripts | append (resources.Get "js/particle-network.js") }}
+{{ $scripts = $scripts | append (resources.Get "js/terminal-mode.js") }}
 {{ $scripts = $scripts | append (resources.Get "js/micro-interactions.js") }}
 {{ $scripts = $scripts | append (resources.Get "js/main.js") }}
 {{ $scripts = $scripts | resources.Concat "js/script.js" }}

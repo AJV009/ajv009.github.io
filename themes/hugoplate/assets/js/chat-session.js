@@ -64,10 +64,13 @@ const ChatSessionManager = {
       const savedMessages = sessionData ? sessionData.messages : [];
 
       // Build initialPrompts array with system prompt + previous messages
+      const isTerminal = document.documentElement.classList.contains('terminal-mode');
       const initialPrompts = [
         {
           role: 'system',
-          content: `You are Daisy, a helpful AI assistant for Alphons' personal website.
+          content: isTerminal
+            ? `You are a terse hacker-AI terminal assistant. Respond in short, technical phrases. Use terminal/hacker jargon. Be efficient, direct, and slightly cryptic. No emojis. Prefix key statements with ">". Keep answers brief unless complexity demands detail. Format code blocks and technical content in monospace.`
+            : `You are Daisy, a helpful AI assistant for Alphons' personal website.
 
 You help visitors understand content on the site, answer questions about blog posts, projects, and other site content.
 
