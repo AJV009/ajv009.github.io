@@ -830,6 +830,38 @@ body::after {
 }
 
 /* ============================================
+   NOISE TEXTURE OVERLAY
+   ============================================ */
+
+html::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.025;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* Hide noise in terminal mode (uses html::after for scanlines) */
+html.terminal-mode::before {
+  display: none !important;
+}
+
+/* Hide noise in print */
+@media print {
+  html::before {
+    display: none !important;
+  }
+}
+
+/* ============================================
    SMOOTH TRANSITIONS
    ============================================ */
 
@@ -936,7 +968,8 @@ a.hover\:text-primary:hover,
   .features .feature,
   .section,
   .card,
-  .blog-card {
+  .blog-card,
+  .testimonial-card {
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
   }
@@ -1045,6 +1078,136 @@ a[class*="social"]:hover {
 .dark .social-icons li a:hover,
 .dark a[class*="social"]:hover {
   background-color: var(--accent-dark) !important;
+}
+
+/* ============================================
+   TESTIMONIAL CARDS GLASS EFFECT
+   ============================================ */
+
+.testimonial-card {
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.18) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 8px 32px 0 rgba(31, 38, 135, 0.12),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .testimonial-card {
+  background: rgba(10, 10, 10, 0.45) !important;
+  border: 1px solid rgba(var(--accent-dark-rgb), 0.25);
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 0 rgba(var(--accent-dark-rgb), 0.25);
+}
+
+.testimonial-card:hover {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: rgba(255, 255, 255, 0.28) !important;
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.dark .testimonial-card:hover {
+  background: rgba(10, 10, 10, 0.6) !important;
+  border-color: rgba(var(--accent-dark-rgb), 0.4);
+}
+
+/* Testimonial text fade - works over glass background */
+.testimonial-fade {
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.18) 0%, transparent 100%);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.dark .testimonial-fade {
+  background: linear-gradient(to top, rgba(10, 10, 10, 0.45) 0%, transparent 100%);
+}
+
+/* ============================================
+   ANIMATED GRADIENT BORDERS
+   ============================================ */
+
+@property --border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* Always-active rotating gradient border */
+.gradient-border,
+.gradient-border-hover {
+  position: relative;
+}
+
+.gradient-border::after,
+.gradient-border-hover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--border-angle),
+    rgba(var(--accent-primary-rgb), 0.8),
+    rgba(var(--accent-primary-rgb), 0.1),
+    rgba(var(--accent-primary-rgb), 0.4),
+    rgba(var(--accent-primary-rgb), 0.1),
+    rgba(var(--accent-primary-rgb), 0.8)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+  animation: border-rotate 8s linear infinite;
+}
+
+.dark .gradient-border::after,
+.dark .gradient-border-hover::after {
+  background: conic-gradient(
+    from var(--border-angle),
+    rgba(var(--accent-dark-rgb), 0.9),
+    rgba(var(--accent-dark-rgb), 0.1),
+    rgba(var(--accent-dark-rgb), 0.5),
+    rgba(var(--accent-dark-rgb), 0.1),
+    rgba(var(--accent-dark-rgb), 0.9)
+  );
+}
+
+/* Hover-only variant: paused until hover */
+.gradient-border-hover::after {
+  opacity: 0;
+  animation-play-state: paused;
+  transition: opacity 0.4s ease;
+}
+
+.gradient-border-hover:hover::after {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+@keyframes border-rotate {
+  to {
+    --border-angle: 360deg;
+  }
+}
+
+/* Reduced motion: static gradient, no rotation */
+@media (prefers-reduced-motion: reduce) {
+  .gradient-border::after,
+  .gradient-border-hover::after {
+    animation: none;
+    --border-angle: 135deg;
+  }
+  .gradient-border-hover::after {
+    opacity: 0;
+  }
+  .gradient-border-hover:hover::after {
+    opacity: 1;
+  }
 }
 
 /* ============================================
@@ -1337,6 +1500,7 @@ a[class*="social"]:hover {
 .terminal-mode .card,
 .terminal-mode .blog-card,
 .terminal-mode .collectable-card,
+.terminal-mode .testimonial-card,
 .terminal-mode .features .feature,
 .terminal-mode .section,
 .terminal-mode .gallery-main-container,
@@ -1463,6 +1627,26 @@ a[class*="social"]:hover {
   display: none !important;
 }
 
+/* Terminal mode gradient border override - green conic gradient */
+.terminal-mode .gradient-border::after,
+.terminal-mode .gradient-border-hover::after {
+  background: conic-gradient(
+    from var(--border-angle),
+    rgba(0, 255, 65, 0.9),
+    rgba(0, 255, 65, 0.1),
+    rgba(0, 255, 65, 0.5),
+    rgba(0, 255, 65, 0.1),
+    rgba(0, 255, 65, 0.9)
+  ) !important;
+}
+
+/* Terminal mode testimonial fade */
+.terminal-mode .testimonial-fade {
+  background: linear-gradient(to top, rgba(0, 20, 10, 0.8) 0%, transparent 100%) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
 /* B11: Boot Sequence & Toast Styles */
 .terminal-boot-overlay {
   position: fixed;
@@ -1585,6 +1769,23 @@ a[class*="social"]:hover {
   .terminal-boot-overlay,
   .terminal-toast {
     display: none !important;
+  }
+
+  /* Remove all glass/gradient effects in print */
+  html::before,
+  body::before,
+  body::after,
+  .gradient-border::after,
+  .gradient-border-hover::after {
+    display: none !important;
+  }
+  .testimonial-card,
+  .ai-chat-panel,
+  .toc-sidebar-panel {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: white !important;
+    box-shadow: none !important;
   }
 }
 
