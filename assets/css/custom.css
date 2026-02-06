@@ -1701,6 +1701,11 @@ a[class*="social"]:hover {
 }
 
 /* B12: Footer Toggle Button Styling */
+@keyframes cursor-blink {
+  0%, 49% { opacity: 0.3; }
+  50%, 100% { opacity: 0.05; }
+}
+
 #terminal-mode-toggle {
   display: inline-block;
   margin-left: 0.75rem;
@@ -1709,13 +1714,13 @@ a[class*="social"]:hover {
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--accent-primary);
-  opacity: 0.3;
   text-decoration: none !important;
-  transition: opacity 0.3s ease;
   vertical-align: middle;
+  animation: cursor-blink 1s step-end infinite;
 }
 
 #terminal-mode-toggle:hover {
+  animation-play-state: paused;
   opacity: 0.6;
 }
 
@@ -1854,4 +1859,55 @@ a[class*="social"]:hover {
 /* Blog image overlay */
 .terminal-mode .blog-image-container::after {
   background: linear-gradient(to top, rgba(0, 255, 65, 0.15) 0%, transparent 50%) !important;
+}
+
+/* ============================================
+   EASTER EGG MICRO-HINTS
+   ============================================ */
+
+/* Rotating micro-hint next to >_ toggle */
+.easter-egg-hint {
+  display: inline-block;
+  margin-left: 0.25rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem;
+  opacity: 0.2;
+  vertical-align: middle;
+  transition: opacity 0.3s ease;
+  user-select: none;
+}
+
+.lg\:col-3:hover .easter-egg-hint {
+  opacity: 0.5;
+}
+
+/* Hide hint when terminal mode is active */
+.terminal-mode .easter-egg-hint {
+  display: none;
+}
+
+/* B12 cursor blink: no blink in terminal mode (already full opacity with glow) */
+.terminal-mode #terminal-mode-toggle {
+  animation: none;
+}
+
+/* Reduced motion: disable cursor blink */
+@media (prefers-reduced-motion: reduce) {
+  #terminal-mode-toggle {
+    animation: none;
+    opacity: 0.3;
+  }
+}
+
+/* ============================================
+   GLITCH SCANLINE (one-shot hint)
+   ============================================ */
+
+.glitch-scanline {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  background: #00ff41;
+  z-index: 9000;
+  pointer-events: none;
 }

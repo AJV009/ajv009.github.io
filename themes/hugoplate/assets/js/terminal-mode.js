@@ -185,6 +185,61 @@
     }
   });
 
+  /* ---- Easter Egg Hints ---- */
+  var HINTS = ['\u2191\u2191\u2193\u2193', '10 keys', 'the old code', '1986'];
+
+  function initHints() {
+    var hintEl = document.getElementById('easter-egg-hint');
+    if (hintEl && !html.classList.contains('terminal-mode')) {
+      hintEl.textContent = HINTS[Math.floor(Math.random() * HINTS.length)];
+    }
+  }
+
+  /* ---- Vague Console Message ---- */
+  function logHint() {
+    if (!html.classList.contains('terminal-mode')) {
+      console.log('%cThere\'s more to this site than meets the eye.', 'color: #888; font-style: italic;');
+    }
+  }
+
+  /* ---- Random Scanline Glitch Burst ---- */
+  function initGlitch() {
+    if (html.classList.contains('terminal-mode')) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var delay = 10000 + Math.random() * 20000; // 10-30s
+    setTimeout(function () {
+      if (html.classList.contains('terminal-mode')) return;
+      var vh = window.innerHeight;
+      var burstDuration = 1000; // 1 second total
+      var interval = 80; // spawn a new batch every 80ms
+      var elapsed = 0;
+      var timer = setInterval(function () {
+        if (elapsed >= burstDuration || html.classList.contains('terminal-mode')) {
+          clearInterval(timer);
+          return;
+        }
+        // Spawn 1-3 lines/sections per tick
+        var count = 1 + Math.floor(Math.random() * 3);
+        for (var i = 0; i < count; i++) {
+          var el = document.createElement('div');
+          el.className = 'glitch-scanline';
+          var y = Math.floor(Math.random() * vh);
+          var h = 2 + Math.floor(Math.random() * 18); // 2-20px tall sections
+          el.style.top = y + 'px';
+          el.style.height = h + 'px';
+          el.style.opacity = (0.3 + Math.random() * 0.5).toFixed(2);
+          document.body.appendChild(el);
+          // Each piece lives 100-250ms
+          var life = 100 + Math.floor(Math.random() * 150);
+          (function (e, l) {
+            setTimeout(function () { e.remove(); }, l);
+          })(el, life);
+        }
+        elapsed += interval;
+      }, interval);
+    }, delay);
+  }
+
   /* ---- Footer Button + session-restore lock ---- */
   document.addEventListener('DOMContentLoaded', function () {
     var btn = document.getElementById('terminal-mode-toggle');
@@ -198,6 +253,11 @@
     if (html.classList.contains('terminal-mode')) {
       forceDarkMode();
     }
+
+    // Easter egg hints
+    initHints();
+    logHint();
+    initGlitch();
   });
 
   /* ---- Session Restore ---- */
