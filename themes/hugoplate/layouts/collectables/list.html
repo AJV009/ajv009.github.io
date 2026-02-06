@@ -42,14 +42,14 @@
                       {{ end }}
 
                       <!-- overlay with title and metadata -->
-                      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 overlay-info">
+                      <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 overlay-info">
                         <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
-                          <h3 class="font-semibold text-lg mb-1 line-clamp-2 text-white">{{ .Title }}</h3>
+                          <h3 class="font-semibold text-lg mb-1 line-clamp-2 text-white" style="text-shadow: 0 1px 3px rgba(0,0,0,0.8), 0 0 8px rgba(0,0,0,0.5);">{{ .Title }}</h3>
                           {{ if .Params.category }}
                             <span class="inline-block px-2 py-1 bg-primary/80 text-xs rounded-full mb-2">{{ .Params.category }}</span>
                           {{ end }}
                           {{ if .Description }}
-                            <p class="text-sm opacity-90 line-clamp-2">{{ .Description }}</p>
+                            <p class="text-sm opacity-90 line-clamp-2" style="text-shadow: 0 1px 3px rgba(0,0,0,0.8);">{{ .Description }}</p>
                           {{ end }}
                         </div>
                       </div>
@@ -152,6 +152,12 @@
     /* Overlay needs to be on top of both image layers */
     .overlay-info {
       z-index: 3;
+    }
+
+    /* Soft fade on flip-card-back descriptions instead of hard line-clamp cutoff */
+    .flip-card-back .line-clamp-3 {
+      mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
     }
 
     /* Show overlay by default on tablets and mobile */

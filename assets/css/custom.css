@@ -600,23 +600,8 @@ body.dark::before {
 /* Dynamic Description Area - Flexes to fill remaining space */
 .blog-description-area {
   overflow: hidden;
-  /* No max-height - let flexbox determine the space naturally */
-  /* Area shrinks when title/tags are long, grows when they're short */
-}
-
-/* Blur fade anchored to card bottom - always visible regardless of description length */
-.blog-card-fade {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 18px;
-  backdrop-filter: blur(100px);
-  -webkit-backdrop-filter: blur(50px);
-  /* mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
-  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%); */
-  pointer-events: none;
-  z-index: 1;
+  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
 }
 
 /* ============================================
@@ -1115,15 +1100,10 @@ a[class*="social"]:hover {
   border-color: rgba(var(--accent-dark-rgb), 0.4);
 }
 
-/* Testimonial text fade - works over glass background */
-.testimonial-fade {
-  background: linear-gradient(to top, rgba(255, 255, 255, 0.18) 0%, transparent 100%);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-}
-
-.dark .testimonial-fade {
-  background: linear-gradient(to top, rgba(10, 10, 10, 0.45) 0%, transparent 100%);
+/* Testimonial text fade - mask-image on the content container */
+.testimonial-content {
+  mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
 }
 
 /* ============================================
@@ -1638,13 +1618,6 @@ a[class*="social"]:hover {
     rgba(0, 255, 65, 0.1),
     rgba(0, 255, 65, 0.9)
   ) !important;
-}
-
-/* Terminal mode testimonial fade */
-.terminal-mode .testimonial-fade {
-  background: linear-gradient(to top, rgba(0, 20, 10, 0.8) 0%, transparent 100%) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
 }
 
 /* B11: Boot Sequence & Toast Styles */

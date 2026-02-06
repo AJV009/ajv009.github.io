@@ -166,7 +166,6 @@
                             <div class="testimonial-text whitespace-pre-wrap">
                               {{- .content | strings.TrimLeft " \t" -}}
                             </div>
-                            <div class="absolute bottom-0 left-0 right-0 h-12 testimonial-fade pointer-events-none"></div>
                           </blockquote>
                         </div>
                         <div class="text-primary dark:text-white hover:underline text-sm mt-4 text-left font-medium">
@@ -254,20 +253,8 @@
       max-height: 1.3em;
       overflow: hidden;
       position: relative;
-      padding-bottom: 1rem;
-    }
-
-    .expandable-content[data-expanded="false"] .expandable-text::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 1em;
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(4px);
-      mask-image: linear-gradient(to bottom, transparent, black);
-      -webkit-mask-image: linear-gradient(to bottom, transparent, black);
+      mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
     }
 
     .expandable-content[data-expanded="false"] .expand-toggle {
@@ -277,11 +264,8 @@
 
     .expandable-content[data-expanded="true"] .expandable-text {
       max-height: none;
-      padding-bottom: 0;
-    }
-
-    .expandable-content[data-expanded="true"] .expandable-text::after {
-      display: none;
+      mask-image: none;
+      -webkit-mask-image: none;
     }
 
     .expand-toggle {

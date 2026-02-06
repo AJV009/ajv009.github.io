@@ -12,7 +12,7 @@
   {{ end }}
 
   <!-- Content wrapper with flex-grow to fill remaining half -->
-  <div class="flex flex-col flex-grow">
+  <div class="flex flex-col flex-grow min-h-0">
     <h5 class="mb-3 text-text-dark dark:text-darkmode-text-dark">
       {{ .Title }}
     </h5>
@@ -35,7 +35,4 @@
       <p class="blog-summary-text">{{ .Params.description | default .Summary | plainify }}</p>
     </div>
   </div>
-
-  <!-- Blur fade anchored to card bottom - works regardless of description length -->
-  <div class="blog-card-fade"></div>
 </a>
