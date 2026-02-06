@@ -1100,6 +1100,27 @@ a[class*="social"]:hover {
   border-color: rgba(var(--accent-dark-rgb), 0.4);
 }
 
+/* Letter Avatars */
+.letter-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+.letter-avatar-lg {
+  width: 64px;
+  height: 64px;
+  font-size: 1.4rem;
+}
+
 /* Testimonial text fade - mask-image on the content container */
 .testimonial-content {
   mask-image: linear-gradient(to bottom, black 65%, transparent 100%);

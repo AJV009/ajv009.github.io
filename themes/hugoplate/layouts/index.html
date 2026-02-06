@@ -146,7 +146,6 @@
                         data-testimonial-index="{{ $index }}"
                         data-testimonial-name="{{ .name }}"
                         data-testimonial-designation="{{ .designation | markdownify }}"
-                        data-testimonial-avatar="{{ .avatar }}"
                         data-testimonial-date="{{ .date }}"
                         data-testimonial-content="{{ .content | strings.TrimLeft " \t" }}">
                         <div class="text-text-dark dark:text-white">
@@ -172,9 +171,7 @@
                           Read more →
                         </div>
                         <div class="mt-6 flex items-center">
-                          <div class="text-text-dark dark:text-white">
-                            {{ partial "image" (dict "Src" .avatar "Size" "50x50" "Class" "rounded-full" "Alt" .name) }}
-                          </div>
+                          <div class="letter-avatar" data-name="{{ .name }}"></div>
                           <div class="ml-4">
                             <h3 class="h5 font-primary font-semibold">
                               {{ .name }}
@@ -226,7 +223,7 @@
         <blockquote id="modal-content" class="text-base md:text-lg leading-relaxed mb-8 whitespace-pre-wrap">
         </blockquote>
         <div class="flex items-center pt-6 border-t border-border dark:border-darkmode-border">
-          <img id="modal-avatar" src="" alt="" class="w-16 h-16 rounded-full object-cover">
+          <div id="modal-avatar" class="letter-avatar letter-avatar-lg"></div>
           <div class="ml-4">
             <h3 id="modal-name" class="text-xl font-primary font-semibold text-text-dark dark:text-white"></h3>
             <p id="modal-designation" class="text-text-dark dark:text-white"></p>

@@ -7,6 +7,11 @@
   new Swiper(".testimonial-slider", {
     spaceBetween: 24,
     loop: true,
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    },
     pagination: {
       el: ".testimonial-slider-pagination",
       type: "bullets",
@@ -20,6 +25,31 @@
         slidesPerView: 3,
       },
     },
+  });
+
+  // Letter Avatar Generator
+  // ----------------------------------------
+  var avatarPalette = [
+    "#e53e3e", "#dd6b20", "#d69e2e", "#38a169", "#319795",
+    "#3182ce", "#5a67d8", "#805ad5", "#d53f8c", "#2b6cb0",
+  ];
+
+  function buildLetterAvatar(name, el) {
+    var parts = (name || "?").trim().split(/\s+/);
+    var initials = parts.length >= 2
+      ? parts[0][0] + parts[parts.length - 1][0]
+      : parts[0][0];
+    // deterministic color from name
+    var hash = 0;
+    for (var i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    var color = avatarPalette[Math.abs(hash) % avatarPalette.length];
+    el.textContent = initials.toUpperCase();
+    el.style.backgroundColor = color;
+  }
+
+  // Initialize all letter avatars on the page
+  document.querySelectorAll(".letter-avatar[data-name]").forEach(function (el) {
+    buildLetterAvatar(el.getAttribute("data-name"), el);
   });
 
   // Testimonial Modal
@@ -38,8 +68,7 @@
     modalName.textContent = testimonialData.name;
     modalDesignation.innerHTML = testimonialData.designation;
     modalDate.textContent = testimonialData.date;
-    modalAvatar.src = testimonialData.avatar;
-    modalAvatar.alt = testimonialData.name;
+    buildLetterAvatar(testimonialData.name, modalAvatar);
 
     modal.classList.remove("hidden");
     modal.classList.add("flex");
@@ -62,7 +91,6 @@
         name: this.getAttribute("data-testimonial-name"),
         designation: this.getAttribute("data-testimonial-designation"),
         date: this.getAttribute("data-testimonial-date"),
-        avatar: this.getAttribute("data-testimonial-avatar"),
       };
       openModal(testimonialData);
     });
