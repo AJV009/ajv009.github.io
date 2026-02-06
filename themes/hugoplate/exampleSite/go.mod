@@ -22,8 +22,10 @@ require (
 	github.com/gethugothemes/hugo-modules/seo-tools/google-tag-manager v0.0.0-20260106053822-13607459af90 // indirect
 	github.com/gethugothemes/hugo-modules/seo-tools/site-verifications v0.0.0-20260106053822-13607459af90 // indirect
 	github.com/gethugothemes/hugo-modules/shortcodes/button v0.0.0-20260106053822-13607459af90 // indirect
+	github.com/gethugothemes/hugo-modules/shortcodes/mermaid v0.0.0-20260106053822-13607459af90 // indirect
 	github.com/gethugothemes/hugo-modules/shortcodes/notice v0.0.0-20260106053822-13607459af90 // indirect
 	github.com/gethugothemes/hugo-modules/tab v0.0.0-20260106053822-13607459af90 // indirect
+	github.com/gethugothemes/hugo-modules/table-of-contents v0.0.0-20260106053822-13607459af90 // indirect
 	github.com/gethugothemes/hugo-modules/videos v0.0.0-20260106053822-13607459af90 // indirect
-	github.com/hugomods/mermaid v0.1.4 // indirect
+	github.com/zeon-studio/hugoplate v0.0.0-20260125155030-c0386ec0a2e1 // indirect
 )
