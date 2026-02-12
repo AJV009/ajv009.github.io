@@ -2,7 +2,7 @@
 # Banner
 banner:
   title: "\"Limitless Ideation\""
-  content: "From Innovation, To Development, To Actualization! Always open to collab for an opportunity to utilize my skills and advance my abilities in the area of tech. I love to explore topics around BioTech, AI, Quantum Computing and Security, since there is a sweetspot between them - Consciousness cloning/transfer."
+  content: "From Innovation, To Development, To Actualization! Always open to collab for an opportunity to utilize my skills and advance my abilities in the area of tech. I love to explore topics around BioTech, AI, Quantum Computing and Security, since there is a sweetspot between them - Consciousness cloning/transfer. (try the famous cheat code from 1986 [NES])"
   image: "/images/banner.png"
   button:
     enable: true

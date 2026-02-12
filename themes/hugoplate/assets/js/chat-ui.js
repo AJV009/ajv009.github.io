@@ -35,14 +35,15 @@ const ChatUI = {
     this.isAvailable = available;
 
     if (!enabled) {
+      // Button is always visible — attach click handler to show toast on unsupported browsers
+      this.elements.toggleButton?.addEventListener('click', () => {
+        this.showUnsupportedToast();
+      });
       return;
     }
 
     // Calculate and set header height
     this.setHeaderHeight();
-
-    // Show toggle button
-    this.showToggleButton();
 
     // Setup event listeners
     this.setupEventListeners();
@@ -83,12 +84,41 @@ const ChatUI = {
   },
 
   /**
-   * Show toggle button
+   * Show toast for unsupported browsers
    */
-  showToggleButton() {
-    if (this.elements.toggleButton) {
-      this.elements.toggleButton.classList.remove('hidden');
-    }
+  showUnsupportedToast() {
+    // Prevent stacking toasts
+    if (document.querySelector('.ai-unsupported-toast')) return;
+
+    const toast = document.createElement('div');
+    toast.className = 'ai-unsupported-toast';
+    toast.innerHTML = `
+      <div class="ai-toast-content">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <div>
+          <strong>AI Assistant unavailable</strong>
+          <p>Your browser doesn't support the Chrome built-in AI APIs.
+            <a href="https://developer.chrome.com/docs/ai/get-started#requirements"
+               target="_blank" rel="noopener noreferrer">Check requirements &rarr;</a>
+          </p>
+        </div>
+        <button class="ai-toast-close" aria-label="Close">&times;</button>
+      </div>
+    `;
+
+    document.body.appendChild(toast);
+
+    // Trigger reflow then animate in
+    toast.offsetWidth;
+    toast.classList.add('ai-toast-visible');
+
+    const dismiss = () => {
+      toast.classList.remove('ai-toast-visible');
+      setTimeout(() => toast.remove(), 300);
+    };
+
+    toast.querySelector('.ai-toast-close').addEventListener('click', dismiss);
+    setTimeout(dismiss, 6000);
   },
 
   /**
